@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  overflow: hidden;
+}
+
+.game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ФОН */
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("assets/bg.jpg") no-repeat center/cover;
+  filter: brightness(0.7);
+}
+
+/* ГЕРОЙ */
+.hero {
+  position: absolute;
+  right: 50px;
+  bottom: 0;
+}
+
+.hero img {
+  height: 80vh;
+}
+
+/* МЕНЮ */
+.menu {
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  padding: 30px;
+  border-radius: 15px;
+  color: white;
+  box-shadow: 0 0 20px cyan;
+}
+
+.menu h2 {
+  margin-bottom: 20px;
+}
+
+.menu button {
+  display: block;
+  width: 200px;
+  margin: 10px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #00d4ff;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background: #00aaff;
+}
+
+.menu button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
