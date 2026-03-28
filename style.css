@@ -68,3 +68,27 @@ body {
   background: gray;
   cursor: not-allowed;
 }
+#gameCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  background: black;
+}
+
+#doorUI {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+}
+
+#doorUI button {
+  padding: 15px 25px;
+  font-size: 18px;
+  background: orange;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
