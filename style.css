@@ -1,94 +1,578 @@
 body {
-  margin: 0;
-  font-family: Arial;
-  overflow: hidden;
+    margin: 0;
+    height: 100vh;
+    font-family: sans-serif;
+    overflow: hidden;
+        background: url('assets/fon.png') center/cover no-repeat;
+
 }
 
-.game {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+/* ===== LOADER ===== */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-/* ФОН */
-.background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url("assets/bg.jpg") no-repeat center/cover;
-  filter: brightness(0.7);
+.logo-box {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
 }
 
-/* ГЕРОЙ */
-.hero {
-  position: absolute;
-  right: 50px;
-  bottom: 0;
+h1 {
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    text-align: center;
+    font-size: 48px;
+    color: #5c5048;
 }
 
-.hero img {
-  height: 80vh;
+.boat img {
+    width: 60px;
 }
 
-/* МЕНЮ */
-.menu {
-  position: absolute;
-  left: 50px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.6);
-  padding: 30px;
-  border-radius: 15px;
-  color: white;
-  box-shadow: 0 0 20px cyan;
+.progress-container {
+    width: 300px;
+    height: 12px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.menu h2 {
-  margin-bottom: 20px;
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #5c5048;
 }
 
-.menu button {
-  display: block;
-  width: 200px;
-  margin: 10px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #00d4ff;
-  color: black;
-  font-size: 16px;
-  cursor: pointer;
+/* ===== DARK SCREEN ===== */
+.dark-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: #0b0f1a;
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: opacity 1s;
 }
 
-.menu button:hover {
-  background: #00aaff;
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.menu button:disabled {
-  background: gray;
-  cursor: not-allowed;
-}
-#gameCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: none;
-  background: black;
-}
-
-#doorUI {
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: none;
+/* Верхний текст */
+.city {
+    color: white;
+    font-size: 42px;
+    font-family: "Times New Roman", serif;
+    letter-spacing: 2px;
+     text-shadow:
+        0 0 5px #7fdfff,
+        0 0 10px #7fdfff,
+        0 0 20px #3bbcff,
+        0 0 40px #3bbcff;
 }
 
-#doorUI button {
-  padding: 15px 25px;
-  font-size: 18px;
-  background: orange;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+/* Отступ как 3 строки */
+.year {
+    margin-top: 60px;
+
+    font-size: 56px;
+    font-family: "Orbitron", sans-serif;
+
+    color: #aef;
+
+    text-shadow:
+        0 0 5px #7fdfff,
+        0 0 10px #7fdfff,
+        0 0 20px #3bbcff,
+        0 0 40px #3bbcff;
+}
+/* ===== MENU SCREEN ===== */
+.menu-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    background: url('assets/fon-2121.png') center/cover no-repeat;
+    color: white;
+}
+
+/* Левая колонка */
+.menu-left {
+    position: absolute;
+    bottom: 80px;
+    left: 60px;
+
+    width: 320px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* ТЕКСТ */
+.menu-text {
+    font-size: 18px;
+    color: #0e0e0e;
+    line-height: 1.5;
+
+    margin-bottom: 30px;
+}
+
+.menu-text p {
+    margin-bottom: 15px;
+}
+
+/* КНОПКИ */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* СТИЛЬ КНОПОК */
+.menu-btn {
+    width: 220px;
+    padding: 14px;
+
+    font-size: 18px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #7fdfff;
+    color: white;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+/* АНИМАЦИЯ HOVER */
+.menu-btn:hover {
+    background: rgba(127,223,255,0.2);
+    box-shadow: 
+        0 0 10px #7fdfff,
+        0 0 20px #3bbcff;
+
+    transform: translateX(10px);
+}
+
+/* НАЖАТИЕ */
+.menu-btn:active {
+    transform: scale(0.95);
+}
+
+/* ПЕРСОНАЖ */
+.character {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    height: 80%;
+    object-fit: contain;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ЛЕГКОЕ ДВИЖЕНИЕ */
+@keyframes float {
+    0% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(-10px); }
+    100% { transform: translateX(-50%) translateY(0px); }
+}
+
+/* ===== GAME SCREEN ===== */
+.game-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    background: url('assets/fon-door.png') center/cover no-repeat;
+}
+
+/* ДВЕРЬ */
+.door-block {
+    position: absolute;
+    left: 80px;
+    top: 120px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.door-title {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.door {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+
+    border: 2px solid transparent;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+/* HOVER */
+.door:hover {
+    border: 2px solid #7fdfff;
+    box-shadow: 0 0 15px #7fdfff;
+}
+
+/* ПЕРСОНАЖ */
+.character-game {
+    position: absolute;
+    bottom: 0;
+    left: 60%;
+
+    height: 80%;
+
+    transform: translateX(-50%);
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ПОДСКАЗКА */
+.hint {
+    position: absolute;
+    bottom: 120px;
+    left: 100px;
+
+    display: none;
+    align-items: center;
+    gap: 10px;
+
+    color: white;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 15px;
+
+    border: 1px solid #7fdfff;
+    box-shadow: 0 0 10px #7fdfff;
+}
+
+.hint img {
+    width: 30px;
+}
+
+
+/* scene2.html */
+
+.bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.game-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* текст */
+.dialogue-text {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 18px;
+    max-width: 80%;
+    text-align: center;
+    z-index: 5;
+}
+
+/* персонаж */
+.character-game {
+    position: absolute;
+    bottom: 0;
+    left: 60px;
+    height: 80%;
+    z-index: 3;
+}
+
+/* объект */
+.door-block {
+    position: absolute;
+    left: 70%;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.door-title {
+    color: white;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.door {
+    width: 200px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.door:hover {
+    transform: scale(1.05);
+}
+
+/* подсказка */
+.hint {
+    position: absolute;
+    bottom: 120px;
+    left: 100px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 15px;
+    border: 1px solid #7fdfff;
+    z-index: 10;
+}
+#minigame {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+}
+
+/* фон */
+.mg-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+}
+
+/* окно */
+.mg-board {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    min-height: 320px;
+    background: #1b1f2a;
+    border: 2px solid #7fdfff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* список */
+#items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* карточка */
+.item {
+    width: 100%;
+    padding: 12px;
+    background: #2b3245;
+    color: white;
+    border: 1px solid #7fdfff;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
+.item:hover {
+    transform: scale(1.02);
+}
+
+/* выделение */
+.item.selected {
+    border: 2px solid yellow;
+}
+
+/* кнопка */
+.mg-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #7fdfff;
+    border: none;
+    cursor: pointer;
+}
+
+/* popup */
+.mg-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.mg-window {
+    background: #1e2433;
+    padding: 25px;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+}
+
+.mg-window.success {
+    border: 2px solid #7CFF7C;
+}
+
+
+.bar-item {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 120px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.eatBtn {
+    display: none;
+    margin-top: 8px;
+    padding: 5px;
+    width: 100%;
+    border: none;
+    background: #7fdfff;
+    cursor: pointer;
+}
+
+.bar-item:hover .eatBtn {
+    display: block;
+}
+
+/* подсветка вендинга */
+.glow {
+    filter: drop-shadow(0 0 20px yellow);
+}
+/* ЛЕВАЯ ПОЗИЦИЯ */
+.left {
+    left: 60px;
+    right: auto;
+}
+
+/* ЦЕНТР ПЕРСОНАЖ (СЦЕНА 1) */
+.center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ПРАВЕЕ ЦЕНТРА (СЦЕНА 2) */
+.right {
+    left: 65%;
+    transform: translateX(-50%);
+}
+
+/* ТЕКСТ ПО ЦЕНТРУ ВВЕРХУ */
+.top-center {
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ТЕКСТ СПРАВА */
+.top-right {
+    top: 60px;
+    left: 65%;
+    transform: translateX(-50%);
+}
+.vending-wrap {
+    position: absolute;
+}
+
+/* батончик строго под вендингом */
+#bar {
+    position: absolute;
+    top: 210px;   /* под вендингом */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+}
+/* обертка */
+.vending-wrap {
+    position: absolute;
+}
+
+/* батончик скрыт */
+#bar {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+/* АНИМАЦИЯ ВЫПАДЕНИЯ */
+@keyframes dropBar {
+    0% {
+        transform: translate(-50%, -80px);
+        opacity: 0;
+    }
+    60% {
+        transform: translate(-50%, 10px);
+    }
+    100% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+#bar.drop {
+    animation: dropBar 0.6s ease;
+}
+
+/* НЕОН */
+.glow {
+    animation: neonGlow 1s infinite alternate;
+}
+
+@keyframes neonGlow {
+    from {
+        filter: drop-shadow(0 0 5px #7fdfff);
+    }
+    to {
+        filter: drop-shadow(0 0 25px #00eaff);
+    }
 }

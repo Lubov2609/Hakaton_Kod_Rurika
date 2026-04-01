@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Вендинговый аппарат</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="game-screen" style="display:block;">
+
+    <!-- ФОН -->
+    <img src="assets/fon-door.png" class="bg">
+
+    <!-- ВЕНДИНГ -->
+    <div class="door-block left vending-wrap">
+        <div class="door-title">Вендинговый аппарат</div>
+        <img src="assets/door.png" class="door" id="vending">
+
+        <!-- БАТОНЧИК (ОДИН!!!) -->
+        <div id="bar">
+            <div class="bar-item">
+                🍫 Батончик
+                <button class="eatBtn" onclick="eatBar()">Съесть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПЕРСОНАЖ -->
+    <img src="assets/vova-2121.png" class="character-game right">
+
+    <!-- ТЕКСТ -->
+    <div class="dialogue-text top-right">
+        Ого, как много пыли! Да сюда никто не заходил уже лет 100!
+    </div>
+
+    <!-- ПОДСКАЗКА -->
+    <div class="hint" id="hint">
+        <img src="assets/hand.png">
+        <span>Нажмите, чтоб открыть</span>
+    </div>
+
+    <!-- ЗВУКИ -->
+    <audio id="doorSound" src="assets/door.mp3"></audio>
+    <audio id="successSound" src="assets/success.mp3"></audio>
+
+</div>
+
+<script>
+
+const vending = document.getElementById('vending');
+const hint = document.getElementById('hint');
+const sound = document.getElementById('doorSound');
+const successSound = document.getElementById('successSound');
+
+setTimeout(() => {
+    hint.style.display = 'flex';
+}, 2000);
+
+vending.addEventListener('mouseenter', () => {
+    hint.style.display = 'none';
+});
+
+// открыть мини игру
+vending.addEventListener('click', () => {
+    sound.currentTime = 0;
+    sound.play();
+    createMiniGame();
+});
+
+// =====================
+// МИНИ ИГРА
+// =====================
+function createMiniGame() {
+
+    if (document.getElementById("minigame")) return;
+
+    const game = document.createElement("div");
+    game.id = "minigame";
+
+    game.innerHTML = `
+        <div class="mg-bg"></div>
+
+        <div class="mg-board">
+            <div id="items">
+
+                <div class="item" data-id="1">Нажать кнопку ВКЛ</div>
+                <div class="item" data-id="2">Взять вилку</div>
+                <div class="item" data-id="3">Поднять аппарат</div>
+                <div class="item" data-id="4">Вставить вилку в розетку</div>
+
+            </div>
+
+            <button class="mg-btn" onclick="checkMiniGame()">Проверить</button>
+        </div>
+    `;
+
+    document.body.appendChild(game);
+    enableSwap();
+}
+
+// =====================
+// SWAP
+// =====================
+let selected = null;
+
+function enableSwap() {
+
+    document.querySelectorAll(".item").forEach(el => {
+
+        el.addEventListener("click", () => {
+
+            if (!selected) {
+                selected = el;
+                el.classList.add("selected");
+                return;
+            }
+
+            if (selected === el) {
+                el.classList.remove("selected");
+                selected = null;
+                return;
+            }
+
+            swapElements(selected, el);
+
+            selected.classList.remove("selected");
+            selected = null;
+        });
+    });
+}
+
+function swapElements(a, b) {
+    const parent = a.parentNode;
+    const after = b.nextSibling === a ? b : b.nextSibling;
+
+    parent.insertBefore(a, after);
+    parent.insertBefore(b, a);
+}
+
+// =====================
+// ПРОВЕРКА
+// =====================
+function checkMiniGame() {
+
+    const order = [...document.querySelectorAll("#items .item")]
+        .map(el => el.dataset.id)
+        .join("");
+
+    if (order === "3241") {
+        showPopup("Успех!", true);
+    } else {
+        showPopup("Неверно. Попробуй ещё раз", false);
+    }
+}
+
+// =====================
+// POPUP
+// =====================
+function showPopup(text, success) {
+
+    const popup = document.createElement("div");
+    popup.className = "mg-popup";
+
+    popup.innerHTML = `
+        <div class="mg-window ${success ? "success" : ""}">
+            <h2>${text}</h2>
+            <button id="okBtn">OK</button>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    popup.querySelector("#okBtn").onclick = () => {
+        popup.remove();
+
+        if (success) {
+            finishGame();
+        }
+    };
+}
+
+// =====================
+// ФИНАЛ
+// =====================
+function finishGame() {
+
+    document.getElementById("minigame")?.remove();
+
+    // неоновый вендинг
+    vending.classList.add("glow");
+
+    // звук успеха
+    successSound.currentTime = 0;
+    successSound.play();
+
+    const bar = document.getElementById("bar");
+
+    // показать + анимация выпадения
+    bar.style.display = "block";
+    bar.classList.add("drop");
+}
+
+// =====================
+// СЪЕСТЬ
+// =====================
+function eatBar() {
+    alert("🍫 Ты съел батончик!");
+    document.getElementById("bar").remove();
+    vending.classList.remove("glow");
+}
+
+</script>
+
+</body>
+</html>
