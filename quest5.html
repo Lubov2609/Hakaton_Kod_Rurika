@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сортировка дружины</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="scene2">
+
+<!-- ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/vova-2121.png" class="char-img">
+
+    <div class="speech left-text">
+        — Надо порядок навести! Встанут как попало — в бою толку не будет!
+        Сравнивайте соседей. Больший — вправо!
+    </div>
+</div>
+
+<div class="person right-person">
+    <img src="assets/vova_862.png" class="char-img">
+</div>
+
+<button class="choice-btn" onclick="openGame()">
+    Начать сортировку
+</button>
+
+<!-- ИГРА -->
+<div id="game" class="dg-overlay" style="display:none;">
+    <div class="dg-window">
+
+        <div class="dg-close" onclick="closeGame()">✖</div>
+
+        <h2>Сортировка дружины. Если больше, то вправо</h2>
+
+        <p id="info"></p>
+
+        <div id="array" style="display:flex; gap:10px; justify-content:center; margin:20px 0;"></div>
+
+        <div class="actions">
+            <button onclick="swap()">Поменять местами</button>
+            <button onclick="keep()">Оставить</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- POPUP -->
+<div id="popup" class="dg-overlay" style="display:none;">
+    <div class="dg-window" id="popupContent"></div>
+</div>
+
+<audio id="successSound" src="assets/medal.mp3"></audio>
+
+<script>
+
+// =====================
+// ДАННЫЕ
+// =====================
+let arr = [];
+let i = 0;
+let attempts = 0;
+let swapsInPass = 0;
+let gameOver = false;
+
+// =====================
+// ЭЛЕМЕНТЫ
+// =====================
+const popup = document.getElementById("popup");
+const content = document.getElementById("popupContent");
+const info = document.getElementById("info");
+const arrayBox = document.getElementById("array");
+const sound = document.getElementById("successSound");
+
+// =====================
+// СТАРТ
+// =====================
+function openGame() {
+
+    arr = generateArray();
+    i = 0;
+    attempts = 0;
+    swapsInPass = 0;
+    gameOver = false;
+
+    document.getElementById("game").style.display = "flex";
+    render();
+}
+
+function closeGame() {
+    document.getElementById("game").style.display = "none";
+}
+
+// =====================
+// МАССИВ
+// =====================
+function generateArray() {
+    return [7, 3, 9, 1, 5];
+}
+
+// =====================
+// РЕНДЕР
+// =====================
+function render() {
+
+    arrayBox.innerHTML = "";
+
+    arr.forEach((num, idx) => {
+        const el = document.createElement("div");
+        el.innerText = num;
+        el.style.padding = "10px 15px";
+        el.style.border = "2px solid #333";
+        el.style.borderRadius = "8px";
+        el.style.background = (idx === i || idx === i + 1) ? "#ffd54f" : "#fff";
+
+        arrayBox.appendChild(el);
+    });
+
+    info.innerText = `Сравни: ${arr[i]} и ${arr[i + 1]}`;
+}
+
+// =====================
+// ПРОВЕРКА ПОБЕДЫ
+// =====================
+function isSorted() {
+    for (let j = 0; j < arr.length - 1; j++) {
+        if (arr[j] > arr[j + 1]) return false;
+    }
+    return true;
+}
+
+// =====================
+// ОШИБКИ
+// =====================
+function checkLose() {
+
+    if (attempts >= 3) {
+        gameOver = true;
+
+        content.innerHTML = `
+            <h2>Думаю ты устал...</h2>
+            <p>Попробуй позже</p>
+            <button onclick="exitGame()">Выйти</button>
+        `;
+
+        popup.style.display = "flex";
+        return true;
+    }
+
+    return false;
+}
+
+// =====================
+// ДЕЙСТВИЯ
+// =====================
+function swap() {
+
+    if (gameOver) return;
+
+    // ❌ нарушение: не соседние элементы (защита)
+    if (i < 0 || i >= arr.length - 1) {
+        attempts++;
+        showError("Нельзя нарушать пузырьковую сортировку!");
+        return;
+    }
+
+    // ❌ неправильный порядок проверки не нужен — swap всегда разрешён, но штрафуем если не надо было
+    if (arr[i] <= arr[i + 1]) {
+        attempts++;
+        showError("Они уже в порядке!");
+        return;
+    }
+
+    // swap
+    let temp = arr[i];
+    arr[i] = arr[i + 1];
+    arr[i + 1] = temp;
+
+    swapsInPass++;
+
+    nextStep();
+}
+
+function keep() {
+
+    if (gameOver) return;
+
+    if (arr[i] > arr[i + 1]) {
+        attempts++;
+        showError("Нужно было поменять местами!");
+        return;
+    }
+
+    nextStep();
+}
+
+// =====================
+// ШАГ
+// =====================
+function nextStep() {
+
+    if (checkLose()) return;
+
+    i++;
+
+    if (i >= arr.length - 1) {
+
+        // конец прохода
+        i = 0;
+
+        if (swapsInPass === 0) {
+            showSuccess();
+            return;
+        }
+
+        swapsInPass = 0;
+    }
+
+    render();
+}
+
+// =====================
+// ОШИБКА
+// =====================
+function showError(text) {
+
+    if (checkLose()) return;
+
+    content.innerHTML = `
+        <h2>Неверно</h2>
+        <p>${text}</p>
+
+        <p>Сравнивай соседние начиная с 1. Если левый больше — двигай вправо.</p>
+
+        <button onclick="restart()">Попробовать ещё раз</button>
+    `;
+
+    popup.style.display = "flex";
+}
+
+// =====================
+// ПОБЕДА
+// =====================
+function showSuccess() {
+
+    content.innerHTML = `
+        <h2>Вот это порядок!</h2>
+        <p>Дружина построена правильно!</p>
+
+        <button onclick="theory()">Далее</button>
+    `;
+
+    popup.style.display = "flex";
+}
+
+// =====================
+// ТЕОРИЯ
+// =====================
+function theory() {
+
+    content.innerHTML = `
+        <h2>Bubble Sort</h2>
+
+        <p>Сортировка через сравнение соседних элементов и их обмен.</p>
+
+        <button onclick="reward()">Ок</button>
+    `;
+}
+
+// =====================
+// НАГРАДА
+// =====================
+function reward() {
+
+    let img;
+
+    if (attempts === 0) img = "assets/medal-gold.png";
+    else if (attempts === 1) img = "assets/medal-silvers.png";
+    else img = "assets/medal-bronse.png";
+
+    content.innerHTML = `
+        <h2>Награда: Сортировка</h2>
+        <img src="${img}" class="result-img">
+
+        <button onclick="goNext()">Далее</button>
+    `;
+
+    sound.currentTime = 0;
+    sound.play();
+}
+
+// =====================
+// РЕСТАРТ
+// =====================
+function restart() {
+
+    popup.style.display = "none";
+
+    arr = generateArray();
+    i = 0;
+    attempts = 0;
+    swapsInPass = 0;
+    gameOver = false;
+
+    render();
+}
+
+// =====================
+// ВЫХОД
+// =====================
+function exitGame() {
+    popup.style.display = "none";
+    document.getElementById("game").style.display = "none";
+    gameOver = true;
+}
+
+// =====================
+// ДАЛЕЕ
+// =====================
+function goNext() {
+
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "scene4.html";
+    }, 600);
+}
+
+</script>
+
+</body>
+</html>

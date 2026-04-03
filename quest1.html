@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сцена</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="quest1">
+
+<!-- ЛЕВЫЙ ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/ruric_quest1.png" class="char-img">
+
+    <div class="speech left-text">
+        Делай всё по порядку, не путай!<br>
+    </div>
+</div>
+
+<!-- ПРАВЫЙ ПЕРСОНАЖ -->
+<div class="person right-person">
+    <img src="assets/vova_quest1.png" class="char-img">
+</div>
+
+<!-- КНОПКА -->
+<button class="choice-btn" onclick="openOrderGame()">
+        Получить задание
+</button>
+<!-- МИНИ ИГРА: ПОРЯДОК -->
+<div id="orderGame" class="dg-overlay" style="display:none;">
+    <div class="dg-window">
+
+        <h2>Расставь действия по порядку</h2>
+
+        <div id="orderItems">
+
+            <div class="item" draggable="true" data-id="1">Взять мешок</div>
+            <div class="item" draggable="true" data-id="2">Пойти к амбару</div>
+            <div class="item" draggable="true" data-id="3">Взять зерно</div>
+            <div class="item" draggable="true" data-id="4">Отнести на пристань</div>
+
+        </div>
+
+        <button class="dg-check" onclick="checkOrder()">Проверить</button>
+
+    </div>
+</div>
+
+<!-- POPUP -->
+<div id="resultPopup" class="dg-overlay" style="display:none;">
+    <div class="dg-window" id="resultContent"></div>
+</div>
+
+<audio id="successSound" src="assets/medal.mp3"></audio>
+
+<script>
+let attempts = 0;
+
+// открыть игру
+function openOrderGame() {
+    document.getElementById("orderGame").style.display = "flex";
+    enableDrag();
+}
+
+// ================= DRAG =================
+let dragged = null;
+
+function enableDrag() {
+
+    document.querySelectorAll("#orderItems .item").forEach(item => {
+
+        item.addEventListener("dragstart", () => {
+            dragged = item;
+        });
+
+        item.addEventListener("dragover", (e) => {
+            e.preventDefault();
+        });
+
+        item.addEventListener("drop", () => {
+            if (dragged && dragged !== item) {
+                swap(dragged, item);
+            }
+        });
+    });
+}
+
+function swap(a, b) {
+    const parent = a.parentNode;
+    const aNext = a.nextSibling;
+    parent.insertBefore(a, b.nextSibling);
+    parent.insertBefore(b, aNext);
+}
+
+// ================= ПРОВЕРКА =================
+function checkOrder() {
+
+    const order = [...document.querySelectorAll("#orderItems .item")]
+        .map(el => el.dataset.id)
+        .join("");
+
+    if (order === "1234") {
+        showCorrect();
+    } else {
+        attempts++;
+        showWrong();
+    }
+}
+
+// ❌ НЕВЕРНО
+function showWrong() {
+
+    document.getElementById("resultContent").innerHTML = `
+        <h2>Ошибка</h2>
+
+        <div class="hint-box">
+            <img src="assets/vova-2121.png" class="hint-img">
+            <p>— Нет, так не пойдёт.Это линейный алгоритм - расставь всё по порядку!</p>
+        </div>
+
+        <button onclick="closeResult()">Попробовать еще раз</button>
+    `;
+
+    document.getElementById("resultPopup").style.display = "flex";
+}
+
+// ✅ ВЕРНО (1 окно)
+function showCorrect() {
+
+    document.getElementById("resultContent").innerHTML = `
+        <h2>Верно!</h2>
+
+        <div class="hint-box">
+            <img src="assets/vova-2121.png" class="hint-img">
+            <p>— А ты способный! Пойдем поможешь нам в другом деле!</p>
+        </div>
+
+        <button onclick="showTheory()">Далее</button>
+    `;
+
+    document.getElementById("resultPopup").style.display = "flex";
+
+    
+}
+
+// 📚 ОБУЧЕНИЕ
+function showTheory() {
+
+    document.getElementById("resultContent").innerHTML = `
+        <h2>Обучение</h2>
+
+        <p>Линейный алгоритм — действия выполняются строго по порядку.</p>
+
+        <button onclick="showReward()">Ок</button>
+    `;
+}
+
+// 🏆 НАГРАДА
+function showReward() {
+
+    document.getElementById("resultContent").innerHTML = `
+        <h2>Награда!</h2>
+
+        <img src="assets/medal-gold.png" class="result-img">
+
+        <p>Получена новая награда: Линейный алгоритм</p>
+
+        <button onclick="goNext()">Далее</button>
+    `;
+    // звук
+    const sound = document.getElementById("successSound");
+    sound.currentTime = 0;
+    sound.play();
+}
+
+// закрытие
+function closeResult() {
+    document.getElementById("resultPopup").style.display = "none";
+}
+
+// переход
+function goNext() {
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "quest2.html";
+    }, 600);
+}
+</script>
+
+</body>
+</html>

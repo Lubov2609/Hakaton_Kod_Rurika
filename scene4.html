@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Финал квеста</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="scene2">
+
+<!-- СЦЕНА -->
+<div class="person left-person">
+    <img src="assets/vova-2121.png" class="char-img">
+
+    <div class="speech left-text">
+        ТЫ уже навёл порядок в дружине и доказал силу алгоритмов.
+    </div>
+</div>
+
+<div class="person right-person">
+    <img src="assets/vova_862.png" class="char-img">
+</div>
+
+<!-- КНОПКА СТАРТА СЮЖЕТА -->
+<div class="choice-btn" onclick="nextDialogue()">
+    Продолжить
+</div>
+
+<!-- ПОПАП -->
+<div id="popup" class="dg-overlay" style="display:none;">
+    <div class="dg-window" id="popupContent"></div>
+</div>
+
+<script>
+
+// =====================
+// ДИАЛОГ
+// =====================
+let step = 0;
+
+// =====================
+// ЭЛЕМЕНТЫ ТЕКСТА В ПЕРСОНАЖАХ
+// =====================
+const leftText = document.querySelector(".left-text");
+const rightText = document.querySelector(".right-person .char-img").parentElement;
+
+// =====================
+// СЦЕНА ДИАЛОГА
+// =====================
+function nextDialogue() {
+
+    step++;
+
+    // РЮРИК
+    if (step === 1) {
+        leftText.innerHTML = "— Ты не из этих мест.";
+        return;
+    }
+
+    // ВОВА
+    if (step === 2) {
+        leftText.innerHTML = "";
+        document.querySelector(".right-person .char-img").insertAdjacentHTML("afterend",
+            "<div class='speech right-text'>— Я из будущего.</div>"
+        );
+        return;
+    }
+
+    // РЮРИК ВОПРОС
+    if (step === 3) {
+        document.querySelector(".right-text").remove();
+
+        leftText.innerHTML = "— Ты навёл порядок. Чем отблагодарить?";
+        return;
+    }
+
+    // ВОВА ЖЕЛАНИЕ
+    if (step === 4) {
+        document.querySelector(".left-text").innerHTML = "";
+
+        document.querySelector(".right-person .char-img").insertAdjacentHTML("afterend",
+            "<div class='speech right-text'>— Хочу домой, в 2121 год.</div>"
+        );
+        return;
+    }
+
+    // РЮРИК ОТПРАВЛЕНИЕ
+    if (step === 5) {
+
+        document.querySelector(".right-text").remove();
+
+        leftText.innerHTML = "— Я помогу. Отправляйся через Ильмень на ладье.";
+
+        return;
+    }
+
+    // ФИНАЛ → АЧИВКА
+    if (step === 6) {
+        showAchievement();
+        return;
+    }
+}
+
+// =====================
+// АЧИВКА
+// =====================
+function showAchievement() {
+
+    const popup = document.createElement("div");
+    popup.className = "dg-overlay";
+    popup.style.display = "flex";
+
+    popup.innerHTML = `
+        <div class="dg-window">
+            <h2>Награда получена!</h2>
+            <img src="assets/medal-gold.png" class="result-img">
+
+            <p><b>«Мастер простых алгоритмов»</b></p>
+
+            <button onclick="goNext()">Далее</button>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+}
+
+// =====================
+// ПЕРЕХОД НА СЛЕДУЮЩУЮ СЦЕНУ
+// =====================
+function goNext() {
+
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "scene5.html";
+    }, 600);
+}
+
+</script>
+</body>
+</html>

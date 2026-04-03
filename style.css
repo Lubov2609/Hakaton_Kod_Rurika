@@ -298,9 +298,14 @@ h1 {
 }
 
 
-/* scene2.html */
+/* quest1.html */
 
-
+.quest1 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_quest1.png') center/cover no-repeat;
+    position: relative;
+}
 
 .bg {
     position: fixed;
@@ -770,7 +775,7 @@ h1 {
 .quest2 {
     margin: 0;
     height: 100vh;
-    background: url('assets/fon.png') center/cover no-repeat;
+    background: url('assets/fon_quest2.png') center/cover no-repeat;
     position: relative;
 }
 /* БЛОК ВРАГОВ ПО ЦЕНТРУ */
@@ -921,4 +926,44 @@ h1 {
 .hint-box p {
     font-size: 16px;
     line-height: 1.4;
+}
+/* quest3.html */
+#counterText {
+    transition: 0.3s;
+}
+
+.reset-anim {
+    color: red;
+    transform: scale(1.2);
+}
+/* контейнер бревен */
+#logs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+/* одно бревно */
+.log {
+    width: 40px;
+    height: 80px;
+    background: url("assets/log.png") center/cover no-repeat;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.3s;
+}
+
+/* появление */
+.log.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* кнопки */
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
 }

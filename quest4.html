@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Поиск Олега</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="scene2">
+
+<!-- ЛЕВЫЙ ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/vova-2121.png" class="char-img">
+
+    <div class="speech left-text">
+        Нужно помочь местным работой, чтобы разузнать подробности.<br><br>
+        — Помоги найти нам Олега, мы его давно не видели!!
+    </div>
+</div>
+
+<!-- ПРАВЫЙ -->
+<div class="person right-person">
+    <img src="assets/vova_862.png" class="char-img">
+</div>
+
+<!-- КНОПКА -->
+<button class="choice-btn" onclick="openGame()">
+    Начать поиск
+</button>
+
+<!-- ИГРА -->
+<div id="searchGame" class="dg-overlay" style="display:none;">
+    <div class="dg-window">
+
+        <div class="dg-close" onclick="closeGame()">✖</div>
+
+        <h2 id="question"></h2>
+
+        <div class="actions">
+            <button onclick="answer(true)">Да</button>
+            <button onclick="answer(false)">Нет</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- POPUP -->
+<div id="resultPopup" class="dg-overlay" style="display:none;">
+    <div class="dg-window" id="resultContent"></div>
+</div>
+
+<audio id="successSound" src="assets/medal.mp3"></audio>
+
+<script>
+
+// =====================
+// ДАННЫЕ
+// =====================
+const names = ["Ингвар", "Дир", "Аскольд", "Олег", "Рюрик"];
+
+let index = 0;
+let attempts = 0;
+let gameOver = false;
+
+// =====================
+// ЭЛЕМЕНТЫ
+// =====================
+const popup = document.getElementById("resultPopup");
+const content = document.getElementById("resultContent");
+const question = document.getElementById("question");
+const successSound = document.getElementById("successSound");
+
+// =====================
+// СТАРТ
+// =====================
+function openGame() {
+    index = 0;
+    attempts = 0;
+    gameOver = false;
+
+    document.getElementById("searchGame").style.display = "flex";
+    showQuestion();
+}
+
+function closeGame() {
+    document.getElementById("searchGame").style.display = "none";
+}
+
+// =====================
+// ВОПРОС
+// =====================
+function showQuestion() {
+
+    if (gameOver) return;
+
+    question.innerText = `№${index + 1} в списке — ${names[index]}. Это Олег?`;
+}
+
+// =====================
+// ПРОВЕРКА 3 ОШИБОК
+// =====================
+function checkAttempts() {
+    if (attempts >= 3) {
+        gameOver = true;
+
+        content.innerHTML = `
+            <h2>Думаю ты устал...</h2>
+            <p>Попробуй позже</p>
+
+            <button onclick="exitGame()">Выйти</button>
+        `;
+
+        popup.style.display = "flex";
+        return true;
+    }
+    return false;
+}
+
+// =====================
+// ОТВЕТ
+// =====================
+function answer(isYes) {
+
+    if (gameOver) return;
+
+    const name = names[index];
+
+    // ❌ НАЖАЛ "ДА", НО ЭТО НЕ ОЛЕГ
+    if (isYes && name !== "Олег") {
+        attempts++;
+        showError("Это не Олег!");
+        return;
+    }
+
+    // ❌ НАЖАЛ "НЕТ", НО ЭТО ОЛЕГ
+    if (!isYes && name === "Олег") {
+        attempts++;
+        showError("Ты пропустил Олега!");
+        return;
+    }
+
+    // ❌ ПРОПУСТИЛ НЕПРАВИЛЬНОГО
+    if (!isYes && name !== "Олег") {
+        index++;
+        showQuestion();
+        return;
+    }
+
+    // ✅ УГАДАЛ ОЛЕГА
+    if (isYes && name === "Олег") {
+        showSuccess();
+        return;
+    }
+}
+
+// =====================
+// ОШИБКА
+// =====================
+function showError(text) {
+
+    if (checkAttempts()) return;
+
+    content.innerHTML = `
+        <h2>Ошибка</h2>
+        <p>${text}</p>
+
+        <button onclick="restartGame()">Начать сначала</button>
+    `;
+
+    popup.style.display = "flex";
+}
+
+// =====================
+// УСПЕХ
+// =====================
+function showSuccess() {
+
+    content.innerHTML = `
+        <h2>Верно!</h2>
+        <p>Ты нашёл Олега</p>
+
+        <button onclick="showTheory()">Далее</button>
+    `;
+
+    popup.style.display = "flex";
+}
+
+// =====================
+// ТЕОРИЯ
+// =====================
+function showTheory() {
+
+    content.innerHTML = `
+        <h2>Обучение</h2>
+        <p>Линейный поиск — перебор элементов по порядку.</p>
+
+        <button onclick="showReward()">Ок</button>
+    `;
+}
+
+// =====================
+// НАГРАДА
+// =====================
+function showReward() {
+
+    let img;
+
+    if (attempts === 0) img = "assets/medal-gold.png";
+    else if (attempts === 1) img = "assets/medal-silvers.png";
+    else img = "assets/medal-bronse.png";
+
+    content.innerHTML = `
+        <h2>Награда</h2>
+        <img src="${img}" class="result-img">
+        <p>Линейный поиск освоен</p>
+
+        <button onclick="goNext()">Далее</button>
+    `;
+
+    successSound.currentTime = 0;
+    successSound.play();
+}
+
+// =====================
+// РЕСТАРТ
+// =====================
+function restartGame() {
+
+    popup.style.display = "none";
+
+    index = 0;
+    attempts = 0;
+    gameOver = false;
+
+    showQuestion();
+}
+
+// =====================
+// ВЫХОД
+// =====================
+function exitGame() {
+    popup.style.display = "none";
+    document.getElementById("searchGame").style.display = "none";
+    gameOver = true;
+}
+
+// =====================
+// ДАЛЕЕ
+// =====================
+function goNext() {
+
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "quest5.html";
+    }, 600);
+}
+
+</script>
+
+</body>
+</html>

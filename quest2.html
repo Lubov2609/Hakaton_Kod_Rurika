@@ -6,30 +6,27 @@
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="scene2">
+<body class="quest2">
 
 <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
 <div class="person left-person">
-    <img src="assets/vova-2121.png" class="char-img">
+    <img src="assets/Rur_quest2.png" class="char-img">
 
     <div class="speech left-text">
        Враги нападают!<br>
        Звать Рюрика или нет?
     </div>
 </div>
-<div class="enemies">
-    <img src="assets/enemy.png">
-    <div class="enemies-text">Враги</div>
-</div>
+
 <!-- ПРАВЫЙ ПЕРСОНАЖ -->
 <div class="person right-person">
-    <img src="assets/vova-862.png" class="char-img">
+    <img src="assets/vova_quest2.png" class="char-img">
 
 </div>
 
 <!-- КНОПКА -->
 <button class="choice-btn" onclick="openDecisionGame()">
-    Помочь незнакомцу
+    Помочь Новгородцам
 </button>
 <!-- МИНИ-ИГРА -->
 <div id="decisionGame" class="dg-overlay" style="display:none;">
@@ -155,7 +152,7 @@ function showReward() {
     if (attempts === 0) {
         img = "assets/medal-gold.png";
     } else if (attempts === 1) {
-        img = "assets/medal-silver.png";
+        img = "assets/medal-silvers.png";
     } else {
         img = "assets/medal-bronse.png";
     }
