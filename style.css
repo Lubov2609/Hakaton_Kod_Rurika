@@ -19,13 +19,17 @@ body {
     position: absolute;
     top: 20px;
     left: 20px;
-    width: 100px;
+    width: 150px;
     height: 100px;
-    border: 2px solid #555;
+    
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
+}
+.logo {
+    width: 120%;
+    height: auto;
 }
 
 @font-face {
@@ -128,7 +132,7 @@ h1 {
 
     display: none;
 
-    background: url('assets/fon-2121.png') center/cover no-repeat;
+    background: url('assets/fon_2121.png') center/cover no-repeat;
     color: white;
 }
 
@@ -147,7 +151,7 @@ h1 {
 /* ТЕКСТ */
 .menu-text {
     font-size: 18px;
-    color: #0e0e0e;
+    color: #f6f2f2;
     line-height: 1.5;
 
     margin-bottom: 30px;
@@ -295,6 +299,8 @@ h1 {
 
 
 /* scene2.html */
+
+
 
 .bg {
     position: fixed;
@@ -470,28 +476,89 @@ h1 {
 }
 
 
-.bar-item {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    width: 120px;
-    text-align: center;
-    position: relative;
-    cursor: pointer;
+/* =========================
+   БАТОНЧИК (НОВЫЙ БЛОК)
+========================= */
+
+#bar {
+    position: fixed;
+    inset: 0;
+    display: none; /* скрыт до победы */
+    z-index: 50;
 }
 
+/* КАРТИНКА ПО ЦЕНТРУ */
+.bar-img {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-8deg);
+
+    width: 280px;
+    pointer-events: none;
+
+    animation: floatBar 3s ease-in-out infinite;
+}
+
+/* ПЛАВАЮЩАЯ АНИМАЦИЯ */
+@keyframes floatBar {
+    0%   { transform: translate(-50%, -50%) rotate(-8deg); }
+    50%  { transform: translate(-50%, -60%) rotate(-8deg); }
+    100% { transform: translate(-50%, -50%) rotate(-8deg); }
+}
+
+/* КНОПКА ВНИЗУ */
 .eatBtn {
-    display: none;
-    margin-top: 8px;
-    padding: 5px;
-    width: 100%;
-    border: none;
-    background: #7fdfff;
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 14px 28px;
+
+    background: rgba(0,0,0,0.85);
+    border: 2px solid #7fdfff;
+    color: #7fdfff;
+
+    font-size: 18px;
+    letter-spacing: 1px;
+
     cursor: pointer;
+    pointer-events: auto;
+
+    transition: 0.3s;
 }
 
-.bar-item:hover .eatBtn {
+/* ХОВЕР */
+.eatBtn:hover {
+    background: #7fdfff;
+    color: black;
+    box-shadow: 0 0 15px #7fdfff;
+}
+
+/* НАЖАТИЕ */
+.eatBtn:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+/* =========================
+   ПОЯВЛЕНИЕ
+========================= */
+
+#bar.show {
     display: block;
+    animation: fadeInBar 0.5s ease;
+}
+
+@keyframes fadeInBar {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* подсветка вендинга */
@@ -600,13 +667,16 @@ h1 {
 .item:active {
     cursor: grabbing;
 }
+.vending-wrap {
+    position: absolute;
+}
 /* 862.html */
 /* ===== ЭКРАН 862 ===== */
 /* ===== СЦЕНА 1 (862) ===== */
 .screen-862 {
     margin: 0;
     height: 100vh;
-    background: url('assets/fon.png') center/cover no-repeat;
+    background: url('assets/fon-862.png') center/cover no-repeat;
 
     display: flex;
     justify-content: center;
@@ -632,7 +702,7 @@ h1 {
 .scene2 {
     margin: 0;
     height: 100vh;
-    background: url('assets/fon-2121.png') center/cover no-repeat;
+    background: url('assets/fon_862.png') center/cover no-repeat;
     position: relative;
 }
 /* персонажи */
