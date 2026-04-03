@@ -13,12 +13,11 @@
 <div class="game-screen" style="display:block;">
 
     <!-- ФОН -->
-    <img src="assets/fon-door.png" class="bg">
+    <img src="assets/fon-vend.png" class="bg">
 
     <!-- ВЕНДИНГ -->
-    <div class="door-block left vending-wrap">
-        <div class="door-title">Вендинговый аппарат</div>
-        <img src="assets/door.png" class="door" id="vending">
+    <div class="doors-block left vending-wrap">
+        <img src="assets/vending.png" class="doors" id="vending">
 
         <!-- БАТОНЧИК (ОДИН!!!) -->
         <div id="bar">
@@ -38,8 +37,8 @@
     </div>
 
     <!-- ПОДСКАЗКА -->
-    <div class="hint" id="hint">
-        <img src="assets/hand.png">
+    <div class="hints" id="hints">
+        <img src="assets/hands.png">
         <span>Нажмите, чтоб открыть</span>
     </div>
 
@@ -52,16 +51,16 @@
 <script>
 
 const vending = document.getElementById('vending');
-const hint = document.getElementById('hint');
+const hints = document.getElementById('hints');
 const sound = document.getElementById('doorSound');
 const successSound = document.getElementById('successSound');
 
 setTimeout(() => {
-    hint.style.display = 'flex';
+    hints.style.display = 'flex';
 }, 2000);
 
 vending.addEventListener('mouseenter', () => {
-    hint.style.display = 'none';
+    hints.style.display = 'none';
 });
 
 // открыть мини игру
@@ -99,46 +98,60 @@ function createMiniGame() {
     `;
 
     document.body.appendChild(game);
-    enableSwap();
+    enableDrag();
 }
 
 // =====================
-// SWAP
+// DRAG & DROP
 // =====================
-let selected = null;
 
-function enableSwap() {
+let draggedItem = null;
 
-    document.querySelectorAll(".item").forEach(el => {
+function enableDrag() {
 
-        el.addEventListener("click", () => {
+    const items = document.querySelectorAll(".item");
 
-            if (!selected) {
-                selected = el;
-                el.classList.add("selected");
-                return;
+    items.forEach(item => {
+
+        item.setAttribute("draggable", true);
+
+        // начали тащить
+        item.addEventListener("dragstart", () => {
+            draggedItem = item;
+            item.classList.add("dragging");
+        });
+
+        // отпустили
+        item.addEventListener("dragend", () => {
+            draggedItem = null;
+            item.classList.remove("dragging");
+        });
+
+        // над элементом
+        item.addEventListener("dragover", (e) => {
+            e.preventDefault();
+        });
+
+        // бросили
+        item.addEventListener("drop", () => {
+
+            if (draggedItem && draggedItem !== item) {
+                swapElements(draggedItem, item);
             }
-
-            if (selected === el) {
-                el.classList.remove("selected");
-                selected = null;
-                return;
-            }
-
-            swapElements(selected, el);
-
-            selected.classList.remove("selected");
-            selected = null;
         });
     });
 }
 
+// обмен местами
 function swapElements(a, b) {
-    const parent = a.parentNode;
-    const after = b.nextSibling === a ? b : b.nextSibling;
 
-    parent.insertBefore(a, after);
-    parent.insertBefore(b, a);
+    const parent = a.parentNode;
+
+    const aNext = a.nextSibling;
+    const bNext = b.nextSibling;
+
+    parent.insertBefore(a, bNext);
+    parent.insertBefore(b, aNext);
 }
 
 // =====================
@@ -208,9 +221,9 @@ function finishGame() {
 // СЪЕСТЬ
 // =====================
 function eatBar() {
-    alert("🍫 Ты съел батончик!");
-    document.getElementById("bar").remove();
-    vending.classList.remove("glow");
+    
+    // переход на следующую сцену
+    window.location.href = "862.html";
 }
 
 </script>

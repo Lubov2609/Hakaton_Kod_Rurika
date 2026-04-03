@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>862</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* фон */
+body {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon.png') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* подключаем исторический шрифт */
+@font-face {
+    font-family: 'HistoryFont';
+    src: url('fonts/h1.ttf') format('truetype');
+}
+
+/* текст */
+.title {
+    font-family: 'HistoryFont', serif;
+    font-size: 120px;
+    color: #e6d3a3;
+
+    text-shadow:
+        0 0 10px rgba(255,255,200,0.6),
+        0 0 20px rgba(255,220,150,0.5),
+        0 0 40px rgba(255,200,100,0.4);
+
+    letter-spacing: 10px;
+}
+
+</style>
+</head>
+
+<body class="screen-862">
+
+<div class="title-862">Заглушка Quest3</div>
+
+<script>
+// переход на сцену 2
+document.body.addEventListener("click", () => {
+    window.location.href = "scene3.html";
+});
+</script>
+
+</body>
+</html>

@@ -65,9 +65,8 @@
 <div class="game-screen" id="game">
 
     <!-- ДВЕРЬ СЛЕВА -->
-    <div class="door-block left">
-        <div class="door-title">Склад</div>
-        <img src="assets/door.png" class="door" id="door">
+    <div class="doors-block left">
+        <img src="assets/door-sklad.png" class="doors" id="doors">
     </div>
 
     <!-- ПЕРСОНАЖ ПО ЦЕНТРУ -->
@@ -75,12 +74,12 @@
 
     <!-- ТЕКСТ НАД ПЕРСОНАЖЕМ -->
     <div class="dialogue-text top-center">
-        Хм!... Не замечал раньше этой двери...
+        Хм М М М!... Не замечал раньше этой двери...
     </div>
 
     <!-- ПОДСКАЗКА -->
     <div class="hint" id="hint">
-        <img src="assets/hand.png">
+        <img src="assets/hands.png">
         <span>Нажмите, чтоб открыть</span>
     </div>
 
@@ -101,8 +100,8 @@ const clickSound = document.getElementById('clickSound');
 const doorSound = document.getElementById('doorSound');
 
 const newGameBtn = document.getElementById('newGame');
-const door = document.getElementById('door');
-const hint = document.getElementById('hint');
+const doors = document.getElementById('doors');
+const hints = document.getElementById('hints');
 
 // ===== ЗАГРУЗКА =====
 const interval = setInterval(() => {
@@ -143,15 +142,15 @@ newGameBtn.addEventListener('click', () => {
 
         // подсказка через 30 сек
         setTimeout(() => {
-            hint.style.display = 'flex';
-        }, 30000);
+            hints.style.display = 'flex';
+        }, 3000);
 
     }, 200);
 });
 
 // ===== ДВЕРЬ =====
 // клик по двери
-door.addEventListener('click', () => {
+doors.addEventListener('click', () => {
     doorSound.currentTime = 0;
     doorSound.play();
 
@@ -160,7 +159,7 @@ door.addEventListener('click', () => {
     }, 500);
 });
 
-door.addEventListener('mouseenter', () => {
+doors.addEventListener('mouseenter', () => {
     hint.style.display = 'none';
 });
 </script>

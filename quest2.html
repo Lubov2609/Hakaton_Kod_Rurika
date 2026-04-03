@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сцена</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="scene2">
+
+<!-- ЛЕВЫЙ ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/vova-2121.png" class="char-img">
+
+    <div class="speech left-text">
+       Враги нападают!<br>
+       Звать Рюрика или нет?
+    </div>
+</div>
+<div class="enemies">
+    <img src="assets/enemy.png">
+    <div class="enemies-text">Враги</div>
+</div>
+<!-- ПРАВЫЙ ПЕРСОНАЖ -->
+<div class="person right-person">
+    <img src="assets/vova-862.png" class="char-img">
+
+</div>
+
+<!-- КНОПКА -->
+<button class="choice-btn" onclick="openDecisionGame()">
+    Помочь незнакомцу
+</button>
+<!-- МИНИ-ИГРА -->
+<div id="decisionGame" class="dg-overlay" style="display:none;">
+    <div class="dg-window">
+
+        <div class="dg-close" onclick="closeGame()">✖</div>
+
+        <h2>Помоги новгородцам<br>принять решение</h2>
+
+        <div class="dg-columns">
+
+            <!-- ЛЕВО -->
+            <div class="dg-col">
+                <p>Если враги одолевают</p>
+
+                <button onclick="selectOption(this, 'left', 'call')">Позвать Рюрика</button>
+                <button onclick="selectOption(this, 'left', 'self')">Сами справятся</button>
+            </div>
+
+            <!-- ПРАВО -->
+            <div class="dg-col">
+                <p>иначе</p>
+
+                <button onclick="selectOption(this, 'right', 'call')">Позвать Рюрика</button>
+                <button onclick="selectOption(this, 'right', 'self')">Сами справятся</button>
+            </div>
+
+        </div>
+
+        <button id="checkBtn" class="dg-check" onclick="checkDecision()" style="display:none;">
+            Проверить
+        </button>
+
+    </div>
+</div>
+
+<!-- POPUP РЕЗУЛЬТАТ -->
+<div id="resultPopup" class="dg-overlay" style="display:none;">
+    <div class="dg-window" id="resultContent"></div>
+</div>
+<audio id="successSound" src="assets/medal.mp3"></audio>
+
+<script>
+let answers = {
+    left: null,
+    right: null
+};
+
+let attempts = 0;
+
+function openDecisionGame() {
+    document.getElementById("decisionGame").style.display = "flex";
+}
+
+function closeGame() {
+    document.getElementById("decisionGame").style.display = "none";
+}
+
+// выбор
+function selectOption(btn, side, value) {
+
+    answers[side] = value;
+
+    // убрать выделение
+    btn.parentNode.querySelectorAll("button").forEach(b => {
+        b.style.background = "";
+    });
+
+    btn.style.background = "#7fdfff";
+
+    // показать кнопку проверить
+    if (answers.left && answers.right) {
+        document.getElementById("checkBtn").style.display = "inline-block";
+    }
+}
+
+// проверка
+function checkDecision() {
+
+    const correct = (answers.left === "call" && answers.right === "self");
+
+    if (correct) {
+        showSuccess();
+    } else {
+        attempts++;
+        showFail();
+    }
+}
+
+// УСПЕХ
+function showSuccess() {
+ document.getElementById("resultContent").innerHTML = `
+        <h2>Верно!</h2>
+
+        <div class="hint-box">
+            <img src="assets/vova-2121.png" class="hint-img">
+            <p>— А ты способный! Пойдем поможешь нам в другом деле!</p>
+        </div>
+
+        <button onclick="showTheory()">Далее</button>
+    `;
+
+    document.getElementById("resultPopup").style.display = "flex";
+}
+function showTheory() {
+
+    let text = "Ветвление — это выбор по условию";
+    
+    document.getElementById("resultContent").innerHTML = `
+
+    <h2> Обучение</h2>
+
+        <p>${text}</p>
+
+        <button onclick="showReward()">Ок</button>    `;
+
+   
+}
+function showReward() {
+    let text = "";
+    let img = "";
+
+    if (attempts === 0) {
+        img = "assets/medal-gold.png";
+    } else if (attempts === 1) {
+        img = "assets/medal-silver.png";
+    } else {
+        img = "assets/medal-bronse.png";
+    }
+    document.getElementById("resultContent").innerHTML = `
+        <h2>Награда!</h2>
+
+        <img src="${img}" class="result-img">
+
+        <p>Получена новая награда: Ветвление</p>
+
+        <button onclick="goNext()">Далее</button>
+    `;
+    document.getElementById("resultPopup").style.display = "flex";
+
+     // 🔊 звук
+    const sound = document.getElementById("successSound");
+    sound.currentTime = 0;
+    sound.play();
+}
+function goNext() {
+    window.location.href = "quest3.html";
+}
+function goNext() {
+
+    // затемнение
+    document.body.classList.add("fade-out");
+
+    // звук можно чуть затухать (по желанию)
+    const sound = document.getElementById("successSound");
+    if (sound) sound.volume = 0.3;
+
+    setTimeout(() => {
+        window.location.href = "quest3.html";
+    }, 600); // совпадает с CSS
+}
+
+// ПРОВАЛ
+function showFail() {
+
+    let img = "assets/vova-862.png"; // персонаж подсказки
+    let text = "";
+
+    if (attempts == 1) {
+        text = "Подсказка практическая: Подумай: если опасно — нужен лидер";
+    } else if (attempts == 2) {
+        text = "Подсказка образовательная: Ветвление — это выбор по условию";
+    } else {
+        text = "Вы устали... Попробуй позже";
+    }
+
+    let button = attempts >= 3
+        ? `<button onclick="closeResult()">Выйти</button>`
+        : `<button onclick="retry()">Попробовать еще раз</button>`;
+
+    document.getElementById("resultContent").innerHTML = `
+    <h2>Ошибка</h2>
+
+    <div class="hint-box">
+        <img src="${img}" class="hint-img">
+
+        <p>${text}</p>
+    </div>
+
+    ${button}
+`;
+
+    document.getElementById("resultPopup").style.display = "flex";
+}
+function retry() {
+    document.getElementById("resultPopup").style.display = "none";
+}
+
+function closeResult() {
+    document.getElementById("resultPopup").style.display = "none";
+    document.getElementById("decisionGame").style.display = "none";
+}
+</script>
+
+</body>
+</html>

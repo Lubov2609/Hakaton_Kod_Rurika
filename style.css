@@ -4,6 +4,7 @@ body {
     font-family: sans-serif;
     overflow: hidden;
         background: url('assets/fon.png') center/cover no-repeat;
+    
 
 }
 
@@ -27,12 +28,19 @@ body {
     font-size: 12px;
 }
 
+@font-face {
+    font-family: 'HistoryFont';
+    src: url('fonts/h1.ttf') format('truetype');
+}
+
 h1 {
     position: absolute;
     top: 60px;
     width: 100%;
+    font-family: 'HistoryFont', serif;
+
     text-align: center;
-    font-size: 48px;
+    font-size: 120px;
     color: #5c5048;
 }
 
@@ -91,7 +99,10 @@ h1 {
         0 0 20px #3bbcff,
         0 0 40px #3bbcff;
 }
-
+@font-face {
+    font-family: 'Orbitron';
+    src: url('fonts/years.ttf') format('truetype');
+}
 /* Отступ как 3 строки */
 .year {
     margin-top: 60px;
@@ -211,13 +222,13 @@ h1 {
 
     display: none;
 
-    background: url('assets/fon-door.png') center/cover no-repeat;
+    background: url('assets/fon-doors.png') center/cover no-repeat;
 }
 
 /* ДВЕРЬ */
-.door-block {
+.doors-block {
     position: absolute;
-    left: 80px;
+    left: 160px;
     top: 120px;
 
     display: flex;
@@ -225,15 +236,15 @@ h1 {
     align-items: center;
 }
 
-.door-title {
+.doors-title {
     color: white;
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 60px;
+    margin-bottom: 40px;
 }
 
-.door {
-    width: 200px;
-    height: 200px;
+.doors {
+    width: 300px;
+    height: 600px;
     object-fit: cover;
 
     border: 2px solid transparent;
@@ -243,7 +254,7 @@ h1 {
 }
 
 /* HOVER */
-.door:hover {
+.doors:hover {
     border: 2px solid #7fdfff;
     box-shadow: 0 0 15px #7fdfff;
 }
@@ -261,7 +272,7 @@ h1 {
 }
 
 /* ПОДСКАЗКА */
-.hint {
+.hints {
     position: absolute;
     bottom: 120px;
     left: 100px;
@@ -271,14 +282,14 @@ h1 {
     gap: 10px;
 
     color: white;
-    background: rgba(0,0,0,0.6);
+    background: rgba(210, 213, 215, 0.6);
     padding: 10px 15px;
 
     border: 1px solid #7fdfff;
     box-shadow: 0 0 10px #7fdfff;
 }
 
-.hint img {
+.hints img {
     width: 30px;
 }
 
@@ -575,4 +586,269 @@ h1 {
     to {
         filter: drop-shadow(0 0 25px #00eaff);
     }
+}
+
+.item {
+    cursor: grab;
+}
+
+.item.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+}
+
+.item:active {
+    cursor: grabbing;
+}
+/* 862.html */
+/* ===== ЭКРАН 862 ===== */
+/* ===== СЦЕНА 1 (862) ===== */
+.screen-862 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon.png') center/cover no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.title-862 {
+    font-family: 'HistoryFont', serif;
+    font-size: 120px;
+    color: #e6d3a3;
+
+    text-shadow:
+        0 0 10px rgba(255,255,200,0.6),
+        0 0 20px rgba(255,220,150,0.5),
+        0 0 40px rgba(255,200,100,0.4);
+
+    letter-spacing: 10px;
+}
+
+/* ===== СЦЕНА 2 ===== */
+.scene2 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon-2121.png') center/cover no-repeat;
+    position: relative;
+}
+/* персонажи */
+.person {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column-reverse; /* ВАЖНО */
+    align-items: center;
+}
+
+/* позиции */
+.left-person {
+    left: 40px;
+}
+
+.right-person {
+    right: 40px;
+}
+
+/* КАРТИНКИ */
+.char-img {
+    height: 70vh;
+    object-fit: contain;
+}
+
+/* текст (теперь сверху) */
+.speech {
+    margin-bottom: 20px;
+    width: 260px;
+    font-size: 16px;
+
+    background: rgba(255,255,255,0.9);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* выравнивание */
+.left-text {
+    text-align: left;
+}
+
+.right-text {
+    text-align: right;
+}
+
+/* КНОПКА — фикс */
+.choice-btn {
+    position: fixed; /* ВАЖНО */
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 12px 20px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+}
+
+
+/* quest2.html */
+
+.quest2 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon.png') center/cover no-repeat;
+    position: relative;
+}
+/* БЛОК ВРАГОВ ПО ЦЕНТРУ */
+.enemies {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* идеально центрирует */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    z-index: 2;
+}
+
+/* картинка */
+.enemies img {
+    width: 220px;
+    height: auto;
+    border-radius: 20px;
+}
+/* АНИМАЦИЯ ПОЯВЛЕНИЯ ОКНА */
+.dg-window {
+    animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* АНИМАЦИЯ МЕДАЛИ */
+.result-img {
+    width: 120px;
+    margin: 15px 0;
+    animation: medalDrop 0.6s ease;
+}
+
+@keyframes medalDrop {
+    0% {
+        transform: translateY(-100px) scale(0.5);
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(20px) scale(1.1);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* ПЛАВНОЕ ЗАТУХАНИЕ */
+.fade-out {
+    animation: fadeOut 0.6s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+/* текст */
+.enemies-text {
+    position: absolute;
+    top: 15px;
+
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+.dg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.dg-window {
+    background: #eaeaea;
+    width: 600px;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.dg-close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.dg-columns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.dg-col {
+    width: 45%;
+}
+
+.dg-col button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dg-check {
+    margin-top: 30px;
+    padding: 10px 20px;
+}
+.result-img {
+    width: 50px;
+    margin: 15px 0;
+}
+.hint-box {
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* картинка справа */
+.hint-img {
+    float: right;
+    width: 120px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+/* текст обтекает */
+.hint-box p {
+    font-size: 16px;
+    line-height: 1.4;
 }
