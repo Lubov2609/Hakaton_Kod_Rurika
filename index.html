@@ -44,9 +44,16 @@
     <!-- КНОПКИ -->
     <div class="rurik-buttons">
         <button class="rurik-btn main" id="startGame">НОВАЯ ИГРА</button>
-        <button class="rurik-btn">СТАТИСТИКА</button>
-        <button class="rurik-btn">О ПРОЕКТЕ</button>
-        <button class="rurik-btn">ВЫЙТИ</button>
+        <button class="rurik-btn" onclick="window.location.href='/statistics.html'">СТАТИСТИКА</button>
+        <button class="rurik-btn" onclick="window.location.href='/about.html'">О ПРОЕКТЕ</button>
+        <button class="rurik-btn" onclick="closeTab()">ВЫЙТИ</button>
+        <script>
+        function closeTab() {
+        if (confirm('Вы действительно хотите закрыть вкладку?')) {
+            window.close();
+        }
+        }
+        </script>
     </div>
 
     <!-- ПЕРСОНАЖ -->
@@ -80,7 +87,7 @@
 
         <div class="menu-buttons">
             <button class="menu-btn" id="newGame">Найти кофе</button>
-            <button class="menu-btn">Пойти домой</button>
+            <button onclick="goHome()" class="menu-btn">Пойти домой</button>
         </div>
 
     </div>
@@ -114,7 +121,7 @@
 
 <!-- ================= JS ================= -->
 <script>
-
+let darkTimeout;
 let progress = 0;
 
 const bar = document.getElementById('progress');
@@ -132,6 +139,11 @@ const doorSound = document.getElementById('doorSound');
 
 const doors = document.getElementById('doors');
 const hint = document.getElementById('hint');
+
+// FUNCTIONS
+function goHome() {
+    window.location.href = "index.html";
+}
 
 // ===== ЗАГРУЗКА =====
 const interval = setInterval(() => {
@@ -164,10 +176,20 @@ startGame.addEventListener('click', () => {
         dark.style.opacity = '1';
     }, 50);
 
+    // 👉 запускаем таймер автоперехода (5 сек)
+    darkTimeout = setTimeout(() => {
+        dark.style.display = 'none';
+        menu.style.display = 'block';
+    }, 5000);
+
 });
 
 // ===== КЛИК ПО ТЕМНОМУ ЭКРАНУ =====
 dark.addEventListener('click', () => {
+
+    // 👉 отменяем автопереход
+    clearTimeout(darkTimeout);
+
     dark.style.display = 'none';
     menu.style.display = 'block';
 });

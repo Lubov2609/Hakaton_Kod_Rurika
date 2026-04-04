@@ -515,7 +515,7 @@ h1 {
 /* КНОПКА ВНИЗУ */
 .eatBtn {
     position: absolute;
-    bottom: 40px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
 
@@ -997,7 +997,7 @@ h1 {
     top: 50px;
     left: 700px;
 
-    width: 120px;   /* 🔥 небольшой размер */
+    width: 160px;   /* 🔥 небольшой размер */
     height: auto;
 
     z-index: 2;
@@ -1011,10 +1011,9 @@ h1 {
     top: 120px;   /* ниже логотипа */
     left: 20px;
 
-    font-size: 90px;  /* 🔥 крупнее */
+    font-size: 140px;  /* 🔥 крупнее */
     color: #8b0000;
     letter-spacing: 4px;
-
     z-index: 2;
 }
 
@@ -1065,9 +1064,9 @@ h1 {
 .rurik-character {
     position: absolute;
     right: 60px;
-    bottom: 0;
+    bottom: 60px;
 
-    height: 85%;
+    height: 75%;
     max-height: 800px;
 
     object-fit: contain;
@@ -1091,12 +1090,6 @@ h1 {
 .quest5 {
     margin: 0;
     height: 100vh;
-    background: url('assets/fon_quest5.png') center/contain no-repeat;
-    position: relative;
-}
-.scene4 {
-    margin: 10px;
-    height: 100vh;
-    background: url('assets/fon-finish.png') center/cover no-repeat;
+    background: url('assets/fon_quest5.png') center/cover no-repeat;
     position: relative;
 }

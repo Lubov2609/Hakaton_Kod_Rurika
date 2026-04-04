@@ -3,41 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <title>Сцена</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="scene3.css">
 </head>
 
 <body class="scene2">
 
+<!-- ===== AUDIO ===== -->
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ===== TOP UI ===== -->
+<div class="top-ui">
+
+    <div class="left-ui">
+        <a href="scene2.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <!-- звук -->
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+
+        <!-- меню -->
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+
+</div>
+
+<!-- ===== MENU ===== -->
+<div id="menu" class="menu-overlay">
+    <div class="menu-box">
+        <h2>Меню</h2>
+
+        <button onclick="resumeGame()">Продолжить</button>
+        <button onclick="goHome()">На главную</button>
+        <button onclick="restart()">Заново</button>
+    </div>
+</div>
+
 <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
 <div class="person left-person">
     <img src="assets/rurik_862.png" class="char-img">
-
-    <div class="speech left-text">
-        Эй, холоп, иди со мной!<br>
-        Поможешь — и я тебе помогу
-    </div>
+    <div class="speech left-text"><span id="text1"></span></div>
 </div>
 
 <!-- ПРАВЫЙ ПЕРСОНАЖ -->
 <div class="person right-person">
     <img src="assets/vova_862.png" class="char-img">
-
-    <div class="speech right-text">
-        Что это было? Где я?<br>
-        Как вернуться?
-    </div>
+    <div class="speech right-text"><span id="text2"></span></div>
 </div>
 
 <!-- КНОПКА -->
-<button class="choice-btn" onclick="goNext()">
-        Помочь незнакомцу
+<button id="choiceBtn" class="choice-btn" onclick="goNext()" disabled>
+    Помочь незнакомцу
 </button>
-
 
 <script>
 
+// ===== ЗВУК =====
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
 
-// переход
+// проверка разрешения на звук
+let unlocked = localStorage.getItem("audioUnlocked") === "true";
+
+if (unlocked) {
+    sound.play().catch(()=>{});
+}
+
+// загрузка состояния
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+// старт
+window.addEventListener("click", () => {
+    if (soundEnabled) {
+        sound.volume = 0.5;
+        sound.play();
+    }
+}, { once: true });
+
+// установка иконки
+function updateSoundUI() {
+    soundBtn.src = soundEnabled
+        ? "assets/sound-on.png"
+        : "assets/sound-off.png";
+}
+
+updateSoundUI();
+
+// переключение
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) {
+        sound.play();
+    } else {
+        sound.pause();
+    }
+
+    localStorage.setItem("sound", soundEnabled ? "off" : "on");
+    updateSoundUI();
+}
+
+
+// ===== ТЕКСТ =====
+const textLeft = "Эй! Иди со мной! Поможешь — и я тебе помогу";
+const textRight = "Что это было? Где я? Как вернуться?";
+
+let speed = 25;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+window.onload = () => {
+    typeText(text1, textLeft, () => {
+        setTimeout(() => {
+            typeText(text2, textRight, () => {
+                choiceBtn.disabled = false;
+                choiceBtn.classList.add("show");
+            });
+        }, 500);
+    });
+};
+
+
+// ===== ПЕРЕХОД =====
 function goNext() {
     document.body.classList.add("fade-out");
 
@@ -45,6 +146,35 @@ function goNext() {
         window.location.href = "quest1.html";
     }, 600);
 }
+
+
+// ===== МЕНЮ =====
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+function resumeGame() {
+    toggleMenu();
+}
+
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function restart() {
+    window.location.reload();
+}
+
+
+// ===== ПРОПУСК АНИМАЦИИ =====
+document.addEventListener("click", () => {
+    text1.innerHTML = textLeft;
+    text2.innerHTML = textRight;
+
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
 </script>
 
 </body>
