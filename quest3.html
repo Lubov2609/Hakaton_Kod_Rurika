@@ -10,7 +10,7 @@
 
 <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
 <div class="person left-person">
-    <img src="assets/vova-2121.png" class="char-img">
+    <img src="assets/ruric_quest1.png" class="char-img">
 
     <div class="speech left-text">
        Нашей крепости просто необходим хороший причал! <br>
@@ -27,7 +27,7 @@
 
 <!-- КНОПКА -->
 <button class="choice-btn" onclick="openDecisionGame()">
-    Помочь незнакомцу
+    Забить опоры
 </button>
 <!-- МИНИ-ИГРА ЦИКЛ -->
 <div id="cycleGame" class="dg-overlay" style="display:none;">
@@ -36,15 +36,15 @@
         <div class="dg-close" onclick="closeGame()">✖</div>
 
        <h2>Помоги построить причал</h2>
-
+    <h3>Построй 5 опор, повторяя последовательность действий</h3>
 <!-- ВИЗУАЛ БРЕВЕН -->
 <div id="logs"></div>
 
 <!-- КНОПКИ ДЕЙСТВИЙ -->
 <div class="actions">
     <button onclick="doStep(1)">Взять бревно</button>
-    <button onclick="doStep(2)">Установить бревно</button>
-    <button onclick="doStep(3)">Забить бревно</button>
+    <button onclick="doStep(2)">Установить</button>
+    <button onclick="doStep(3)">Забить в грунт</button>
 </div>
 
 <button id="checkBtn" onclick="checkCycle()">
@@ -229,7 +229,7 @@ function showOverError() {
 
         <div class="hint-box">
             <img src="assets/vova-862.png" class="hint-img">
-            <p>Вы сделали больше заявленного количества!</p>
+            <p>Неверно! Вы сделали больше заявленного количества!</p>
         </div>
 
         <button onclick="retry(true)">Попробовать снова</button>
@@ -266,7 +266,6 @@ function showSuccess() {
         <h2>Верно!</h2>
 
         <div class="hint-box">
-            <img src="assets/vova-2121.png" class="hint-img">
             <p>— А ты способный! Пойдём поможешь нам в другом деле!</p>
         </div>
 
