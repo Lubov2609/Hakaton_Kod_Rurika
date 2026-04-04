@@ -1093,3 +1093,11 @@ h1 {
     background: url('assets/fon_quest5.png') center/cover no-repeat;
     position: relative;
 }
+
+/* ===== СЦЕНА 4 ===== */
+.scene4 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon-rurik.png') center/cover no-repeat;
+    position: relative;
+}
