@@ -84,6 +84,7 @@ function openDecisionGame() {
 }
 
 function closeGame() {
+    retry(true);
     document.getElementById("cycleGame").style.display = "none";
 }
 
@@ -248,10 +249,10 @@ function showGameOver() {
 
         <div class="hint-box">
             <img src="assets/vova-862.png" class="hint-img">
-            <p>Вы устали... Попробуй позже</p>
+            <p>Вы устали... Попробуйте позже</p>
         </div>
 
-        <button onclick="resetGame()">Выйти</button>
+        <button onclick="closeGame()">Выйти</button>
     `;
 
     document.getElementById("resultPopup").style.display = "flex";
