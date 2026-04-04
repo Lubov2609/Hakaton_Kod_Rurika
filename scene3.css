@@ -1,0 +1,242 @@
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: sans-serif;
+    overflow: hidden;
+    background: url('assets/fon_862.png') center/cover no-repeat;
+}
+
+/* ===== TOP UI ===== */
+.top-ui {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+
+    display: flex;
+    justify-content: space-between;
+
+    z-index: 200;
+}
+
+.ui-btn {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.85);
+    border-radius: 10px;
+
+    font-size: 20px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.ui-btn:hover {
+    transform: scale(1.1);
+}
+
+.btn-menu {
+    background: url(/assets/menu.png) center/20px no-repeat !important;
+}
+
+.btn-back {
+    background: url(/assets/menu-back.png) center/20px no-repeat !important;
+}
+
+.btn-home {
+    background: url(/assets/menu-home.png) center/20px no-repeat !important;
+}
+
+/* ===== SOUND ===== */
+.sound-btn {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.sound-btn:hover {
+    transform: scale(1.1);
+}
+
+/* ===== MENU ===== */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 500;
+}
+
+.menu-overlay.show {
+    display: flex;
+}
+
+.menu-box {
+    background: #2b2b2b;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+}
+
+.menu-box button {
+    display: block;
+    width: 200px;
+    margin: 10px auto;
+    padding: 10px;
+
+    background: #7fdfff;
+    border: none;
+    cursor: pointer;
+}
+
+/* ===== СЦЕНА ===== */
+.scene2 {
+    position: relative;
+}
+
+/* персонажи */
+.person {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.left-person {
+    left: 40px;
+}
+
+.right-person {
+    right: 40px;
+}
+
+.char-img {
+    height: 60vh;
+    margin-bottom: 10vh;
+}
+
+/* ===== ДИАЛОГ ===== */
+.speech {
+    margin-bottom: 20px;
+    width: 260px;
+
+    background: rgba(255,255,255,0.95);
+    padding: 12px 14px;
+    border-radius: 12px;
+
+    font-size: 16px;
+    line-height: 1.4;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ===== КНОПКА ===== */
+.choice-btn {
+    position: fixed;
+    bottom: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 14px 28px;
+
+    background: #d6b98c;
+    border: 2px solid #6b4f2a;
+    border-radius: 12px;
+
+    font-size: 18px;
+    font-family: serif;
+
+    color: #3a2a15;
+
+    cursor: pointer;
+    z-index: 100;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: 0.3s;
+}
+
+.choice-btn.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.choice-btn:hover {
+    background: #e6cfa5;
+}
+
+.choice-btn:active {
+    transform: translateX(-50%) translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+
+/* ===== FADE ===== */
+.fade-out {
+    animation: fadeOut 0.6s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+/* ДОПОЛНЕНИЕ - ЗВУК */
+/* ===== TOP UI ===== */
+.top-ui {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 200;
+}
+
+.left-ui,
+.right-ui {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* кнопки */
+.ui-btn {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.85);
+    border-radius: 10px;
+
+    font-size: 20px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.ui-btn:hover {
+    transform: scale(1.1);
+}
