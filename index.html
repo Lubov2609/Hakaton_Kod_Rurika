@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Код Рюрика</title>
+
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="menu.css">
+
 </head>
 
 <body>
 
-<!-- ЗАГРУЗКА -->
+<!-- ================= ЗАГРУЗКА ================= -->
 <div class="container" id="loader">
     <div class="logo-box">
         <img src="assets/logo.png" class="logo">
@@ -28,7 +31,30 @@
     </div>
 </div>
 
-<!-- ТЕМНЫЙ ЭКРАН -->
+<div class="rurik-menu" id="rurikMenu">
+
+    <div class="rurik-bg"></div>
+
+    <!-- ЛОГО -->
+    <img src="assets/logo_menu.png" class="rurik-logo">
+
+    <!-- НАЗВАНИЕ -->
+    <h1 class="rurik-title">КОД РЮРИКА</h1>
+
+    <!-- КНОПКИ -->
+    <div class="rurik-buttons">
+        <button class="rurik-btn main" id="startGame">НОВАЯ ИГРА</button>
+        <button class="rurik-btn">СТАТИСТИКА</button>
+        <button class="rurik-btn">О ПРОЕКТЕ</button>
+        <button class="rurik-btn">ВЫЙТИ</button>
+    </div>
+
+    <!-- ПЕРСОНАЖ -->
+    <img src="assets/rurik_menu.png" class="rurik-character">
+
+</div>
+
+<!-- ================= ТЕМНЫЙ ЭКРАН ================= -->
 <div class="dark-screen" id="dark">
     <div class="title">
         <span class="city">Великий Новгород</span>
@@ -36,7 +62,7 @@
     </div>
 </div>
 
-<!-- МЕНЮ -->
+<!-- ================= СТАРОЕ МЕНЮ (НЕ ТРОГАЕМ) ================= -->
 <div class="menu-screen" id="menu">
 
     <div class="menu-left">
@@ -53,8 +79,8 @@
         </div>
 
         <div class="menu-buttons">
-            <button class="menu-btn" id="newGame">Новая игра</button>
-            <button class="menu-btn">Выход</button>
+            <button class="menu-btn" id="newGame">Найти кофе</button>
+            <button class="menu-btn">Пойти домой</button>
         </div>
 
     </div>
@@ -64,22 +90,19 @@
     <audio id="clickSound" src="assets/click.mp3"></audio>
 </div>
 
+<!-- ================= ИГРА ================= -->
 <div class="game-screen" id="game">
 
-    <!-- ДВЕРЬ СЛЕВА -->
     <div class="doors-block left">
         <img src="assets/door-sklad.png" class="doors" id="doors">
     </div>
 
-    <!-- ПЕРСОНАЖ ПО ЦЕНТРУ -->
     <img src="assets/vova-sklad.png" class="character-game center">
 
-    <!-- ТЕКСТ НАД ПЕРСОНАЖЕМ -->
     <div class="dialogue-text top-center">
         Хм М М М!... Не замечал раньше этой двери...
     </div>
 
-    <!-- ПОДСКАЗКА -->
     <div class="hint" id="hint">
         <img src="assets/hands.png">
         <span>Нажмите, чтоб открыть</span>
@@ -89,21 +112,26 @@
 
 </div>
 
+<!-- ================= JS ================= -->
 <script>
+
 let progress = 0;
 
 const bar = document.getElementById('progress');
 const loader = document.getElementById('loader');
+const rurikMenu = document.getElementById('rurikMenu');
 const dark = document.getElementById('dark');
 const menu = document.getElementById('menu');
 const game = document.getElementById('game');
 
+const startGame = document.getElementById('startGame');
+const newGameBtn = document.getElementById('newGame');
+
 const clickSound = document.getElementById('clickSound');
 const doorSound = document.getElementById('doorSound');
 
-const newGameBtn = document.getElementById('newGame');
 const doors = document.getElementById('doors');
-const hints = document.getElementById('hints');
+const hint = document.getElementById('hint');
 
 // ===== ЗАГРУЗКА =====
 const interval = setInterval(() => {
@@ -115,11 +143,9 @@ const interval = setInterval(() => {
 
         setTimeout(() => {
             loader.style.display = 'none';
-            dark.style.display = 'flex';
 
-            setTimeout(() => {
-                dark.style.opacity = '1';
-            }, 50);
+            // 👉 показываем меню Рюрика
+            rurikMenu.style.display = 'block';
 
         }, 300);
     }
@@ -127,13 +153,26 @@ const interval = setInterval(() => {
     bar.style.width = progress + '%';
 }, 200);
 
+// ===== КНОПКА В МЕНЮ РЮРИКА =====
+startGame.addEventListener('click', () => {
+
+    rurikMenu.style.display = 'none';
+
+    dark.style.display = 'flex';
+
+    setTimeout(() => {
+        dark.style.opacity = '1';
+    }, 50);
+
+});
+
 // ===== КЛИК ПО ТЕМНОМУ ЭКРАНУ =====
 dark.addEventListener('click', () => {
     dark.style.display = 'none';
     menu.style.display = 'block';
 });
 
-// ===== КНОПКА НОВАЯ ИГРА =====
+// ===== СТАРАЯ КНОПКА =====
 newGameBtn.addEventListener('click', () => {
     clickSound.currentTime = 0;
     clickSound.play();
@@ -142,16 +181,14 @@ newGameBtn.addEventListener('click', () => {
         menu.style.display = 'none';
         game.style.display = 'block';
 
-        // подсказка через 30 сек
         setTimeout(() => {
-            hints.style.display = 'flex';
+            hint.style.display = 'flex';
         }, 3000);
 
     }, 200);
 });
 
 // ===== ДВЕРЬ =====
-// клик по двери
 doors.addEventListener('click', () => {
     doorSound.currentTime = 0;
     doorSound.play();
@@ -161,9 +198,6 @@ doors.addEventListener('click', () => {
     }, 500);
 });
 
-doors.addEventListener('mouseenter', () => {
-    hint.style.display = 'none';
-});
 </script>
 
 </body>

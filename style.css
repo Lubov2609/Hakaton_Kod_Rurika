@@ -967,3 +967,130 @@ h1 {
     justify-content: center;
     margin-bottom: 15px;
 }
+
+/* menu.html *//* =========================
+   КОНТЕЙНЕР
+========================= */
+.rurik-menu {
+    position: fixed;
+    inset: 0;
+    display: none;
+    font-family: 'Arial', sans-serif;
+    z-index: 1000;
+}
+
+/* =========================
+   ФОН
+========================= */
+.rurik-bg {
+    position: absolute;
+    inset: 0;
+    background: url("assets/fon_menu.png") center/cover no-repeat;
+    z-index: 1;
+}
+
+/* =========================
+   ЛОГО
+========================= */
+.rurik-logo {
+    position: absolute;
+    top: 50px;
+    left: 700px;
+
+    width: 120px;   /* 🔥 небольшой размер */
+    height: auto;
+
+    z-index: 2;
+}
+
+/* =========================
+   НАЗВАНИЕ
+========================= */
+.rurik-title {
+    position: absolute;
+    top: 120px;   /* ниже логотипа */
+    left: 20px;
+
+    font-size: 90px;  /* 🔥 крупнее */
+    color: #8b0000;
+    letter-spacing: 4px;
+
+    z-index: 2;
+}
+
+/* =========================
+   КНОПКИ (СЕРЕДИНА ЭКРАНА)
+========================= */
+.rurik-buttons {
+    position: absolute;
+    top: 50%;           /* 🔥 центр по вертикали */
+    left: 80px;
+    transform: translateY(-20%); /* чуть выше центра */
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    z-index: 2;
+}
+
+.rurik-btn {
+    width: 240px;
+    padding: 14px;
+    font-size: 18px;
+
+    border: none;
+    cursor: pointer;
+
+    background: linear-gradient(#eee, #cfcfcf);
+    border-radius: 6px;
+    box-shadow: 0 3px 0 #999;
+
+    transition: 0.2s;
+}
+
+.rurik-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+}
+
+.rurik-btn.main {
+    background: linear-gradient(#c62828, #8e0000);
+    color: white;
+    box-shadow: 0 3px 0 #5a0000;
+}
+
+/* =========================
+   ПЕРСОНАЖ
+========================= */
+.rurik-character {
+    position: absolute;
+    right: 60px;
+    bottom: 0;
+
+    height: 85%;
+    max-height: 800px;
+
+    object-fit: contain;
+    z-index: 2;
+}
+/* quest3.html */
+.quest3 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_quest3.png') center/cover no-repeat;
+    position: relative;
+}
+/* quest4.html */
+.quest4 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_quest4.png') center/cover no-repeat;
+    position: relative;
+}
+/* quest5.html */
+.quest5 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_quest5.png') center/cover no-repeat;
+    position: relative;
+}
