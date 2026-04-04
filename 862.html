@@ -54,6 +54,28 @@ document.body.addEventListener("click", () => {
 document.addEventListener("click", () => {
     localStorage.setItem("audioUnlocked", "true");
 });
+
+function preloadScene3() {
+
+    const assets = [
+        "assets/rurik_862.png",
+        "assets/vova_862.png",
+        "assets/fon_862.png",
+        "assets/village.mp3"
+    ];
+
+    assets.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+
+    // аудио
+    const audio = new Audio();
+    audio.src = "assets/village.mp3";
+}
+
+// запускаем заранее
+window.onload = preloadScene3;
 </script>
 
 </body>
