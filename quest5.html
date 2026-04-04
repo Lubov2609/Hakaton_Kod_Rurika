@@ -62,6 +62,7 @@ let arr = [];
 let i = 0;
 let attempts = 0;
 let swapsInPass = 0;
+let sortedEnd = 0;
 let gameOver = false;
 
 // =====================
@@ -80,6 +81,7 @@ function openGame() {
 
     arr = generateArray();
     i = 0;
+    sortedEnd = arr.length - 1;
     attempts = 0;
     swapsInPass = 0;
     gameOver = false;
@@ -204,22 +206,25 @@ function nextStep() {
 
     i++;
 
-    if (i >= arr.length - 1) {
+    // используем границу!
+    if (i >= sortedEnd) {
 
-        // конец прохода
         i = 0;
 
+        // если не было обменов → победа
         if (swapsInPass === 0) {
             showSuccess();
             return;
         }
+
+        // 🔥 ВАЖНО: уменьшаем диапазон
+        sortedEnd--;
 
         swapsInPass = 0;
     }
 
     render();
 }
-
 // =====================
 // ОШИБКА
 // =====================
@@ -280,8 +285,9 @@ function reward() {
     else img = "assets/medal-bronse.png";
 
     content.innerHTML = `
-        <h2>Награда: Сортировка</h2>
+     <h2>Награда</h2>
         <img src="${img}" class="result-img">
+        <p>Сортировка пузырьком освоена</p>
 
         <button onclick="goNext()">Далее</button>
     `;
@@ -299,7 +305,6 @@ function restart() {
 
     arr = generateArray();
     i = 0;
-    attempts = 0;
     swapsInPass = 0;
     gameOver = false;
 
