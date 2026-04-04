@@ -45,7 +45,7 @@
     <div class="rurik-buttons">
         <button class="rurik-btn main" id="startGame">НОВАЯ ИГРА</button>
         <button class="rurik-btn" onclick="window.location.href='/statistics.html'">СТАТИСТИКА</button>
-        <button class="rurik-btn" onclick="window.location.href='/about.html'">О ПРОЕКТЕ</button>
+        <button class="rurik-btn" onclick="goAbout()">О ПРОЕКТЕ</button>
         <button class="rurik-btn" onclick="closeTab()">ВЫЙТИ</button>
         <script>
         function closeTab() {
@@ -143,6 +143,10 @@ const hint = document.getElementById('hint');
 // FUNCTIONS
 function goHome() {
     window.location.href = "index.html";
+}
+
+function goAbout() {
+    window.open("https://disk.yandex.ru/i/Jsw4HbuxNAalHQ", "_blank", "noopener,noreferrer");
 }
 
 // ===== ЗАГРУЗКА =====
