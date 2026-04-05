@@ -230,7 +230,7 @@ h1 {
 }
 
 /* ДВЕРЬ */
-.doors-block {
+.doors-block, .vending-block {
     position: absolute;
     left: 160px;
     top: 120px;
@@ -257,8 +257,23 @@ h1 {
     transition: 0.3s;
 }
 
+.vending {
+    width: 600px;
+    /* height: 456px; */
+    object-fit: cover;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.vending-block {
+    left: 50%;
+    /* transform: translateX(-50%); */
+    top: 350px;
+}
+
 /* HOVER */
-.doors:hover {
+.doors:hover, .vending:hover {
     border: 2px solid #7fdfff;
     box-shadow: 0 0 15px #7fdfff;
 }
@@ -1100,4 +1115,17 @@ h1 {
     height: 100vh;
     background: url('assets/fon-rurik.png') center/cover no-repeat;
     position: relative;
+}
+
+
+.mg-board h2 {
+    color: #7fdfff;
+    font-size: 28px;
+    margin-bottom: 0;
+}
+
+.mg-board p {
+    color: #7fdfff;
+    font-size: 18px;
+    text-align: center;
 }
