@@ -2,18 +2,20 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Сцена</title>
-<link rel="stylesheet" href="scene3.css">
+<title>Сцена 3</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body class="scene2">
 
-<!-- ===== AUDIO ===== -->
+<!-- AUDIO -->
 <audio id="bgSound" loop>
     <source src="assets/village.mp3" type="audio/mpeg">
 </audio>
 
-<!-- ===== TOP UI ===== -->
+<!-- TOP UI -->
 <div class="top-ui">
 
     <div class="left-ui">
@@ -22,16 +24,13 @@
     </div>
 
     <div class="right-ui">
-        <!-- звук -->
         <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
-
-        <!-- меню -->
         <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
     </div>
 
 </div>
 
-<!-- ===== MENU ===== -->
+<!-- MENU -->
 <div id="menu" class="menu-overlay">
     <div class="menu-box">
         <h2>Меню</h2>
@@ -45,17 +44,23 @@
 <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
 <div class="person left-person">
     <img src="assets/rurik_862.png" class="char-img">
-    <div class="speech left-text"><span id="text1"></span></div>
+
+    <div class="speech left-text">
+        <span id="text1"></span>
+    </div>
 </div>
 
 <!-- ПРАВЫЙ ПЕРСОНАЖ -->
 <div class="person right-person">
     <img src="assets/vova_862.png" class="char-img">
-    <div class="speech right-text"><span id="text2"></span></div>
+
+    <div class="speech right-text">
+        <span id="text2"></span>
+    </div>
 </div>
 
 <!-- КНОПКА -->
-<button id="choiceBtn" class="choice-btn" onclick="goNext()" disabled>
+<button id="choiceBtn" class="choices-btn" onclick="goNext()" disabled>
     Помочь незнакомцу
 </button>
 
@@ -65,17 +70,14 @@
 const sound = document.getElementById("bgSound");
 const soundBtn = document.getElementById("soundBtn");
 
-// проверка разрешения на звук
 let unlocked = localStorage.getItem("audioUnlocked") === "true";
 
 if (unlocked) {
     sound.play().catch(()=>{});
 }
 
-// загрузка состояния
 let soundEnabled = localStorage.getItem("sound") !== "off";
 
-// старт
 window.addEventListener("click", () => {
     if (soundEnabled) {
         sound.volume = 0.5;
@@ -83,7 +85,6 @@ window.addEventListener("click", () => {
     }
 }, { once: true });
 
-// установка иконки
 function updateSoundUI() {
     soundBtn.src = soundEnabled
         ? "assets/sound-on.png"
@@ -92,7 +93,6 @@ function updateSoundUI() {
 
 updateSoundUI();
 
-// переключение
 function toggleSound() {
     soundEnabled = !soundEnabled;
 
@@ -102,10 +102,9 @@ function toggleSound() {
         sound.pause();
     }
 
-    localStorage.setItem("sound", soundEnabled ? "off" : "on");
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
     updateSoundUI();
 }
-
 
 // ===== ТЕКСТ =====
 const textLeft = "Эй! Иди со мной! Поможешь — и я тебе помогу";
@@ -137,7 +136,6 @@ window.onload = () => {
     });
 };
 
-
 // ===== ПЕРЕХОД =====
 function goNext() {
     document.body.classList.add("fade-out");
@@ -146,7 +144,6 @@ function goNext() {
         window.location.href = "quest1.html";
     }, 600);
 }
-
 
 // ===== МЕНЮ =====
 function toggleMenu() {
@@ -165,8 +162,7 @@ function restart() {
     window.location.reload();
 }
 
-
-// ===== ПРОПУСК АНИМАЦИИ =====
+// ПРОПУСК
 document.addEventListener("click", () => {
     text1.innerHTML = textLeft;
     text2.innerHTML = textRight;

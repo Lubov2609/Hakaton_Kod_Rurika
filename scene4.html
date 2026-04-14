@@ -8,127 +8,114 @@
 
 <body class="scene4">
 
-<!-- СЦЕНА -->
+<!-- ================= TOP UI ================= -->
+<div class="top-ui">
+
+    <div class="left-ui">
+        <a href="quest5.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+
+</div>
+
+<!-- ================= ПЕРСОНАЖИ ================= -->
 <div class="person left-person">
     <img src="assets/rur_final.png" class="char-img" style="height: 60vh !important; margin-bottom: 5vh;">
-
-    <div class="speech left-text">
-        ТЫ уже навёл порядок в дружине и доказал силу алгоритмов.
-    </div>
+    <div class="speech left-text" id="leftText"></div>
 </div>
 
 <div class="person right-person">
     <img src="assets/vova_862.png" class="char-img" style="height: 60vh !important; margin-bottom: 5vh;">
+    <div class="speech right-text" id="rightText"></div>
 </div>
 
-<!-- КНОПКА СТАРТА СЮЖЕТА -->
-<div class="choice-btn" onclick="nextDialogue()">
+<!-- КНОПКА ПОЯВИТСЯ В КОНЦЕ -->
+<div class="choices-btn" id="nextBtn" onclick="goNext()" style="display:none;">
     Продолжить
-</div>
-
-<!-- ПОПАП -->
-<div id="popup" class="dg-overlay" style="display:none;">
-    <div class="dg-window" id="popupContent"></div>
 </div>
 
 <script>
 
-// =====================
-// ДИАЛОГ
-// =====================
-let step = 0;
+// ===================== MENU =====================
+function toggleMenu() {
+    alert("Меню (можешь подключить своё как в других сценах)");
+}
 
-// =====================
-// ЭЛЕМЕНТЫ ТЕКСТА В ПЕРСОНАЖАХ
-// =====================
-const leftText = document.querySelector(".left-text");
-const rightText = document.querySelector(".right-person .char-img").parentElement;
+// ===================== ДИАЛОГ =====================
+const dialogue = [
+    { side: "left", text: "ТЫ уже навёл порядок в дружине и доказал силу алгоритмов." },
+    { side: "left", text: "— Ты не из этих мест." },
+    { side: "right", text: "— Я из будущего." },
+    { side: "left", text: "— Ты навёл порядок. Чем отблагодарить?" },
+    { side: "right", text: "— Хочу домой, в 2121 год." },
+    { side: "left", text: "— Я помогу. Отправляйся через Ильмень на ладье." }
+];
 
-// =====================
-// СЦЕНА ДИАЛОГА
-// =====================
-function nextDialogue() {
+// ===================== ЭЛЕМЕНТЫ =====================
+const leftText = document.getElementById("leftText");
+const rightText = document.getElementById("rightText");
+const nextBtn = document.getElementById("nextBtn");
 
-    step++;
+let index = 0;
+let speed = 25;
 
-    // РЮРИК
-    if (step === 1) {
-        leftText.innerHTML = "— Ты не из этих мест.";
+// ===================== ПЕЧАТЬ ТЕКСТА =====================
+function typeText(el, text, callback) {
+    el.innerHTML = "";
+    let i = 0;
+
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            setTimeout(callback, 700);
+        }
+    }, speed);
+}
+
+// ===================== СТАРТ =====================
+window.onload = () => {
+    runDialogue();
+};
+
+// ===================== ДИАЛОГ ПО ОЧЕРЕДИ =====================
+function runDialogue() {
+
+    if (index >= dialogue.length) {
+
+        setTimeout(() => {
+            nextBtn.style.display = "block";
+            nextBtn.classList.add("show");
+        }, 400);
+
         return;
     }
 
-    // ВОВА
-    if (step === 2) {
+    const line = dialogue[index];
+
+    if (line.side === "left") {
+        rightText.innerHTML = "";
+        typeText(leftText, line.text, nextStep);
+    } else {
         leftText.innerHTML = "";
-        document.querySelector(".right-person .char-img").insertAdjacentHTML("afterend",
-            "<div class='speech right-text'>— Я из будущего.</div>"
-        );
-        return;
-    }
-
-    // РЮРИК ВОПРОС
-    if (step === 3) {
-        document.querySelector(".right-text").remove();
-
-        leftText.innerHTML = "— Ты навёл порядок. Чем отблагодарить?";
-        return;
-    }
-
-    // ВОВА ЖЕЛАНИЕ
-    if (step === 4) {
-        document.querySelector(".left-text").innerHTML = "";
-
-        document.querySelector(".right-person .char-img").insertAdjacentHTML("afterend",
-            "<div class='speech right-text'>— Хочу домой, в 2121 год.</div>"
-        );
-        return;
-    }
-
-    // РЮРИК ОТПРАВЛЕНИЕ
-    if (step === 5) {
-
-        document.querySelector(".right-text").remove();
-
-        leftText.innerHTML = "— Я помогу. Отправляйся через Ильмень на ладье.";
-
-        return;
-    }
-
-    // ФИНАЛ → АЧИВКА
-    if (step === 6) {
-        showAchievement();
-        return;
+        typeText(rightText, line.text, nextStep);
     }
 }
-
-// =====================
-// АЧИВКА
-// =====================
-function showAchievement() {
-
-    const popup = document.createElement("div");
-    popup.className = "dg-overlay";
-    popup.style.display = "flex";
-
-    popup.innerHTML = `
-        <div class="dg-window">
-            <h2>Награда получена!</h2>
-            <img src="assets/medal-gold.png" class="result-img">
-
-            <p><b>«Мастер простых алгоритмов»</b></p>
-
-            <button onclick="goNext()">Далее</button>
-        </div>
-    `;
-
-    document.body.appendChild(popup);
+// ===================== СЛЕДУЮЩИЙ ШАГ =====================
+function nextStep() {
+    index++;
+    runDialogue();
 }
 
-// =====================
-// ПЕРЕХОД НА СЛЕДУЮЩУЮ СЦЕНУ
-// =====================
+// ===================== ПЕРЕХОД =====================
 function goNext() {
-
     document.body.classList.add("fade-out");
 
     setTimeout(() => {
@@ -137,5 +124,6 @@ function goNext() {
 }
 
 </script>
+
 </body>
 </html>

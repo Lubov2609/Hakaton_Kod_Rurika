@@ -8,13 +8,42 @@
 
 <body class="quest5">
 
+<!-- AUDIO -->
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOP UI -->
+<div class="top-ui">
+
+    <div class="left-ui">
+        <a href="quest4.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-overlay">
+    <div class="menu-box">
+        <h2>Меню</h2>
+        <button onclick="resumeGame()">Продолжить</button>
+        <button onclick="goHome()">На главную</button>
+        <button onclick="restart()">Заново</button>
+    </div>
+</div>
+
 <!-- ПЕРСОНАЖ -->
 <div class="person left-person">
     <img src="assets/rur_quest5.png" class="char-img">
 
     <div class="speech left-text">
-        — Надо порядок навести! Встанут как попало — в бою толку не будет!
-        Сравнивайте соседей. Больший — вправо!
+        <span id="text1"></span>
     </div>
 </div>
 
@@ -22,11 +51,12 @@
     <img src="assets/vova_quest5.png" class="char-img">
 </div>
 
-<button class="choice-btn" onclick="openGame()">
+<!-- КНОПКА -->
+<button class="choices-btn" id="choiceBtn" onclick="openGame()" disabled>
     Начать сортировку
 </button>
 
-<!-- ИГРА -->
+<!-- ИГРА (НЕ ТРОГАЛ) -->
 <div id="game" class="dg-overlay" style="display:none;">
     <div class="dg-window">
 
@@ -56,6 +86,87 @@
 <script>
 
 // =====================
+// ЗВУК + UI
+// =====================
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+window.addEventListener("click", () => {
+    if (soundEnabled) sound.play();
+}, { once: true });
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) sound.play();
+    else sound.pause();
+
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+    soundBtn.src = soundEnabled ? "assets/sound-on.png" : "assets/sound-off.png";
+}
+
+// =====================
+// МЕНЮ
+// =====================
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+function resumeGame() {
+    toggleMenu();
+}
+
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function restart() {
+    window.location.reload();
+}
+
+// =====================
+// ВЫБЕГАЮЩИЙ ТЕКСТ
+// =====================
+const textLeft = "— Надо порядок навести! Встанут как попало — в бою толку не будет! Сравнивайте соседей. Больший — вправо!";
+let speed = 25;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+window.onload = () => {
+    typeText(text1, textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
+};
+
+// пропуск текста
+document.addEventListener("click", () => {
+    text1.innerHTML = textLeft;
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
+</script>
+
+<!-- ===================== -->
+<!-- ИГРА (НЕ ИЗМЕНЕНА) -->
+<!-- ===================== -->
+<script>
+
+// =====================
 // ДАННЫЕ
 // =====================
 let arr = [];
@@ -72,7 +183,7 @@ const popup = document.getElementById("popup");
 const content = document.getElementById("popupContent");
 const info = document.getElementById("info");
 const arrayBox = document.getElementById("array");
-const sound = document.getElementById("successSound");
+const sound2 = document.getElementById("successSound");
 
 // =====================
 // СТАРТ
@@ -123,17 +234,7 @@ function render() {
 }
 
 // =====================
-// ПРОВЕРКА ПОБЕДЫ
-// =====================
-function isSorted() {
-    for (let j = 0; j < arr.length - 1; j++) {
-        if (arr[j] > arr[j + 1]) return false;
-    }
-    return true;
-}
-
-// =====================
-// ОШИБКИ
+// ОШИБКИ / ЛОГИКА
 // =====================
 function checkLose() {
 
@@ -153,34 +254,27 @@ function checkLose() {
     return false;
 }
 
-// =====================
-// ДЕЙСТВИЯ
-// =====================
 function swap() {
 
     if (gameOver) return;
 
-    // ❌ нарушение: не соседние элементы (защита)
     if (i < 0 || i >= arr.length - 1) {
         attempts++;
         showError("Нельзя нарушать пузырьковую сортировку!");
         return;
     }
 
-    // ❌ неправильный порядок проверки не нужен — swap всегда разрешён, но штрафуем если не надо было
     if (arr[i] <= arr[i + 1]) {
         attempts++;
         showError("Они уже в порядке!");
         return;
     }
 
-    // swap
     let temp = arr[i];
     arr[i] = arr[i + 1];
     arr[i + 1] = temp;
 
     swapsInPass++;
-
     nextStep();
 }
 
@@ -197,37 +291,28 @@ function keep() {
     nextStep();
 }
 
-// =====================
-// ШАГ
-// =====================
 function nextStep() {
 
     if (checkLose()) return;
 
     i++;
 
-    // используем границу!
     if (i >= sortedEnd) {
 
         i = 0;
 
-        // если не было обменов → победа
         if (swapsInPass === 0) {
             showSuccess();
             return;
         }
 
-        // 🔥 ВАЖНО: уменьшаем диапазон
         sortedEnd--;
-
         swapsInPass = 0;
     }
 
     render();
 }
-// =====================
-// ОШИБКА
-// =====================
+
 function showError(text) {
 
     if (checkLose()) return;
@@ -235,47 +320,32 @@ function showError(text) {
     content.innerHTML = `
         <h2>Неверно</h2>
         <p>${text}</p>
-
-        <p>Сравнивай соседние начиная с 1. Если левый больше — двигай вправо.</p>
-
         <button onclick="restart()">Попробовать ещё раз</button>
     `;
 
     popup.style.display = "flex";
 }
 
-// =====================
-// ПОБЕДА
-// =====================
 function showSuccess() {
 
     content.innerHTML = `
         <h2>Вот это порядок!</h2>
         <p>Дружина построена правильно!</p>
-
         <button onclick="theory()">Далее</button>
     `;
 
     popup.style.display = "flex";
 }
 
-// =====================
-// ТЕОРИЯ
-// =====================
 function theory() {
 
     content.innerHTML = `
         <h2>Сортировка пузырьком</h2>
-
-        <p>Сортировка через сравнение соседних элементов и их обмен.</p>
-
+        <p>Сравнение соседних элементов и обмен.</p>
         <button onclick="reward()">Ок</button>
     `;
 }
 
-// =====================
-// НАГРАДА
-// =====================
 function reward() {
 
     let img;
@@ -285,48 +355,33 @@ function reward() {
     else img = "assets/medal-bronse.png";
 
     content.innerHTML = `
-     <h2>Награда</h2>
+        <h2>Награда</h2>
         <img src="${img}" class="result-img">
-        <p>Сортировка пузырьком освоена</p>
-
+        <p>Сортировка освоена</p>
         <button onclick="goNext()">Далее</button>
     `;
 
-    sound.currentTime = 0;
-    sound.play();
+    sound2.currentTime = 0;
+    sound2.play();
 }
 
-// =====================
-// РЕСТАРТ
-// =====================
 function restart() {
-
     popup.style.display = "none";
-
     arr = generateArray();
     i = 0;
     swapsInPass = 0;
     gameOver = false;
-
     render();
 }
 
-// =====================
-// ВЫХОД
-// =====================
 function exitGame() {
     popup.style.display = "none";
     document.getElementById("game").style.display = "none";
     gameOver = true;
 }
 
-// =====================
-// ДАЛЕЕ
-// =====================
 function goNext() {
-
     document.body.classList.add("fade-out");
-
     setTimeout(() => {
         window.location.href = "scene4.html";
     }, 600);

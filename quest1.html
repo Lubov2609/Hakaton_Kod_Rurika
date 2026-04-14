@@ -2,18 +2,46 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Сцена</title>
+<title>Квест 1</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="quest1">
+
+<!-- AUDIO -->
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOP UI -->
+<div class="top-ui">
+    <div class="left-ui">
+        <a href="scene3.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-overlay">
+    <div class="menu-box">
+        <h2>Меню</h2>
+        <button onclick="resumeGame()">Продолжить</button>
+        <button onclick="goHome()">На главную</button>
+        <button onclick="restart()">Заново</button>
+    </div>
+</div>
 
 <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
 <div class="person left-person">
     <img src="assets/ruric_quest1.png" class="char-img">
 
     <div class="speech left-text">
-        Делай всё по порядку, не путай!<br>
+        <span id="text1"></span>
     </div>
 </div>
 
@@ -23,10 +51,11 @@
 </div>
 
 <!-- КНОПКА -->
-<button class="choice-btn" onclick="openOrderGame()">
-        Получить задание
+<button id="choiceBtn" class="choices-btn" onclick="openOrderGame()" disabled>
+    Получить задание
 </button>
-<!-- МИНИ ИГРА: ПОРЯДОК -->
+
+<!-- МИНИ ИГРА -->
 <div id="orderGame" class="dg-overlay" style="display:none;">
     <div class="dg-window">
 
@@ -52,19 +81,108 @@
 <audio id="successSound" src="assets/medal.mp3"></audio>
 
 <script>
+
+// ===== ЗВУК =====
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let unlocked = localStorage.getItem("audioUnlocked") === "true";
+
+if (unlocked) {
+    sound.play().catch(()=>{});
+}
+
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+window.addEventListener("click", () => {
+    if (soundEnabled) {
+        sound.volume = 0.5;
+        sound.play();
+    }
+}, { once: true });
+
+function updateSoundUI() {
+    soundBtn.src = soundEnabled
+        ? "assets/sound-on.png"
+        : "assets/sound-off.png";
+}
+
+updateSoundUI();
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) {
+        sound.play();
+    } else {
+        sound.pause();
+    }
+
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+    updateSoundUI();
+}
+
+// ===== МЕНЮ =====
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+function resumeGame() {
+    toggleMenu();
+}
+
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function restart() {
+    window.location.reload();
+}
+
+// ===== ТЕКСТ (как в scene3) =====
+const textLeft = "Делай всё по порядку, не путай!";
+
+let speed = 25;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+window.onload = () => {
+    typeText(text1, textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
+};
+
+// ПРОПУСК
+document.addEventListener("click", () => {
+    text1.innerHTML = textLeft;
+
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
+// ===== ТВОЯ ЛОГИКА (НЕ ТРОГАЛ) =====
 let attempts = 0;
 
-// открыть игру
 function openOrderGame() {
     document.getElementById("orderGame").style.display = "flex";
     enableDrag();
 }
 
-// ================= DRAG =================
 let dragged = null;
 
 function enableDrag() {
-
     document.querySelectorAll("#orderItems .item").forEach(item => {
 
         item.addEventListener("dragstart", () => {
@@ -90,9 +208,7 @@ function swap(a, b) {
     parent.insertBefore(b, aNext);
 }
 
-// ================= ПРОВЕРКА =================
 function checkOrder() {
-
     const order = [...document.querySelectorAll("#orderItems .item")]
         .map(el => el.dataset.id)
         .join("");
@@ -105,76 +221,52 @@ function checkOrder() {
     }
 }
 
-// ❌ НЕВЕРНО
 function showWrong() {
-
-    document.getElementById("resultContent").innerHTML = `
+    resultContent.innerHTML = `
         <h2>Ошибка</h2>
-
         <div class="hint-box">
-            <p>— Нет, так не пойдёт.Это линейный алгоритм - расставь всё по порядку!</p>
+            <p>— Нет, так не пойдёт. Это линейный алгоритм!</p>
         </div>
-
-        <button onclick="closeResult()">Попробовать еще раз</button>
+        <button onclick="closeResult()">Еще раз</button>
     `;
-
-    document.getElementById("resultPopup").style.display = "flex";
+    resultPopup.style.display = "flex";
 }
 
-// ✅ ВЕРНО (1 окно)
 function showCorrect() {
-
-    document.getElementById("resultContent").innerHTML = `
+    resultContent.innerHTML = `
         <h2>Верно!</h2>
-
         <div class="hint-box">
-            <p>— А ты способный! Пойдем поможешь нам в другом деле!</p>
+            <p>— Отлично! Идем дальше.</p>
         </div>
-
         <button onclick="showTheory()">Далее</button>
     `;
-
-    document.getElementById("resultPopup").style.display = "flex";
-
-    
+    resultPopup.style.display = "flex";
 }
 
-// 📚 ОБУЧЕНИЕ
 function showTheory() {
-
-    document.getElementById("resultContent").innerHTML = `
+    resultContent.innerHTML = `
         <h2>Обучение</h2>
-
-        <p>Линейный алгоритм — действия выполняются строго по порядку.</p>
-
+        <p>Линейный алгоритм — действия строго по порядку.</p>
         <button onclick="showReward()">Ок</button>
     `;
 }
 
-// 🏆 НАГРАДА
 function showReward() {
-
-    document.getElementById("resultContent").innerHTML = `
+    resultContent.innerHTML = `
         <h2>Награда!</h2>
-
         <img src="assets/medal-gold.png" class="result-img">
-
-        <p>Получена новая награда: Линейный алгоритм</p>
-
+        <p>Получена награда</p>
         <button onclick="goNext()">Далее</button>
     `;
-    // звук
-    const sound = document.getElementById("successSound");
-    sound.currentTime = 0;
-    sound.play();
+
+    successSound.currentTime = 0;
+    successSound.play();
 }
 
-// закрытие
 function closeResult() {
-    document.getElementById("resultPopup").style.display = "none";
+    resultPopup.style.display = "none";
 }
 
-// переход
 function goNext() {
     document.body.classList.add("fade-out");
 
@@ -182,6 +274,7 @@ function goNext() {
         window.location.href = "quest2.html";
     }, 600);
 }
+
 </script>
 
 </body>

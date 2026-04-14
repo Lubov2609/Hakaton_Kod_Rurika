@@ -122,6 +122,7 @@ h1 {
         0 0 20px #3bbcff,
         0 0 40px #3bbcff;
 }
+
 /* ===== MENU SCREEN ===== */
 .menu-screen {
     position: fixed;
@@ -167,7 +168,10 @@ h1 {
     flex-direction: column;
     gap: 15px;
 }
-
+@font-face {
+    font-family: '2121Font';
+    src: url('fonts/text_knop.ttf') format('truetype');
+}
 /* СТИЛЬ КНОПОК */
 .menu-btn {
     width: 220px;
@@ -177,7 +181,7 @@ h1 {
     background: rgba(0,0,0,0.6);
     border: 1px solid #7fdfff;
     color: white;
-
+    font-family: '2121Font', serif;
     cursor: pointer;
 
     transition: all 0.3s ease;
@@ -312,7 +316,156 @@ h1 {
     width: 30px;
 }
 
+/* scene3.html */
+/* ===== TOP UI (для сцен) ===== */
+.top-ui {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    right: 15px;
 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 200;
+}
+
+.left-ui,
+.right-ui {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* кнопки */
+.ui-btn {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.85);
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ui-btn:hover {
+    transform: scale(1.1);
+}
+
+/* иконки */
+.btn-menu {
+    background: url('assets/menu.png') center/20px no-repeat;
+}
+
+.btn-back {
+    background: url('assets/menu-back.png') center/20px no-repeat;
+}
+
+.btn-home {
+    background: url('assets/menu-home.png') center/20px no-repeat;
+}
+
+/* звук */
+.sound-btn {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.sound-btn:hover {
+    transform: scale(1.1);
+}
+
+/* ===== MENU ===== */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 500;
+}
+
+.menu-overlay.show {
+    display: flex;
+}
+
+.menu-box {
+    background: #2b2b2b;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+}
+
+.menu-box button {
+    display: block;
+    width: 200px;
+    margin: 10px auto;
+    padding: 10px;
+
+    background: #7fdfff;
+    border: none;
+    cursor: pointer;
+}
+
+/* ===== КНОПКА (анимация появления) ===== */
+@font-face {
+    font-family: 'HistoryChoice';
+    src: url('fonts/Slovic_Demo-Serif.otf') format('truetype');
+}
+/* ===== КНОПКА ===== */
+.choices-btn {
+    position: fixed;
+    bottom: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 14px 28px;
+
+    background: #d6b98c;
+    border: 2px solid #6b4f2a;
+    border-radius: 15px;
+
+    font-size: 18px;
+    font-family: 'HistoryChoice', serif;
+
+    color: #3a2a15;
+
+    cursor: pointer;
+    z-index: 100;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: 0.3s;
+}
+
+.choices-btn.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.choices-btn:hover {
+    background: #e6cfa5;
+}
+
+.choices-btn:active {
+    transform: translateX(-50%) translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
 /* quest1.html */
 
 .quest1 {
@@ -553,11 +706,14 @@ h1 {
 .eatBtn:hover {
     background: #7fdfff;
     color: black;
+    font-family: '2121Font', serif;
+
     box-shadow: 0 0 15px #7fdfff;
 }
 
 /* НАЖАТИЕ */
 .eatBtn:active {
+    font-family: '2121Font', serif;
     transform: translateX(-50%) scale(0.95);
 }
 
@@ -1055,11 +1211,10 @@ h1 {
 
     border: none;
     cursor: pointer;
-
+    font-family: 'HistoryChoice', serif;
     background: linear-gradient(#eee, #cfcfcf);
     border-radius: 6px;
     box-shadow: 0 3px 0 #999;
-
     transition: 0.2s;
 }
 

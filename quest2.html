@@ -8,27 +8,57 @@
 
 <body class="quest2">
 
+<!-- AUDIO -->
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOP UI -->
+<div class="top-ui">
+
+    <div class="left-ui">
+        <a href="quest1.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-overlay">
+    <div class="menu-box">
+        <h2>Меню</h2>
+
+        <button onclick="resumeGame()">Продолжить</button>
+        <button onclick="goHome()">На главную</button>
+        <button onclick="restart()">Заново</button>
+    </div>
+</div>
+
 <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
 <div class="person left-person">
     <img src="assets/Rur_quest2.png" class="char-img">
 
     <div class="speech left-text">
-       Враги нападают!<br>
-       Звать Рюрика или нет?
+        <span id="text1"></span>
     </div>
 </div>
 
 <!-- ПРАВЫЙ ПЕРСОНАЖ -->
 <div class="person right-person">
     <img src="assets/vova_quest2.png" class="char-img">
-
 </div>
 
 <!-- КНОПКА -->
-<button class="choice-btn" onclick="openDecisionGame()">
+<button id="choiceBtn" class="choices-btn" onclick="openDecisionGame()" disabled>
     Помочь Новгородцам
 </button>
-<!-- МИНИ-ИГРА -->
+
+<!-- ================= МИНИ-ИГРА ================= -->
 <div id="decisionGame" class="dg-overlay" style="display:none;">
     <div class="dg-window">
 
@@ -38,7 +68,6 @@
 
         <div class="dg-columns">
 
-            <!-- ЛЕВО -->
             <div class="dg-col">
                 <p>Если враги одолевают</p>
 
@@ -46,7 +75,6 @@
                 <button onclick="selectOption(this, 'left', 'self')">Сами справятся</button>
             </div>
 
-            <!-- ПРАВО -->
             <div class="dg-col">
                 <p>иначе</p>
 
@@ -63,18 +91,105 @@
     </div>
 </div>
 
-<!-- POPUP РЕЗУЛЬТАТ -->
+<!-- POPUP -->
 <div id="resultPopup" class="dg-overlay" style="display:none;">
     <div class="dg-window" id="resultContent"></div>
 </div>
+
 <audio id="successSound" src="assets/medal.mp3"></audio>
 
 <script>
-let answers = {
-    left: null,
-    right: null
+
+// ===== ЗВУК =====
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let unlocked = localStorage.getItem("audioUnlocked") === "true";
+
+if (unlocked) {
+    sound.play().catch(()=>{});
+}
+
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+window.addEventListener("click", () => {
+    if (soundEnabled) {
+        sound.volume = 0.5;
+        sound.play();
+    }
+}, { once: true });
+
+function updateSoundUI() {
+    soundBtn.src = soundEnabled
+        ? "assets/sound-on.png"
+        : "assets/sound-off.png";
+}
+
+updateSoundUI();
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) {
+        sound.play();
+    } else {
+        sound.pause();
+    }
+
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+    updateSoundUI();
+}
+
+// ===== МЕНЮ =====
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+function resumeGame() {
+    toggleMenu();
+}
+
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function restart() {
+    window.location.reload();
+}
+
+// ===== ПЕЧАТАЮЩИЙСЯ ТЕКСТ =====
+const textLeft = "Враги нападают! Звать Рюрика или нет?";
+let speed = 25;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+window.onload = () => {
+    typeText(text1, textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
 };
 
+// пропуск
+document.addEventListener("click", () => {
+    text1.innerHTML = textLeft;
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
+// ================= ТВОЯ ЛОГИКА =================
+let answers = { left: null, right: null };
 let attempts = 0;
 
 function openDecisionGame() {
@@ -85,147 +200,105 @@ function closeGame() {
     document.getElementById("decisionGame").style.display = "none";
 }
 
-// выбор
 function selectOption(btn, side, value) {
-
     answers[side] = value;
 
-    // убрать выделение
-    btn.parentNode.querySelectorAll("button").forEach(b => {
-        b.style.background = "";
-    });
-
+    btn.parentNode.querySelectorAll("button").forEach(b => b.style.background = "");
     btn.style.background = "#7fdfff";
 
-    // показать кнопку проверить
     if (answers.left && answers.right) {
-        document.getElementById("checkBtn").style.display = "inline-block";
+        checkBtn.style.display = "inline-block";
     }
 }
 
-// проверка
 function checkDecision() {
-
     const correct = (answers.left === "call" && answers.right === "self");
 
-    if (correct) {
-        showSuccess();
-    } else {
+    if (correct) showSuccess();
+    else {
         attempts++;
         showFail();
     }
 }
 
-// УСПЕХ
 function showSuccess() {
- document.getElementById("resultContent").innerHTML = `
+    resultContent.innerHTML = `
         <h2>Верно!</h2>
-
         <div class="hint-box">
-            <p>— Молодец! Все твои решения приняты верно, пойдем поможешь еще!</p>
+            <p>— Молодец! Все решения верны!</p>
         </div>
-
         <button onclick="showTheory()">Далее</button>
     `;
-
-    document.getElementById("resultPopup").style.display = "flex";
+    resultPopup.style.display = "flex";
 }
+
 function showTheory() {
-
-    let text = "Ветвление — это выбор по условию";
-    
-    document.getElementById("resultContent").innerHTML = `
-
-    <h2> Обучение</h2>
-
-        <p>${text}</p>
-
-        <button onclick="showReward()">Ок</button>    `;
-
-   
+    resultContent.innerHTML = `
+        <h2>Обучение</h2>
+        <p>Ветвление — это выбор по условию</p>
+        <button onclick="showReward()">Ок</button>
+    `;
 }
+
 function showReward() {
-    let text = "";
-    let img = "";
 
-    if (attempts === 0) {
-        img = "assets/medal-gold.png";
-    } else if (attempts === 1) {
-        img = "assets/medal-silvers.png";
-    } else {
-        img = "assets/medal-bronse.png";
-    }
-    document.getElementById("resultContent").innerHTML = `
+    let img = attempts === 0
+        ? "assets/medal-gold.png"
+        : attempts === 1
+        ? "assets/medal-silvers.png"
+        : "assets/medal-bronse.png";
+
+    resultContent.innerHTML = `
         <h2>Награда!</h2>
-
         <img src="${img}" class="result-img">
-
-        <p>Получена новая награда: Ветвление</p>
-
+        <p>Получена награда: Ветвление</p>
         <button onclick="goNext()">Далее</button>
     `;
-    document.getElementById("resultPopup").style.display = "flex";
 
-     // 🔊 звук
-    const sound = document.getElementById("successSound");
-    sound.currentTime = 0;
-    sound.play();
-}
-function goNext() {
-    window.location.href = "quest3.html";
-}
-function goNext() {
+    resultPopup.style.display = "flex";
 
-    // затемнение
+    successSound.currentTime = 0;
+    successSound.play();
+}
+
+function goNext() {
     document.body.classList.add("fade-out");
-
-    // звук можно чуть затухать (по желанию)
-    const sound = document.getElementById("successSound");
-    if (sound) sound.volume = 0.3;
 
     setTimeout(() => {
         window.location.href = "quest3.html";
-    }, 600); // совпадает с CSS
+    }, 600);
 }
 
-// ПРОВАЛ
 function showFail() {
 
-    let text = "";
-
-    if (attempts == 1) {
-        text = "Подсказка практическая: Подумай: если опасно — нужен лидер";
-    } else if (attempts == 2) {
-        text = "Подсказка образовательная: Ветвление — это выбор по условию";
-    } else {
-        text = "Вы устали... Попробуй позже";
-    }
+    let text = attempts == 1
+        ? "Подсказка: если опасно — нужен лидер"
+        : attempts == 2
+        ? "Ветвление — выбор по условию"
+        : "Попробуй позже";
 
     let button = attempts >= 3
         ? `<button onclick="closeResult()">Выйти</button>`
-        : `<button onclick="retry()">Попробовать еще раз</button>`;
+        : `<button onclick="retry()">Еще раз</button>`;
 
-    document.getElementById("resultContent").innerHTML = `
-    <h2>Ошибка</h2>
+    resultContent.innerHTML = `
+        <h2>Ошибка</h2>
+        <div class="hint-box"><p>${text}</p></div>
+        ${button}
+    `;
 
-    <div class="hint-box">
-
-        <p>${text}</p>
-    </div>
-
-    ${button}
-`;
-
-    document.getElementById("resultPopup").style.display = "flex";
+    resultPopup.style.display = "flex";
 }
+
 function retry() {
-    document.getElementById("resultPopup").style.display = "none";
+    resultPopup.style.display = "none";
 }
 
 function closeResult() {
-    document.getElementById("resultPopup").style.display = "none";
-    document.getElementById("decisionGame").style.display = "none";
+    resultPopup.style.display = "none";
+    decisionGame.style.display = "none";
 }
+
 </script>
 
 </body>
