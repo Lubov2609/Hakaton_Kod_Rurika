@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Поиск Олега</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ancient-style.css">
 
 <style>
 /* ===== ВЫБЕГАЮЩИЙ ТЕКСТ ===== */
@@ -268,7 +269,7 @@ function showSuccess() {
     content.innerHTML = `
         <h2>Верно!</h2>
         <p>Ты нашёл Олега</p>
-        <button onclick="showTheory()">Далее</button>
+        <button onclick="showReward()">Далее</button>
     `;
 
     popup.style.display = "flex";
@@ -285,16 +286,19 @@ function showTheory() {
 
 function showReward() {
 
-    let img;
+      let img = attempts === 0
+        ? "assets/medal-gold.png"
+        : attempts === 1
+        ? "assets/medal-silvers.png"
+        : "assets/medal-bronse.png";
 
-    if (attempts === 0) img = "assets/medal-gold.png";
-    else if (attempts === 1) img = "assets/medal-silvers.png";
-    else img = "assets/medal-bronse.png";
 
     content.innerHTML = `
         <h2>Награда</h2>
         <img src="${img}" class="result-img">
-        <p>Линейный поиск освоен</p>
+        <p>Линейный поиск — перебор элементов по порядку.</p>
+        <p>Используется, когда нужно найти элемент в неотсортированном списке.</p>
+        <p> Например, при поиске книги на полке — перебираешь по одной, пока не найдешь нужную.</p>
         <button onclick="goNext()">Далее</button>
     `;
 

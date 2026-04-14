@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Сортировка дружины</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ancient-style.css">
 </head>
 
 <body class="quest5">
@@ -331,7 +332,7 @@ function showSuccess() {
     content.innerHTML = `
         <h2>Вот это порядок!</h2>
         <p>Дружина построена правильно!</p>
-        <button onclick="theory()">Далее</button>
+        <button onclick="reward()">Далее</button>
     `;
 
     popup.style.display = "flex";
@@ -348,16 +349,19 @@ function theory() {
 
 function reward() {
 
-    let img;
 
-    if (attempts === 0) img = "assets/medal-gold.png";
-    else if (attempts === 1) img = "assets/medal-silvers.png";
-    else img = "assets/medal-bronse.png";
+      let img = attempts === 0
+        ? "assets/medal-gold.png"
+        : attempts === 1
+        ? "assets/medal-silvers.png"
+        : "assets/medal-bronse.png";
 
     content.innerHTML = `
         <h2>Награда</h2>
         <img src="${img}" class="result-img">
-        <p>Сортировка освоена</p>
+        <p>Сортировка пузырьком - это алгоритм сортировки, который сравнивает соседние элементы и меняет их местами, если они находятся в неправильном порядке.</p>
+        <p>Используется для обучения основам сортировки и алгоритмического мышления.</p>
+    
         <button onclick="goNext()">Далее</button>
     `;
 

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Сцена</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ancient-style.css">
 </head>
 
 <body class="quest2">
@@ -76,7 +77,7 @@
             </div>
 
             <div class="dg-col">
-                <p>иначе</p>
+                <p>Иначе </p>
 
                 <button onclick="selectOption(this, 'right', 'call')">Позвать Рюрика</button>
                 <button onclick="selectOption(this, 'right', 'self')">Сами справятся</button>
@@ -214,7 +215,7 @@ function selectOption(btn, side, value) {
 function checkDecision() {
     const correct = (answers.left === "call" && answers.right === "self");
 
-    if (correct) showSuccess();
+    if (correct) showReward();
     else {
         attempts++;
         showFail();
@@ -251,7 +252,9 @@ function showReward() {
     resultContent.innerHTML = `
         <h2>Награда!</h2>
         <img src="${img}" class="result-img">
-        <p>Получена награда: Ветвление</p>
+        <p>Ветвление — это выбор по условию</p>
+        <p>Используется, когда нужно принять решение.</p>
+        <p> Например, если на улице дождь — взять зонт, иначе идти без него.</p>
         <button onclick="goNext()">Далее</button>
     `;
 

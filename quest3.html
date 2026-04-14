@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Сцена</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ancient-style.css">
 </head>
 
 <body class="quest3">
@@ -258,7 +259,7 @@ function showSuccess() {
         <div class="hint-box">
             <p>Ты построил причал!</p>
         </div>
-        <button onclick="showTheory()">Далее</button>
+        <button onclick="showReward()">Далее</button>
     `;
 
     resultPopup.style.display = "flex";
@@ -284,6 +285,9 @@ function showReward() {
     resultContent.innerHTML = `
         <h2>Награда</h2>
         <img src="${img}" class="result-img">
+                <p>Цикл — повторение действий</p>
+        <p>Используется, когда нужно повторить действия несколько раз.</p>
+        <p> Например, при приготовлении блюда — помешивать суп 10 минут.</p>
         <button onclick="goNext()">Далее</button>
     `;
 

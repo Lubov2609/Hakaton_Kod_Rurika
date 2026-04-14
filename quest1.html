@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Квест 1</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ancient-style.css">
 </head>
 
 <body class="quest1">
@@ -240,24 +241,20 @@ function showCorrect() {
         <div class="hint-box">
             <p>— Отлично! Идем дальше.</p>
         </div>
-        <button onclick="showTheory()">Далее</button>
+        <button onclick="showReward()">Далее</button>
     `;
     resultPopup.style.display = "flex";
 }
 
-function showTheory() {
-    resultContent.innerHTML = `
-        <h2>Обучение</h2>
-        <p>Линейный алгоритм — действия строго по порядку.</p>
-        <button onclick="showReward()">Ок</button>
-    `;
-}
+
 
 function showReward() {
     resultContent.innerHTML = `
         <h2>Награда!</h2>
         <img src="assets/medal-gold.png" class="result-img">
-        <p>Получена награда</p>
+        <p>Линейный алгоритм — действия строго по порядку.</p>
+        <p>Он используется, когда нужно выполнить действия последовательно. </p>
+        <p> Например, при приготовлении блюда или сборке мебели.</p>
         <button onclick="goNext()">Далее</button>
     `;
 

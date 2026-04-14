@@ -1,0 +1,185 @@
+/* =========================
+   ОБЩИЙ СТИЛЬ КВЕСТОВ
+========================= */
+
+/* фон затемнения */
+.dg-overlay {
+    background: rgba(40, 30, 15, 0.65);
+    backdrop-filter: blur(2px);
+}
+
+/* окно */
+.dg-window {
+    background: #f5ecd9;
+    border: 3px solid #7a5a2a;
+    border-radius: 18px;
+    padding: 25px;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.4),
+        inset 0 0 10px rgba(120, 90, 40, 0.3);
+
+    font-family: 'Georgia', serif;
+    color: #3a2a15;
+}
+
+/* заголовки */
+.dg-window h2 {
+    color: #5a3e1b;
+    margin-bottom: 10px;
+}
+
+.dg-window h3,
+.dg-window h4 {
+    color: #6b4f2a;
+    font-weight: normal;
+}
+
+/* =========================
+   СПИСОК (items)
+========================= */
+
+#items, #orderItems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* карточки */
+.items,
+.item {
+    background: linear-gradient(#f2e2c4, #e2c79b);
+    border: 2px solid #7a5a2a;
+    border-radius: 12px;
+
+    padding: 12px;
+    color: #3a2a15;
+
+    cursor: grab;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+    transition: 0.2s;
+}
+
+/* hover */
+.items:hover,
+.item:hover {
+    background: linear-gradient(#f6e8cc, #e8d3ab);
+    transform: scale(1.02);
+}
+
+/* при перетаскивании */
+.item.dragging {
+    opacity: 0.6;
+    transform: scale(0.95);
+}
+
+/* =========================
+   КНОПКИ
+========================= */
+
+.dg-check,
+.mg-btn,
+button {
+    margin-top: 15px;
+    padding: 12px 22px;
+
+    background: linear-gradient(#d6b98c, #c4a373);
+    border: 2px solid #6b4f2a;
+    border-radius: 12px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+    transition: 0.2s;
+}
+
+/* hover */
+.dg-check:hover,
+button:hover {
+    background: linear-gradient(#e6cfa5, #d6b98c);
+}
+
+/* нажатие */
+.dg-check:active,
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+
+/* =========================
+   ПОДСКАЗКИ
+========================= */
+
+.hint-box {
+    background: #f8f1df;
+    border-left: 5px solid #7a5a2a;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+/* =========================
+   POPUP УСПЕХА
+========================= */
+
+.dg-window img.result-img {
+    margin: 10px 0;
+    max-height: 100px;
+}
+
+/* =========================
+   МИНИ ИГРА (фикс)
+========================= */
+
+.mg-board {
+    background: #f5ecd9;
+    border: 3px solid #7a5a2a;
+    border-radius: 18px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.mg-bg {
+    background: rgba(40, 30, 15, 0.65);
+}
+/* =========================
+   ФИКС КНОПКИ "ПРОВЕРИТЬ"
+========================= */
+
+/* контейнер окна */
+.dg-window {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* список элементов */
+#items, #orderItems {
+    width: 100%;
+}
+
+/* кнопка */
+.dg-check,
+.mg-btn {
+    display: block;
+    width: 80%;
+    max-width: 260px;
+
+    margin: 20px auto 0 auto; /* центр */
+
+    text-align: center;
+}
+
+/* если вдруг кнопка "уезжает" */
+.dg-window button {
+    align-self: center;
+}
+
+/* чтобы ничего не вылазило */
+.dg-window {
+    overflow: hidden;
+}

@@ -93,15 +93,20 @@ h1 {
 
 /* Верхний текст */
 .city {
-    color: white;
-    font-size: 42px;
-    font-family: "Times New Roman", serif;
-    letter-spacing: 2px;
-     text-shadow:
-        0 0 5px #7fdfff,
-        0 0 10px #7fdfff,
-        0 0 20px #3bbcff,
-        0 0 40px #3bbcff;
+  position: absolute;
+  top: 80px;      /* отступ сверху 20 px */
+  left: 50%;
+  transform: translateX(-50%); /* центрирует элемент по горизонтали */
+
+  color: white;
+  font-size: 42px;
+  font-family: "Times New Roman", serif;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 5px #ecf0f1,
+    0 0 10px #eff2f4,
+    0 0 20px #777d80,
+    0 0 40px #63696c;
 }
 @font-face {
     font-family: 'Orbitron';
@@ -109,18 +114,26 @@ h1 {
 }
 /* Отступ как 3 строки */
 .year {
-    margin-top: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  margin: 0;
+  padding: 25px 40px;
+  
+  font-size: 60px;
+  font-family: "Orbitron", sans-serif;
+  color: rgb(236, 242, 244);
+  text-align: center;
+  white-space: nowrap;
+  
 
-    font-size: 56px;
-    font-family: "Orbitron", sans-serif;
-
-    color: #aef;
-
-    text-shadow:
-        0 0 5px #7fdfff,
-        0 0 10px #7fdfff,
-        0 0 20px #3bbcff,
-        0 0 40px #3bbcff;
+  text-shadow:
+    0 0 5px #ecf0f1,
+    0 0 10px #eff2f4,
+    0 0 20px #777d80,
+    0 0 40px #63696c;
 }
 
 /* ===== MENU SCREEN ===== */
@@ -133,7 +146,7 @@ h1 {
 
     display: none;
 
-    background: url('assets/fon_2121.png') center/cover no-repeat;
+    background: url('assets/fon-2121.png') center/cover no-repeat;
     color: white;
 }
 
@@ -141,18 +154,22 @@ h1 {
 .menu-left {
     position: absolute;
     bottom: 80px;
-    left: 60px;
+    left: 180px;
 
     width: 320px;
 
     display: flex;
     flex-direction: column;
 }
-
+@font-face {
+    font-family: '2121text';
+    src: url('fonts/golos-text_vf.ttf') format('truetype');
+}
 /* ТЕКСТ */
 .menu-text {
     font-size: 18px;
     color: #f6f2f2;
+    font-family: '2121text', serif;
     line-height: 1.5;
 
     margin-bottom: 30px;
@@ -166,7 +183,7 @@ h1 {
 .menu-buttons {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 @font-face {
     font-family: '2121Font';
@@ -230,7 +247,7 @@ h1 {
 
     display: none;
 
-    background: url('assets/fon-doors.png') center/cover no-repeat;
+    background: url('assets/fon_door.png') center/cover no-repeat;
 }
 
 /* ДВЕРЬ */
@@ -475,6 +492,141 @@ h1 {
     position: relative;
 }
 
+/* ===== ОБЩЕЕ ОКНО ===== */
+
+#orderGame .dg-window {
+    background: linear-gradient(#f5e6c8, #e6d2a3);
+    border: 3px solid #6b4f2a;
+    border-radius: 20px;
+
+    padding: 25px;
+    width: 600px;
+    max-width: 90%;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+
+    font-family: 'HistoryChoice', serif;
+    color: #3a2a15;
+}
+
+/* ===== ЗАГОЛОВКИ ===== */
+#orderGame h2 {
+    text-align: center;
+    color: #5a3e1b;
+    margin-bottom: 10px;
+}
+
+#orderGame h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #6b4f2a;
+}
+
+/* ===== СПИСОК ===== */
+#orderItems {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ===== КАРТОЧКИ (ТОЛЬКО ДЛЯ ЭТОЙ ИГРЫ) ===== */
+#orderItems .item {
+    padding: 14px;
+
+    background: #fff8e7;
+    border: 2px solid #8b6a3c;
+    border-radius: 12px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: grab;
+    user-select: none;
+
+    transition: 0.2s;
+
+    box-shadow: 0 4px 0 #8b6a3c;
+}
+
+/* hover */
+#orderItems .item:hover {
+    background: #fceccf;
+    transform: translateY(-2px);
+}
+
+/* при перетаскивании */
+#orderItems .item:active {
+    cursor: grabbing;
+    transform: scale(0.98);
+}
+
+/* ===== КНОПКА ПРОВЕРКИ ===== */
+#orderGame .dg-check {
+    margin-top: 20px;
+    padding: 12px 24px;
+
+    background: #d6b98c;
+    border: 2px solid #6b4f2a;
+    border-radius: 14px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+    transition: 0.2s;
+}
+
+#orderGame .dg-check:hover {
+    background: #e6cfa5;
+}
+
+#orderGame .dg-check:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+
+/* ===== POPUP (ДРЕВНИЙ СТИЛЬ) ===== */
+#resultPopup .dg-window {
+    background: linear-gradient(#f5e6c8, #e6d2a3);
+    border: 3px solid #6b4f2a;
+    border-radius: 20px;
+
+    padding: 25px;
+    text-align: center;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* кнопки в popup */
+#resultPopup button {
+    margin-top: 15px;
+    padding: 10px 20px;
+
+    background: #d6b98c;
+    border: 2px solid #6b4f2a;
+    border-radius: 12px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 0 #6b4f2a;
+}
+
+#resultPopup button:hover {
+    background: #e6cfa5;
+}
+
+#resultPopup button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
 .bg {
     position: fixed;
     top: 0;
@@ -564,90 +716,178 @@ h1 {
     z-index: 9999;
 }
 
-/* фон */
+/* ===== ФОН ===== */
 .mg-bg {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.7);
+    background: rgba(5, 10, 20, 0.85);
+    backdrop-filter: blur(6px);
 }
 
-/* окно */
+/* ===== ОКНО ===== */
 .mg-board {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
-    width: 600px;
-    min-height: 320px;
-    background: #1b1f2a;
-    border: 2px solid #7fdfff;
-    padding: 20px;
+    transform: translate(-50%, -50%);
+
+    width: 620px;
+    max-width: 90%;
+    min-height: 360px;
+
+    background: linear-gradient(145deg, #0a0f1c, #121a2e);
+    border: 2px solid #3fa9ff;
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 0 20px rgba(63,169,255,0.3),
+        0 10px 40px rgba(0,0,0,0.8);
+
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    overflow: hidden; /* 🔥 фикс вылезания */
 }
 
-/* список */
+/* заголовок */
+.mg-board h2 {
+    color: #9fd3ff;
+    font-family: 'HistoryChoice', serif;
+    margin-bottom: 8px;
+}
+
+/* описание */
+.mg-board p {
+    color: #cfeaff;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* ===== СПИСОК ===== */
 #items {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    overflow: hidden; /* 🔥 доп защита */
 }
 
-/* карточка */
+/* ===== КАРТОЧКИ ===== */
 .item {
     width: 100%;
-    padding: 12px;
-    background: #2b3245;
-    color: white;
-    border: 1px solid #7fdfff;
-    cursor: pointer;
+    box-sizing: border-box; /* 🔥 важно */
+    
+    padding: 14px;
+
+    background: linear-gradient(145deg, #141c2f, #0f1525);
+    color: #e6f4ff;
+
+    border: 1px solid #3fa9ff;
+    border-radius: 10px;
+
+    font-family: 'HistoryChoice', serif;
+
+    cursor: grab;
     user-select: none;
+
+    transition: 0.2s;
+
+    box-shadow:
+        0 0 10px rgba(63,169,255,0.2),
+        inset 0 0 8px rgba(63,169,255,0.1);
+}
+
+/* hover */
+.item:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 15px rgba(63,169,255,0.4),
+        inset 0 0 10px rgba(63,169,255,0.2);
+}
+
+/* во время перетаскивания */
+.item.dragging {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+/* ===== КНОПКА ===== */
+.mg-btn {
+    margin-top: 20px;
+    padding: 12px 26px;
+
+    background: linear-gradient(#1f6feb, #1447a3);
+    border: 1px solid #3fa9ff;
+    border-radius: 10px;
+
+    color: #ffffff;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 10px rgba(63,169,255,0.4);
+
     transition: 0.2s;
 }
 
-.item:hover {
-    transform: scale(1.02);
+.mg-btn:hover {
+    background: linear-gradient(#2a7fff, #1a56c5);
 }
 
-/* выделение */
-.item.selected {
-    border: 2px solid yellow;
+.mg-btn:active {
+    transform: translateY(2px);
 }
 
-/* кнопка */
-.mg-btn {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background: #7fdfff;
-    border: none;
-    cursor: pointer;
-}
-
-/* popup */
+/* ===== POPUP ===== */
 .mg-popup {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.75);
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     z-index: 10000;
 }
 
 .mg-window {
-    background: #1e2433;
-    padding: 25px;
-    border-radius: 12px;
-    color: white;
+    background: linear-gradient(145deg, #0a0f1c, #121a2e);
+    padding: 30px;
+    border-radius: 14px;
+
+    border: 1px solid #3fa9ff;
+
+    color: #e6f4ff;
     text-align: center;
+
+    box-shadow:
+        0 0 20px rgba(63,169,255,0.3);
 }
 
 .mg-window.success {
-    border: 2px solid #7CFF7C;
+    border: 1px solid #4cff9a;
+    box-shadow: 0 0 20px rgba(76,255,154,0.4);
 }
 
+/* кнопка popup */
+.mg-window button {
+    margin-top: 15px;
+    padding: 10px 20px;
+
+    background: linear-gradient(#1f6feb, #1447a3);
+    border: 1px solid #3fa9ff;
+    border-radius: 8px;
+
+    color: white;
+    cursor: pointer;
+}
 
 /* =========================
    БАТОНЧИК (НОВЫЙ БЛОК)
@@ -892,11 +1132,11 @@ h1 {
 
 /* позиции */
 .left-person {
-    left: 40px;
+    left: 140px;
 }
 
 .right-person {
-    right: 40px;
+    right: 140px;
 }
 
 /* КАРТИНКИ */
@@ -1071,23 +1311,6 @@ h1 {
     cursor: pointer;
 }
 
-.dg-check {
-    margin-top: 30px;
-    padding: 10px 20px;
-    position: fixed;
-    bottom: 15vh;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #d6b98c;
-    border: 2px solid #6b4f2a;
-    border-radius: 15px;
-    font-size: 18px;
-    font-family: 'HistoryChoice', serif;
-    color: #3a2a15;
-    cursor: pointer;
-    z-index: 100;
-    box-shadow: 0 4px 0 #6b4f2a;
-}
 .result-img {
     width: 50px;
     margin: 15px 0;
@@ -1167,10 +1390,10 @@ h1 {
    ФОН
 ========================= */
 .rurik-bg {
-    position: absolute;
-    inset: 0;
-    background: url("assets/fon_menu.png") center/cover no-repeat;
-    z-index: 1;
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_me.png') center/cover no-repeat;
+    position: relative;
 }
 
 /* =========================
@@ -1181,7 +1404,7 @@ h1 {
     top: 50px;
     left: 700px;
 
-    width: 160px;   /* 🔥 небольшой размер */
+    width: 110px;   /* 🔥 небольшой размер */
     height: auto;
 
     z-index: 2;
@@ -1195,7 +1418,7 @@ h1 {
     top: 120px;   /* ниже логотипа */
     left: 20px;
 
-    font-size: 140px;  /* 🔥 крупнее */
+    font-size: 90px;  /* 🔥 крупнее */
     color: #8b0000;
     letter-spacing: 4px;
     z-index: 2;
@@ -1207,7 +1430,7 @@ h1 {
 .rurik-buttons {
     position: absolute;
     top: 50%;           /* 🔥 центр по вертикали */
-    left: 80px;
+    left: 230px;
     transform: translateY(-20%); /* чуть выше центра */
 
     display: flex;
@@ -1246,11 +1469,11 @@ h1 {
 ========================= */
 .rurik-character {
     position: absolute;
-    right: 60px;
+    right: 100px;
     bottom: 60px;
 
-    height: 75%;
-    max-height: 800px;
+    height: 80%;
+    max-height: 850px;
 
     object-fit: contain;
     z-index: 2;
