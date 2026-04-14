@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Регистрация</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login">
+
+<!-- TOP UI -->
+<div class="top-ui">
+
+    <div class="left-ui">
+        <a href="index.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img class="sound-btn" src="assets/sound-on.png">
+        <div class="ui-btn btn-menu"></div>
+    </div>
+
+</div>
+
+<!-- ЛОГО -->
+<div class="login-logo">
+    <img src="assets/logo_menu.png" class="logo-ship">
+    <div class="logo-text">КОД РЮРИКА</div>
+</div>
+
+<!-- ФОРМА -->
+<div class="auth-box">
+
+    <h2>Создать аккаунт</h2>
+
+    <label>E-mail</label>
+    <input type="email" id="email" placeholder="пример@ваш.адрес">
+
+    <label>Пароль</label>
+    <div class="password-field">
+        <input type="password" id="password" placeholder="••••••••">
+        <span class="eye" onclick="togglePassword('password')"></span>
+    </div>
+
+    <label>Подтвердите пароль</label>
+    <div class="password-field">
+        <input type="password" id="confirm" placeholder="••••••••">
+        <span class="eye" onclick="togglePassword('confirm')"></span>
+    </div>
+
+    <p class="register">
+        Уже есть аккаунт?
+        <a href="login.html">Войти</a>
+    </p>
+
+    <button class="login-btn" onclick="register()">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+
+</div>
+
+<script>
+
+// показать / скрыть пароль
+function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+}
+
+// регистрация
+function register() {
+
+    const email = document.getElementById("email").value.trim();
+    const pass = document.getElementById("password").value;
+    const confirm = document.getElementById("confirm").value;
+
+    if (!email || !pass || !confirm) {
+        alert("Заполни все поля");
+        return;
+    }
+
+    if (pass !== confirm) {
+        alert("Пароли не совпадают");
+        return;
+    }
+
+    // сохраняем (простая версия)
+    localStorage.setItem("user_email", email);
+    localStorage.setItem("user_pass", pass);
+
+    alert("Регистрация успешна!");
+
+    // переход на логин
+    window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>

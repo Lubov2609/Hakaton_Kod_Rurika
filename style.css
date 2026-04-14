@@ -1074,6 +1074,19 @@ h1 {
 .dg-check {
     margin-top: 30px;
     padding: 10px 20px;
+    position: fixed;
+    bottom: 15vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #d6b98c;
+    border: 2px solid #6b4f2a;
+    border-radius: 15px;
+    font-size: 18px;
+    font-family: 'HistoryChoice', serif;
+    color: #3a2a15;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 0 #6b4f2a;
 }
 .result-img {
     width: 50px;
@@ -1283,4 +1296,143 @@ h1 {
     color: #7fdfff;
     font-size: 18px;
     text-align: center;
+}
+
+
+/* login.html */
+/* применяем только к странице логина */
+.login-page {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Georgia', serif;
+}
+
+/* ===== ФОН ===== */
+.bg-frame {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: -1;
+}
+/* ===== ЛОГО ===== */
+.login-logo {
+  position: absolute;
+  top: 85px;
+  left: 77%;
+  transform: translateX(-50%); /* Исправлено: было 90 %, теперь центрирует блок */
+  display: flex; /* Включаем flex‑контейнер */
+  align-items: center; /* Выравниваем элементы по вертикали */
+  gap: 15px; /* Расстояние между картинкой и текстом */
+}
+
+.logo-ship {
+  height: 80px;
+  flex-shrink: 0; /* Запрещаем сжатие картинки */
+}
+
+.logo-text {
+  font-size: 76px;
+  font-weight: bold;
+  font-family: 'HistoryFont', serif;
+  color: #8b1e14;
+  letter-spacing: 4px;
+  white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+
+/* ===== ФОРМА ===== */
+.auth-box {
+    position: absolute;
+    right: 10%;
+    top: 55%;
+    transform: translateY(-50%);
+
+    width: 320px;
+    padding: 30px;
+
+    background: rgba(240, 225, 200, 0.95);
+    border-radius: 20px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.auth-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-box label {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* INPUT */
+.auth-box input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+
+    border-radius: 20px;
+    border: 1px solid #7a5a2a;
+
+    outline: none;
+}
+
+/* ПАРОЛЬ */
+.password-field {
+    position: relative;
+}
+
+.eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: url("assets/eye.png") no-repeat center/contain;
+    cursor: pointer;
+}
+
+/* РЕГИСТРАЦИЯ */
+.register {
+    font-size: 13px;
+    margin: 10px 0;
+}
+
+.register a {
+    color: #000;
+    font-weight: bold;
+}
+
+/* КНОПКА */
+.login-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+
+    background: linear-gradient(#c0392b, #a93226);
+    border: none;
+    border-radius: 10px;
+
+    color: #fff;
+    font-family: 'HistoryChoice', serif;
+
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow: 0 4px 0 #6e1e14;
+}
+
+.login-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6e1e14;
+}
+.login {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/login.png') center/cover no-repeat;
+    position: relative;
 }
