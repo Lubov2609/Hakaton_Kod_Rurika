@@ -1,0 +1,201 @@
+@media (max-width: 768px) {
+
+    /* ===== БАЗА ===== */
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* ===== ЗАГРУЗКА ===== */
+
+    h1 {
+        font-size: 42px;
+        top: 20px;
+    }
+
+    .logo-box {
+        width: 100px;
+        top: 10px;
+        left: 10px;
+    }
+
+    .progress-container {
+        width: 80%;
+    }
+
+    /* ===== DARK SCREEN ===== */
+
+    .city {
+        font-size: 24px;
+    }
+
+    .year {
+        font-size: 32px;
+        margin-top: 20px;
+    }
+
+    /* ===== МЕНЮ РЮРИКА ===== */
+
+    .rurik-logo {
+        left: 20px;
+        top: 20px;
+        width: 90px;
+    }
+
+    .rurik-title {
+        font-size: 128px;
+        top: 0px;
+        /* left: 20px; */
+    }
+
+    .rurik-buttons {
+        left: 20px;
+        width: calc(100% - 40px);
+        top: 80%;
+        transform: translateY(-50%);
+    }
+
+    .rurik-btn {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .rurik-character {
+        display: none; /* убираем — не влезает */
+    }
+
+    /* ===== СТАРОЕ МЕНЮ ===== */
+
+    .menu-left {
+        left: 20px;
+        bottom: 30px;
+        width: calc(100% - 40px);
+    }
+
+    .menu-text {
+        font-size: 14px;
+    }
+
+    .menu-btn {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .character {
+        height: 45%;
+    }
+
+    /* ===== ИГРА ===== */
+
+    .game-screen {
+        background-position: center;
+    }
+
+    .doors-block {
+        left: 50% !important;
+        top: 120px;
+        transform: translateX(-50%);
+    }
+
+    .doors {
+        width: 180px;
+        height: auto;
+    }
+
+    .character-game {
+        left: 50% !important;
+        height: 50%;
+        transform: translateX(-50%);
+    }
+
+    .dialogue-text {
+        top: 20px;
+        font-size: 14px;
+        max-width: 90%;
+        padding: 10px 14px;
+    }
+
+    .hint {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 30px;
+        font-size: 12px;
+    }
+
+    /* ===== КНОПКИ (UI) ===== */
+
+    .ui-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* ===== МИНИ-ИГРА ===== */
+
+    .mg-board {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .item {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .mg-btn {
+        width: 100%;
+    }
+
+    /* ===== DIALOG WINDOW ===== */
+
+    .dg-window {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .dg-columns {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .dg-col {
+        width: 100%;
+    }
+
+    .dg-check {
+        width: 80%;
+    }
+
+    /* ===== ПЕРСОНАЖИ В СЦЕНАХ ===== */
+
+    .char-img {
+        height: 40vh;
+    }
+
+    .speech {
+        width: 90%;
+        font-size: 14px;
+    }
+
+    /* ===== LOGIN ===== */
+
+    .auth-box {
+        right: 50%;
+        transform: translate(50%, -50%);
+        width: 90%;
+    }
+
+    .login-logo {
+        left: 50%;
+        top: 40px;
+        transform: translateX(-50%);
+    }
+
+    .logo-text {
+        font-size: 36px;
+    }
+
+}
