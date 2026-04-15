@@ -112,14 +112,7 @@ function toggleSound() {
         : "assets/sound-off.png";
 }
 
-/* ================= MENU ================= */
-function toggleMenu() {
-    menu.classList.toggle("show");
-}
 
-function resumeGame() {
-    toggleMenu();
-}
 
 function goHome() {
     window.location.href = "index.html";
@@ -128,7 +121,13 @@ function goHome() {
 function restart() {
     window.location.reload();
 }
+function resetGame() {
+    count = 0;
+    step = 0;
+    attempts = 0;
 
+    document.getElementById("logs").innerHTML = "";
+}
 /* ================= TYPE TEXT ================= */
 const textLeft = "Нашей крепости нужен причал! Помоги нам, и я познакомлю тебя со старшим!";
 let iText = 0;
@@ -166,7 +165,12 @@ let attempts = 0;
 let step = 0;
 
 function openCycleGame() {
+    resetGame(); // 🔥 всегда новая игра
     document.getElementById("cycleGame").style.display = "flex";
+}
+function restartCycle() {
+    resultPopup.style.display = "none";
+    resetGame();
 }
 
 function closeGame() {
@@ -233,10 +237,17 @@ function showFail() {
         <div class="hint-box">
             <p>Нужно ровно 5 циклов</p>
         </div>
-        <button onclick="closePopup()">Продолжить</button>
+        <button onclick="restartCycle()">Попробовать снова</button>
     `;
 
     resultPopup.style.display = "flex";
+}
+
+function exitGame() {
+     resultPopup.style.display = "none";
+    document.getElementById("cycleGame").style.display = "none";
+
+    resetGame(); // 🔥 сброс
 }
 
 function showGameOver() {
@@ -246,7 +257,7 @@ function showGameOver() {
         <div class="hint-box">
             <p>Попробуй позже</p>
         </div>
-        <button onclick="closePopup()">Выйти</button>
+        <button onclick="exitGame()">Выйти</button>
     `;
 
     resultPopup.style.display = "flex";
