@@ -2,30 +2,58 @@
    ОБЩИЙ СТИЛЬ КВЕСТОВ
 ========================= */
 
-/* фон затемнения */
-.dg-overlay {
-    background: rgba(40, 30, 15, 0.65);
-    backdrop-filter: blur(2px);
-}
 @font-face {
     font-family: '2121text';
     src: url('fonts/golos-text_vf.ttf') format('truetype');
 }
-/* окно */
+
+/* =========================
+   ФОН (ВАЖНО!)
+========================= */
+.dg-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(40, 30, 15, 0.35); /* ↓ уменьшаем затемнение */
+    backdrop-filter: blur(3px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+/* =========================
+   ОКНО (ГЛАВНОЕ)
+========================= */
 .dg-window {
-    background: #f5ecd9;
-    border: 3px solid #7a5a2a;
+    position: relative;
+
+    /* ✨ РЕАЛЬНАЯ ПРОЗРАЧНОСТЬ */
+    background: rgba(226, 224, 220, 0.75);
+
+    /* ✨ ЭФФЕКТ СТЕКЛА */
+    backdrop-filter: blur(6px);
+
+    border: 3px solid rgba(226, 219, 209, 0.9);
     border-radius: 18px;
+
     padding: 25px;
+    width: 90%;
+    max-width: 500px;
 
     box-shadow:
-        0 8px 20px rgba(0,0,0,0.4),
-        inset 0 0 10px rgba(120, 90, 40, 0.3);
+        0 10px 30px rgba(0,0,0,0.5),
+        inset 0 0 15px rgba(120, 90, 40, 0.25);
 
     font-family: '2121text', serif;
     color: #3a2a15;
-}
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 /* заголовки */
 .dg-window h2 {
     color: #5a3e1b;
