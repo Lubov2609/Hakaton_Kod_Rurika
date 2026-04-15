@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сцена</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ancient-style.css">
+</head>
+
+<body class="quest7">
+
+<!-- AUDIO -->
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOP UI -->
+<div class="top-ui">
+
+    <div class="left-ui">
+        <a href="quest1.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-overlay">
+    <div class="menu-box">
+        <h2>Меню</h2>
+
+        <button onclick="resumeGame()">Продолжить</button>
+        <button onclick="goHome()">На главную</button>
+        <button onclick="restart()">Заново</button>
+    </div>
+</div>
+
+<!-- ЛЕВЫЙ ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/rurik_quest6.png" class="char-img">
+
+    <div class="speech left-text">
+        <span id="text1"></span>
+    </div>
+</div>
+
+<!-- ПРАВЫЙ ПЕРСОНАЖ -->
+<div class="person right-person">
+    <img src="assets/vova_862.png" class="char-img">
+</div>
+
+<!-- КНОПКА -->
+<button id="choiceBtn" class="choices-btn" onclick="openDecisionGame()" disabled>
+    Собрать Терпкость
+</button>
+
+<!-- ================= МИНИ-ИГРА ================= -->
+<div id="queueGame" class="dg-overlay" style="display:none;">
+    <div class="dg-window">
+
+        <div class="dg-close" onclick="closeGame()">✖</div>
+
+        <h2>Пристань</h2>
+        <h3>Разгружай лодки по очереди</h3>
+
+        <!-- ОЧЕРЕДЬ -->
+        <div id="queueBoard" class="queue-board"></div>
+
+        <p class="hint">Кто первый пришёл — тот первый уходит</p>
+
+    </div>
+</div>
+
+<!-- POPUP -->
+<div id="resultPopup" class="dg-overlay" style="display:none;">
+    <div class="dg-window" id="resultContent"></div>
+</div>
+
+<audio id="successSound" src="assets/medal.mp3"></audio>
+
+<script>
+
+// ===== ЗВУК =====
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let unlocked = localStorage.getItem("audioUnlocked") === "true";
+
+if (unlocked) {
+    sound.play().catch(()=>{});
+}
+
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+window.addEventListener("click", () => {
+    if (soundEnabled) {
+        sound.volume = 0.5;
+        sound.play();
+    }
+}, { once: true });
+
+function updateSoundUI() {
+    soundBtn.src = soundEnabled
+        ? "assets/sound-on.png"
+        : "assets/sound-off.png";
+}
+
+updateSoundUI();
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) {
+        sound.play();
+    } else {
+        sound.pause();
+    }
+
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+    updateSoundUI();
+}
+
+// ===== МЕНЮ =====
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+function resumeGame() {
+    toggleMenu();
+}
+
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function restart() {
+    window.location.reload();
+}
+
+// ===== ПЕЧАТАЮЩИЙСЯ ТЕКСТ =====
+const textLeft = " Я Роланд — хранитель летописей.  Тебе предстоит собрать  Квас времени: Терпкость — Стеком,  Сладость — Очередью, Крепость — Связкой.  Сделаешь ингредиенты — вернёшься домой. нет — останешься здесь.";
+let speed = 25;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+window.onload = () => {
+    typeText(text1, textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
+};
+
+// пропуск
+document.addEventListener("click", () => {
+    text1.innerHTML = textLeft;
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
+// ================= ТВОЯ ЛОГИКА =================
+/* ================= STACK GAME ================= */
+/* ================= QUEUE GAME ================= */
+
+let queue = [];
+let step = 0;
+
+/* сценарий */
+function resetGame() {
+
+    step = 0;
+
+    queue = [
+        { id: 1, name: "Лён" },
+        { id: 2, name: "Мёд" },
+        { id: 3, name: "Воск" }
+    ];
+
+    renderQueue();
+}
+
+/* открыть */
+function openDecisionGame() {
+    document.getElementById("queueGame").style.display = "flex";
+    resetGame();
+}
+
+/* закрыть */
+function closeGame() {
+    document.getElementById("queueGame").style.display = "none";
+    resetGame();
+}
+
+/* отрисовка */
+function renderQueue() {
+
+    const board = document.getElementById("queueBoard");
+    board.innerHTML = "";
+
+    queue.forEach((boat, index) => {
+
+        const el = document.createElement("div");
+        el.className = "boat";
+        el.innerText = boat.name;
+
+        if (index === 0) el.classList.add("first");
+
+        el.onclick = () => clickBoat(index);
+
+        board.appendChild(el);
+
+        setTimeout(() => el.classList.add("show"), 50);
+    });
+}
+
+/* клик */
+function clickBoat(index) {
+
+    /* можно только первую */
+    if (index !== 0) {
+        return showError();
+    }
+
+    handleStep();
+}
+
+/* сценарий шагов */
+function handleStep() {
+
+    if (step === 0) {
+        // разгрузили ЛЁН
+        queue.shift();
+
+        // приходит лодка князя
+        queue.push({ id: 4, name: "Князь (меха)" });
+
+        step++;
+    }
+
+    else if (step === 1) {
+        // игрок должен снова выбрать ПЕРВУЮ (МЁД)
+        queue.shift();
+
+        // последняя уходит (воск)
+        queue.pop();
+
+        step++;
+    }
+
+    else if (step === 2) {
+        // остаётся князь → победа
+        queue.shift();
+
+        return showSuccess();
+    }
+
+    renderQueue();
+}
+
+/* ошибка */
+function showError() {
+
+    resultContent.innerHTML = `
+        <h2>Ошибка</h2>
+        <div class="hint-box">
+            <p>Нужно разгружать ПЕРВУЮ лодку</p>
+            <p>FIFO — первый пришёл, первый ушёл</p>
+        </div>
+        <button onclick="closePopup(); resetGame()">Заново</button>
+    `;
+
+    resultPopup.style.display = "flex";
+}
+
+/* победа */
+function showSuccess() {
+
+    resultContent.innerHTML = `
+        <h2>Отлично!</h2>
+        <div class="hint-box">
+            <p>Ты соблюдал очередь</p>
+            <p>Первый пришёл — первый ушёл</p>
+            <p>Ты получил СЛАДОСТЬ 🍯</p>
+        </div>
+        <button onclick="showReward()">Далее</button>
+    `;
+
+    resultPopup.style.display = "flex";
+}
+</script>
+
+</body>
+</html>
