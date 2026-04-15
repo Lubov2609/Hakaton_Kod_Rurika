@@ -649,6 +649,7 @@ h1 {
     position: absolute;
     top: 60px;
     left: 50%;
+    font-family: '2121text', serif;
     transform: translateX(-50%);
     background: rgba(0,0,0,0.6);
     color: white;
@@ -1358,13 +1359,15 @@ h1 {
     background: url("assets/log.png") center/cover no-repeat;
     opacity: 0;
     transform: translateY(20px);
+    opacity: 0;
+    transform: scale(0.8);
     transition: 0.3s;
 }
 
 /* появление */
 .log.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
 }
 
 /* кнопки */

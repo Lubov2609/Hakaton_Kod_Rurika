@@ -204,8 +204,8 @@ function closeGame() {
 function selectOption(btn, side, value) {
     answers[side] = value;
 
-    btn.parentNode.querySelectorAll("button").forEach(b => b.style.background = "");
-    btn.style.background = "#7fdfff";
+    btn.parentNode.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
 
     if (answers.left && answers.right) {
         checkBtn.style.display = "inline-block";

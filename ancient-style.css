@@ -7,7 +7,10 @@
     background: rgba(40, 30, 15, 0.65);
     backdrop-filter: blur(2px);
 }
-
+@font-face {
+    font-family: '2121text';
+    src: url('fonts/golos-text_vf.ttf') format('truetype');
+}
 /* окно */
 .dg-window {
     background: #f5ecd9;
@@ -19,7 +22,7 @@
         0 8px 20px rgba(0,0,0,0.4),
         inset 0 0 10px rgba(120, 90, 40, 0.3);
 
-    font-family: 'Georgia', serif;
+    font-family: '2121text', serif;
     color: #3a2a15;
 }
 
@@ -33,6 +36,8 @@
 .dg-window h4 {
     color: #6b4f2a;
     font-weight: normal;
+    font-family: '2121text', serif;
+
 }
 
 /* =========================
@@ -51,12 +56,9 @@
     background: linear-gradient(#f2e2c4, #e2c79b);
     border: 2px solid #7a5a2a;
     border-radius: 12px;
-
     padding: 12px;
     color: #3a2a15;
-
     cursor: grab;
-
     box-shadow: 0 4px 0 #6b4f2a;
     transition: 0.2s;
 }
@@ -183,3 +185,114 @@ button:active {
 .dg-window {
     overflow: hidden;
 }
+/* =========================
+   ИГРОВЫЕ КНОПКИ (БЕЛЫЕ)
+========================= */
+
+.dg-col button {
+    width: 100%;
+    padding: 10px;
+
+    background: linear-gradient(#ffffff, #f1f1f1);
+    border: 2px solid #7a5a2a;
+    border-radius: 10px;
+
+    color: #3a2a15;
+    font-family: '2121text', serif;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 0 #7a5a2a;
+    transition: 0.2s;
+}
+
+/* hover */
+.dg-col button:hover {
+    background: linear-gradient(#ffffff, #e8e8e8);
+    transform: scale(1.03);
+}
+
+/* выбранная кнопка */
+.dg-col button.active {
+    background: #d6b98c;
+    border-color: #5a3e1b;
+}
+/* =========================
+   ТЕКСТ НАГРАДЫ
+========================= */
+
+.dg-window p {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+/* главный текст */
+.dg-window p:first-of-type {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: '2121text', serif;
+
+}
+
+/* объяснение */
+.dg-window p:not(:first-of-type) {
+    font-size: 14px;
+    color: #4a3820;
+    font-family: '2121text', serif;
+
+}
+
+/* пример */
+.dg-window p:last-of-type {
+    color: #6b4f2a;
+    font-family: '2121text', serif;
+
+}
+/* =========================
+   КНОПКИ ДЕЙСТВИЙ (ЦИКЛ)
+========================= */
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* сами кнопки */
+.actions button {
+    background: #ffffff; /* белые — как ты хотел */
+    border: 2px solid #7a5a2a;
+    border-radius: 12px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    padding: 10px 16px;
+    cursor: pointer;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+    transition: 0.2s;
+}
+
+/* hover */
+.actions button:hover {
+    background: #f3e6cf;
+}
+
+/* active */
+.actions button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+#cycleGame h2 {
+    color: #5a3e1b;
+}
+
+#cycleGame h3 {
+    color: #6b4f2a;
+    font-weight: normal;
+}
+
+
