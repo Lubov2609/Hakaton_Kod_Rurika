@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta charset="UTF-8">
+<title>Финальный тест</title>
+
+<style>
+
+/* ===== ФОН ===== */
+body {
+    margin: 0;
+    font-family: Arial;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color: white;
+}
+
+/* ===== ОКНО ===== */
+.test-box {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.test-window {
+    width: 600px;
+    padding: 25px;
+    background: rgba(20,30,60,0.9);
+    border: 2px solid #38bdf8;
+    border-radius: 18px;
+    box-shadow: 0 0 25px rgba(56,189,248,0.5);
+    text-align: center;
+}
+
+/* ===== ТАЙМЕР ===== */
+.timer {
+    color: #facc15;
+    margin-bottom: 10px;
+}
+
+/* ===== ОТВЕТЫ ===== */
+.answers button {
+    width: 100%;
+    margin: 6px 0;
+    padding: 10px;
+    background: #0f172a;
+    border: 1px solid #38bdf8;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.answers button:hover {
+    background: #38bdf8;
+    color: black;
+}
+
+.answers button.active {
+    background: #22c55e;
+    color: black;
+}
+
+.next-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #38bdf8;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* ===== РЕЗУЛЬТАТ ===== */
+.grade {
+    font-size: 26px;
+    margin-top: 10px;
+    color: #22c55e;
+}
+
+.home-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #f43f5e;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.cert-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+/* ===== ФОРМА ===== */
+.form-box {
+    margin-top: 15px;
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="test-box">
+<div class="test-window">
+
+<h2>Финальный тест</h2>
+<div id="timer" class="timer">Время: <span id="time">0</span> сек</div>
+<div id="content"></div>
+
+</div>
+</div>
+
+<script>
+
+/* ===== ВОПРОСЫ (ИСПРАВЛЕНЫ) ===== */
+const questions = [
+{q:"1. Что такое линейный алгоритм?",a:["Действия в любом порядке","Действия строго по порядку","Повтор действий"],c:1},
+{q:"2. Что произойдёт, если нарушить порядок в линейном алгоритме??",a:["Всё равно сработает","Результат будет неправильным","Ускорится выполнение"],c:1},
+{q:"3. Ветвление — это…",a:["Повтор действий","Выбор действия по условию","Сортировка"],c:1},
+{q:"4. Цикл — это…",a:["Один раз выполнить","Повторять действия","Выбор между действиями"],c:1},
+{q:"5. Что такое поиск?",a:["Перемешивание данных","Нахождение нужного элемента","Удаление элементов"],c:1},
+{q:"6. Как работает обычный поиск?",a:["Случайно","Перебор по одному","Деление пополам"],c:1},
+{q:"7. Что делает Пузырьковая сортировка??",a:["Сравнивает соседние элементы","Сравнивает с середины","Удаляет"],c:0},
+{q:"8. Когда происходит обмен в Пузырьковой сортировке??",a:["Если левый больше правого","Всегда","Если числа равны"],c:0},
+{q:"9. Как работает стек?",a:["Первый пришёл — первый ушёл","Последний пришёл — первый ушёл","Случайный порядок"],c:1},
+{q:"10. Откуда можно взять элемент в стеке?",a:["Снизу","По середине","Сверху"],c:0},
+{q:"11. Что хранит элемент связного списка?",a:["Все элементы","Ссылку на следующий","Ссылку на первый"],c:1},
+{q:"12. Как работает очередь?",a:["Первый пришёл — первый ушёл","Последний пришёл — первый ушёл","Случайный порядок"],c:0}
+];
+
+let current = 0;
+let score = 0;
+let selected = null;
+
+/* ===== ТАЙМЕР ===== */
+let seconds = 0;
+let timerInterval = setInterval(()=>{
+    seconds++;
+    time.innerText = seconds;
+},1000);
+
+/* ===== РЕНДЕР ===== */
+function renderQuestion(){
+    const q = questions[current];
+
+    let html = `<div>${q.q}</div><div class="answers">`;
+
+    q.a.forEach((ans,i)=>{
+        html += `<button onclick="select(${i},this)">${ans}</button>`;
+    });
+
+    html += `</div><button class="next-btn" onclick="next()">Далее</button>`;
+    content.innerHTML = html;
+}
+
+function select(i,el){
+    selected = i;
+    document.querySelectorAll(".answers button")
+        .forEach(b=>b.classList.remove("active"));
+    el.classList.add("active");
+}
+
+function next(){
+    if(selected===null) return;
+
+    if(selected===questions[current].c) score++;
+
+    selected=null;
+    current++;
+
+    if(current>=questions.length) showResult();
+    else renderQuestion();
+}
+
+/* ===== РЕЗУЛЬТАТ ===== */
+function showResult(){
+
+    clearInterval(timerInterval); // ОСТАНОВКА ТАЙМЕРА
+    document.getElementById("timer").style.display="none";
+
+    let grade = "";
+
+    if(score>=10) grade="Идеально";
+    else if(score>=8) grade="Хорошо";
+    else if(score>=6) grade="Нормально";
+    else grade="Лучше попробовать еще раз";
+
+    content.innerHTML = `
+        <div>
+            Правильных: <b>${score}/${questions.length}</b><br>
+            Время: <b>${seconds} сек</b>
+            <div class="grade">${grade}</div>
+
+            <button class="cert-btn" onclick="showForm()">Получить сертификат</button>
+            <button class="home-btn" onclick="location.href='index.html'">На главную</button>
+        </div>
+    `;
+}
+
+/* ===== ФОРМА ===== */
+function showForm(){
+    content.innerHTML = `
+        <div class="form-box">
+            <h3>Введите ФИО</h3>
+            <input id="fio" placeholder="Иванов Иван Иванович">
+            <br>
+
+            <button class="cert-btn" onclick="generatePDF()">Сохранить PDF</button>
+            <button class="home-btn" onclick="location.href='index.html'">Выйти</button>
+        </div>
+    `;
+}
+doc.setFont("Golos");
+doc.text("СЕРТИФИКАТ", 105, 40, null, null, "center");
+
+doc.setFont("Tsarevich");
+doc.text(name, 105, 75, null, null, "center");
+
+doc.setFont("Slavic");
+doc.text("Код Рюрика", 105, 110, null, null, "center");
+/* ===== СЕРТИФИКАТ ===== */
+function generatePDF(){
+
+    const name = document.getElementById("fio").value || "Игрок";
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+    // Подключаем шрифт с поддержкой русского
+    doc.setFont("Times", "Normal");
+
+    doc.setFontSize(22);
+    doc.text("СЕРТИФИКАТ", 105, 40, null, null, "center");
+
+    doc.setFontSize(14);
+    doc.text("Подтверждает, что", 105, 60, null, null, "center");
+
+    doc.setFontSize(18);
+    doc.text(name, 105, 75, null, null, "center");
+
+    doc.setFontSize(14);
+    doc.text("успешно прошёл игру", 105, 95, null, null, "center");
+
+    doc.setFontSize(16);
+    doc.text("«Код Рюрика»", 105, 110, null, null, "center");
+
+    doc.setFontSize(12);
+    doc.text("Дата: " + new Date().toLocaleDateString(), 105, 140, null, null, "center");
+
+    // Показ PDF в новом окне
+    window.open(doc.output("bloburl"));
+
+    // Сохраняем файл
+    doc.save("Сертификат_Код_Рюрика.pdf");
+}
+/* старт */
+renderQuestion();
+
+</script>
+
+</body>
+</html>
