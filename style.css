@@ -48,8 +48,16 @@ h1 {
     color: #5c5048;
 }
 
-.boat img {
-    width: 60px;
+.boat {
+    margin-top: auto;
+    opacity: 100;
+    background: none;
+    border: 0;
+    box-shadow: none;
+
+    img {
+      width: 164px;
+    }
 }
 
 .progress-container {
@@ -135,6 +143,7 @@ h1 {
     0 0 20px #777d80,
     0 0 40px #63696c;
 }
+
 
 /* ===== MENU SCREEN ===== */
 .menu-screen {
@@ -377,7 +386,7 @@ h1 {
 
 /* иконки */
 .btn-menu {
-    background: url('assets/menu.png') center/20px no-repeat;
+    background: url('assets/menu_pr.png') center/20px no-repeat;
 }
 
 .btn-back {
@@ -1826,3 +1835,31 @@ h1 {
     width: 100px;
 }
 
+.quest7 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_quest7.png') center/cover no-repeat;
+    position: relative;
+}
+.queue {
+  width: 600px;          /* увеличено для горизонтального размещения */
+  height: 200px;        /* уменьшено для горизонтального размещения */
+  border: 3px solid #38bdf8;
+  border-radius: 10px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;   /* горизонтально, слева направо */
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.4);
+ position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(0%, -180%); /* смещает на половину ширины/высоты влево и вверх */
+
+}
+
+.queue .chest {
+    margin: 5px 0;
+}

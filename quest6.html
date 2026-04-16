@@ -12,17 +12,29 @@
     <source src="assets/village.mp3" type="audio/mpeg">
 </audio>
 
-<!-- UI -->
+<!-- AUDIO -->
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="successSound" src="assets/medal.mp3"></audio>
+
+<!-- TOP UI -->
 <div class="top-ui">
     <div class="left-ui">
         <a href="scene9.html" class="ui-btn btn-back"></a>
         <a href="index.html" class="ui-btn btn-home"></a>
     </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <a href="profile.html" class="ui-btn btn-menu"></a>
+    </div>
 </div>
 
 <!-- ПРАВЫЙ ПЕРСОНАЖ -->
 <div class="person right-person">
-    <img src="assets/vova_scene6.png" class="char-img">
+    <img src="assets/vova_quest2.png" class="char-img">
 </div>
 
 <!-- АМУЛЕТ -->

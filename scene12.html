@@ -2,11 +2,11 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Сцена</title>
+<title>Сцена 12</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="scene6">
+<body class="quest7">
 
 <!-- AUDIO -->
 <audio id="bgSound" loop>
@@ -16,7 +16,7 @@
 <!-- TOP UI -->
 <div class="top-ui">
     <div class="left-ui">
-        <a href="scene7.html" class="ui-btn btn-back"></a>
+        <a href="scene8.html" class="ui-btn btn-back"></a>
         <a href="index.html" class="ui-btn btn-home"></a>
     </div>
 
@@ -28,7 +28,6 @@
     </div>
 
 </div>
-
 <!-- MENU -->
 <div id="menu" class="menu-overlay">
     <div class="menu-box">
@@ -42,7 +41,7 @@
 
 <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
 <div class="person left-person">
-    <img src="assets/rurik_quest6.png" class="char-img">
+    <img src="assets/rurik_862.png" class="char-img">
 
     <div class="speech left-text">
         <span id="text1"></span>
@@ -51,13 +50,20 @@
 
 <!-- ПРАВЫЙ ПЕРСОНАЖ -->
 <div class="person right-person">
-    <img src="assets/vova_quest1.png" class="char-img">
+    <img src="assets/vova_scene6.png" class="char-img">
 </div>
-<!-- ОМУЛЕТ -->
+
+<!-- ТЕКСТ НАД АМУЛЕТОМ -->
+<div id="amuletHint" class="amulet-hint hidden">
+    Кто раньше пришёл — <br>
+тот раньше разгрузился.</div>
+
+<!-- АМУЛЕТ -->
 <img id="amulet" src="assets/omylet.png" class="amulet small hidden">
+
 <!-- КНОПКА -->
-<button id="choiceBtn" class="choices-btn" onclick="goNext()" disabled>
-    Собрать Терпкость
+<button id="choiceBtn" class="choices-btn" onclick="startGame()" disabled>
+     Начать разгрузку
 </button>
 
 <script>
@@ -105,8 +111,8 @@ function restart() {
     window.location.reload();
 }
 
-// ===== ПЕЧАТАЮЩИЙСЯ ТЕКСТ =====
-const textLeft = "Теперь используй силу амулета...";
+// ===== ТЕКСТ =====
+const textLeft = "Помоги разгрузить ладьи. Будь справедлив: разгружай по очереди. Но помни, первая в очереди — всегда ладья князя! И ещё, наша пристань не может принять больше, чем три ладьи. В награду дам тебе Сладость!";
 let speed = 25;
 
 const choiceBtn = document.getElementById("choiceBtn");
@@ -131,48 +137,47 @@ window.onload = () => {
     typeText(text1, textLeft, () => {
 
         const amulet = document.getElementById("amulet");
+        const hint = document.getElementById("amuletHint");
 
-        // 1. появляется в центре (как в сцене 7)
+        // показать амулет и текст
         amulet.classList.remove("hidden");
-        amulet.classList.add("show-center");
+        amulet.classList.add("to-button");
 
-        // 2. через время летит к кнопке
-        setTimeout(() => {
-            amulet.classList.remove("show-center");
-            amulet.classList.add("to-button");
-        }, 1200);
+        hint.classList.remove("hidden");
+        hint.classList.add("show");
 
-        // 3. показываем кнопку
+        // показать кнопку
         setTimeout(() => {
             choiceBtn.disabled = false;
             choiceBtn.classList.add("show");
-        }, 2000);
+        }, 800);
 
     });
 };
 
-// пропуск текста
+// пропуск
 document.addEventListener("click", () => {
     text1.innerHTML = textLeft;
 
-    const amulet = document.getElementById("amulet");
-
     amulet.classList.remove("hidden");
     amulet.classList.add("to-button");
+
+    amuletHint.classList.remove("hidden");
+    amuletHint.classList.add("show");
 
     choiceBtn.disabled = false;
     choiceBtn.classList.add("show");
 });
 
-// переход
-function goNext() {
+function startGame() {
     document.body.classList.add("fade-out");
     setTimeout(() => {
-        window.location.href = "scene9.html";
-    }, 600);
-}
+        window.location.href = "quest7.html";
+    }, 600);}
 
 </script>
 
 </body>
 </html>
+
+

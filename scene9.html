@@ -15,19 +15,19 @@
 
 <!-- TOP UI -->
 <div class="top-ui">
-
     <div class="left-ui">
         <a href="scene8.html" class="ui-btn btn-back"></a>
         <a href="index.html" class="ui-btn btn-home"></a>
     </div>
 
-    <div class="right-ui">
+
+   <div class="right-ui">
         <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
-        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+        <a href="profile.html" class="ui-btn btn-menu"></a>
+
     </div>
 
 </div>
-
 <!-- MENU -->
 <div id="menu" class="menu-overlay">
     <div class="menu-box">
@@ -41,7 +41,7 @@
 
 <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
 <div class="person left-person">
-    <img src="assets/rurik_quest6.png" class="char-img">
+    <img src="assets/rur_quest6.png" class="char-img">
 
     <div class="speech left-text">
         <span id="text1"></span>
@@ -60,7 +60,7 @@
 </div>
 
 <!-- АМУЛЕТ -->
-<img id="amulet" src="assets/omylet.png" class="amulet hidden">
+<img id="amulet" src="assets/omylet.png" class="amulet small hidden">
 
 <!-- КНОПКА -->
 <button id="choiceBtn" class="choices-btn" onclick="startGame()" disabled>

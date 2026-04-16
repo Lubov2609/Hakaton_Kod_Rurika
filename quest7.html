@@ -2,78 +2,60 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Сцена</title>
+<title>Мини-игра: Очередь</title>
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="ancient-style.css">
 </head>
 
 <body class="quest7">
+
+
 
 <!-- AUDIO -->
 <audio id="bgSound" loop>
     <source src="assets/village.mp3" type="audio/mpeg">
 </audio>
 
+<audio id="successSound" src="assets/medal.mp3"></audio>
+
 <!-- TOP UI -->
 <div class="top-ui">
-
     <div class="left-ui">
-        <a href="quest1.html" class="ui-btn btn-back"></a>
+        <a href="scene9.html" class="ui-btn btn-back"></a>
         <a href="index.html" class="ui-btn btn-home"></a>
     </div>
 
     <div class="right-ui">
         <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
-        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
-    </div>
-
-</div>
-
-<!-- MENU -->
-<div id="menu" class="menu-overlay">
-    <div class="menu-box">
-        <h2>Меню</h2>
-
-        <button onclick="resumeGame()">Продолжить</button>
-        <button onclick="goHome()">На главную</button>
-        <button onclick="restart()">Заново</button>
-    </div>
-</div>
-
-<!-- ЛЕВЫЙ ПЕРСОНАЖ -->
-<div class="person left-person">
-    <img src="assets/rurik_quest6.png" class="char-img">
-
-    <div class="speech left-text">
-        <span id="text1"></span>
+        <a href="profile.html" class="ui-btn btn-menu"></a>
     </div>
 </div>
 
 <!-- ПРАВЫЙ ПЕРСОНАЖ -->
 <div class="person right-person">
-    <img src="assets/vova_862.png" class="char-img">
+    <img src="assets/vova_quest2.png" class="char-img">
 </div>
 
-<!-- КНОПКА -->
-<button id="choiceBtn" class="choices-btn" onclick="openDecisionGame()" disabled>
-    Собрать Терпкость
-</button>
-
-<!-- ================= МИНИ-ИГРА ================= -->
-<div id="queueGame" class="dg-overlay" style="display:none;">
-    <div class="dg-window">
-
-        <div class="dg-close" onclick="closeGame()">✖</div>
-
-        <h2>Пристань</h2>
-        <h3>Разгружай лодки по очереди</h3>
-
-        <!-- ОЧЕРЕДЬ -->
-        <div id="queueBoard" class="queue-board"></div>
-
-        <p class="hint">Кто первый пришёл — тот первый уходит</p>
-
+<!-- АМУЛЕТ -->
+<div class="amulet-block">
+    <img src="assets/omylet.png" class="amulet-game">
+    <div class="amulet-text">
+Лодки заходят по порядку…<br>
+И выходят в том же порядке!
+       
     </div>
+</div>
+
+<!-- КОРАБЛИ -->
+<div class="chests">
+    <img src="assets/kor_1.png" class="chest" draggable="true" data-id="1">
+    <img src="assets/kor_2.png" class="chest" draggable="true" data-id="2">
+    <img src="assets/kor_3.png" class="chest" draggable="true" data-id="3">
+</div>
+
+<!-- БАШНЯ -->
+<div class="tower-container">
+    <div id="queue" class="queue"></div>
+    <img src="assets/ten_synd.png" class="image-under-tower">
 </div>
 
 <!-- POPUP -->
@@ -84,224 +66,160 @@
 <audio id="successSound" src="assets/medal.mp3"></audio>
 
 <script>
+const queueEl = document.getElementById("queue");
 
-// ===== ЗВУК =====
-const sound = document.getElementById("bgSound");
-const soundBtn = document.getElementById("soundBtn");
+// звуки
+const placeSound = new Audio("assets/place.mp3");
+const hitSound = new Audio("assets/hit.mp3");
+/* ===== СТЕК ===== */
+/* ===== ОЧЕРЕДЬ ===== */
+let queue = [];
+let steps = [];
+let attempts = 0;
 
-let unlocked = localStorage.getItem("audioUnlocked") === "true";
+// правильная последовательность
+const correct = [
+    "push1","push2","push3",
+    "shift1","shift2","shift3"
+];
 
-if (unlocked) {
-    sound.play().catch(()=>{});
-}
+queueEl.addEventListener("dragover", (e) => {
+    e.preventDefault(); // 🔥 БЕЗ ЭТОГО НЕ РАБОТАЕТ
+});
+/* ===== DRAG ===== */
+let draggedId = null;
 
-let soundEnabled = localStorage.getItem("sound") !== "off";
+document.querySelectorAll(".chest").forEach(el => {
 
-window.addEventListener("click", () => {
-    if (soundEnabled) {
-        sound.volume = 0.5;
-        sound.play();
-    }
-}, { once: true });
-
-function updateSoundUI() {
-    soundBtn.src = soundEnabled
-        ? "assets/sound-on.png"
-        : "assets/sound-off.png";
-}
-
-updateSoundUI();
-
-function toggleSound() {
-    soundEnabled = !soundEnabled;
-
-    if (soundEnabled) {
-        sound.play();
-    } else {
-        sound.pause();
-    }
-
-    localStorage.setItem("sound", soundEnabled ? "on" : "off");
-    updateSoundUI();
-}
-
-// ===== МЕНЮ =====
-function toggleMenu() {
-    menu.classList.toggle("show");
-}
-
-function resumeGame() {
-    toggleMenu();
-}
-
-function goHome() {
-    window.location.href = "index.html";
-}
-
-function restart() {
-    window.location.reload();
-}
-
-// ===== ПЕЧАТАЮЩИЙСЯ ТЕКСТ =====
-const textLeft = " Я Роланд — хранитель летописей.  Тебе предстоит собрать  Квас времени: Терпкость — Стеком,  Сладость — Очередью, Крепость — Связкой.  Сделаешь ингредиенты — вернёшься домой. нет — останешься здесь.";
-let speed = 25;
-
-function typeText(el, text, callback) {
-    let i = 0;
-    let interval = setInterval(() => {
-        el.innerHTML += text[i];
-        i++;
-
-        if (i >= text.length) {
-            clearInterval(interval);
-            if (callback) callback();
-        }
-    }, speed);
-}
-
-window.onload = () => {
-    typeText(text1, textLeft, () => {
-        choiceBtn.disabled = false;
-        choiceBtn.classList.add("show");
+    el.addEventListener("dragstart", (e) => {
+        draggedId = el.dataset.id;
+        e.dataTransfer.setData("text/plain", draggedId);
     });
-};
 
-// пропуск
-document.addEventListener("click", () => {
-    text1.innerHTML = textLeft;
-    choiceBtn.disabled = false;
-    choiceBtn.classList.add("show");
 });
 
-// ================= ТВОЯ ЛОГИКА =================
-/* ================= STACK GAME ================= */
-/* ================= QUEUE GAME ================= */
+/* ===== DROP ===== */
+queueEl.addEventListener("drop", (e) => {
+    e.preventDefault();
 
-let queue = [];
-let step = 0;
+    let id = e.dataTransfer.getData("text/plain");
 
-/* сценарий */
-function resetGame() {
+    if (!id) return;
 
-    step = 0;
+    let element = document.querySelector(`.chest[data-id="${id}"]`);
 
-    queue = [
-        { id: 1, name: "Лён" },
-        { id: 2, name: "Мёд" },
-        { id: 3, name: "Воск" }
-    ];
+    if (!element) return;
 
-    renderQueue();
-}
+    queue.push(id);
+    steps.push("push" + id);
 
-/* открыть */
-function openDecisionGame() {
-    document.getElementById("queueGame").style.display = "flex";
-    resetGame();
-}
+    placeSound.currentTime = 0;
+    placeSound.play();
 
-/* закрыть */
-function closeGame() {
-    document.getElementById("queueGame").style.display = "none";
-    resetGame();
-}
+    queueEl.appendChild(element);
 
-/* отрисовка */
-function renderQueue() {
+    check();
+});
 
-    const board = document.getElementById("queueBoard");
-    board.innerHTML = "";
+/* ===== POP ===== */
+queueEl.addEventListener("click", () => {
 
-    queue.forEach((boat, index) => {
+    if (queue.length === 0) return;
 
-        const el = document.createElement("div");
-        el.className = "boat";
-        el.innerText = boat.name;
+    let first = queueEl.firstElementChild;
 
-        if (index === 0) el.classList.add("first");
+    let id = queue.shift();
+    steps.push("shift" + id);
 
-        el.onclick = () => clickBoat(index);
+    // звук
+    hitSound.currentTime = 0;
+    hitSound.play();
 
-        board.appendChild(el);
+    document.querySelector(".chests").appendChild(first);
 
-        setTimeout(() => el.classList.add("show"), 50);
-    });
-}
+    check();
+});
 
-/* клик */
-function clickBoat(index) {
+/* ===== ПРОВЕРКА ===== */
+function check() {
 
-    /* можно только первую */
-    if (index !== 0) {
-        return showError();
+    for (let i = 0; i < steps.length; i++) {
+        if (steps[i] !== correct[i]) {
+            return showFail();
+        }
     }
 
-    handleStep();
+    if (steps.length === correct.length) {
+        showReward();
+    }
 }
 
-/* сценарий шагов */
-function handleStep() {
+/* ===== ОШИБКА ===== */
+function showFail() {
 
-    if (step === 0) {
-        // разгрузили ЛЁН
-        queue.shift();
+    attempts++;
 
-        // приходит лодка князя
-        queue.push({ id: 4, name: "Князь (меха)" });
+    let text = attempts == 1
+        ? "Подсказка: смотри на подсказку амулета"
+        : attempts == 2
+        ? "Очередь: первый пришёл — первый ушёл"
+        : "Попробуй позже";
 
-        step++;
-    }
-
-    else if (step === 1) {
-        // игрок должен снова выбрать ПЕРВУЮ (МЁД)
-        queue.shift();
-
-        // последняя уходит (воск)
-        queue.pop();
-
-        step++;
-    }
-
-    else if (step === 2) {
-        // остаётся князь → победа
-        queue.shift();
-
-        return showSuccess();
-    }
-
-    renderQueue();
-}
-
-/* ошибка */
-function showError() {
+    let button = attempts >= 3
+        ? `<button onclick="exitGame()">Выйти</button>`
+        : `<button onclick="exitGame()">Еще раз</button>`;
 
     resultContent.innerHTML = `
         <h2>Ошибка</h2>
-        <div class="hint-box">
-            <p>Нужно разгружать ПЕРВУЮ лодку</p>
-            <p>FIFO — первый пришёл, первый ушёл</p>
-        </div>
-        <button onclick="closePopup(); resetGame()">Заново</button>
+        <div class="hint-box"><p>${text}</p></div>
+        ${button}
     `;
 
     resultPopup.style.display = "flex";
 }
 
-/* победа */
-function showSuccess() {
+function retry() {
+    resultPopup.style.display = "none";
+}
+
+/* ===== НАГРАДА ===== */
+function showReward() {
+
+    let img = attempts === 0
+        ? "assets/medal-gold.png"
+        : attempts === 1
+        ? "assets/medal-silvers.png"
+        : "assets/medal-bronse.png";
 
     resultContent.innerHTML = `
-        <h2>Отлично!</h2>
-        <div class="hint-box">
-            <p>Ты соблюдал очередь</p>
-            <p>Первый пришёл — первый ушёл</p>
-            <p>Ты получил СЛАДОСТЬ 🍯</p>
-        </div>
-        <button onclick="showReward()">Далее</button>
+        <h2>Награда!</h2>
+        <img src="${img}" class="result-img">
+
+        <p>Очередь — структура данных</p>
+        <p>Первый пришёл — первый ушёл (FIFO)</p>
+
+        <button onclick="goNext()">Далее</button>
     `;
 
     resultPopup.style.display = "flex";
+
+    successSound.currentTime = 0;
+    successSound.play();
 }
+
+function exitGame() {
+    location.reload();
+}
+
+/* ===== ПЕРЕХОД ===== */
+function goNext() {
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "scene13.html";
+    }, 600);
+}
+
 </script>
 
 </body>
