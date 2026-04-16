@@ -1,0 +1,39 @@
+<div class="game-screen" style="display:block;">
+
+    <!-- ФОН -->
+    <img src="/assets/fon-vend.png" class="bg">
+
+
+<!-- ВЕНДИНГ -->
+ <div class="vending-block left vending-wrap">
+        <img src="/assets/vending-sleep.png" class="vending" id="vending">
+ </div>
+<!-- БАТОНЧИК (ОТДЕЛЬНО!) -->
+<div id="bar">
+    <img src="/assets/batonch.png" class="bar-img">
+
+    <button class="eatBtn" onclick="eatBar()">
+        СЪЕСТЬ БАТОНЧИК
+    </button>
+</div>
+
+    <!-- ПЕРСОНАЖ -->
+    <img src="/assets/vova-vend.png" class="character-game right">
+
+    <!-- ТЕКСТ -->
+    <div class="dialogue-text top-right">
+        Ого, как много пыли! Да сюда никто не заходил уже лет 100!
+    </div>
+
+    <!-- ПОДСКАЗКА -->
+    <div class="hints" id="hints">
+        <img src="/assets/hands.png">
+        <span>Нажмите, чтоб открыть</span>
+    </div>
+
+    <!-- ЗВУКИ -->
+    <audio id="doorSound" src="/assets/door.mp3"></audio>
+    <audio id="successSound" src="/assets/success.mp3"></audio>
+
+</div>
+<script src="/js/scene2.js"></script>

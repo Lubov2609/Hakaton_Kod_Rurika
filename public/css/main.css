@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: sans-serif;
+    overflow: hidden;
+    background: url('/img/fon_menu.png') center/cover no-repeat;
+}
+
+/* ===== TOAST ANIMATION ===== */
+
+.toast-container {
+    z-index: 9999;
+}
+
+/* сам toast */
+.custom-toast {
+    min-width: 220px;
+    border-radius: 10px;
+    animation: toast-in 0.35s ease-out;
+}
+
+/* появление */
+@keyframes toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* исчезновение */
+.custom-toast.hide {
+    animation: toast-out 0.3s ease-in forwards;
+}
+
+@keyframes toast-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}

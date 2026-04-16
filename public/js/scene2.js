@@ -1,0 +1,176 @@
+const vending = document.getElementById('vending');
+const hints = document.getElementById('hints');
+const sound = document.getElementById('doorSound');
+const successSound = document.getElementById('successSound');
+
+setTimeout(() => {
+    hints.style.display = 'flex';
+}, 2000);
+
+vending.addEventListener('mouseenter', () => {
+    hints.style.display = 'none';
+});
+
+// открыть мини игру
+vending.addEventListener('click', () => {
+    sound.currentTime = 0;
+    sound.play();
+    createMiniGame();
+});
+
+// =====================
+// МИНИ ИГРА
+// =====================
+function createMiniGame() {
+
+    if (document.getElementById("minigame")) return;
+
+    const game = document.createElement("div");
+    game.id = "minigame";
+
+    game.innerHTML = `
+        <div class="mg-bg"></div>
+
+        <div class="mg-board">
+            <h2>Починить вендинговый аппарат</h2>
+            <p>Перетащите мышкой (↑/↓) действия в правильном порядке, чтобы починить аппарат!</p>
+            <div id="items">
+                <div class="item" data-id="1">Нажать кнопку ВКЛ</div>
+                <div class="item" data-id="2">Взять вилку</div>
+                <div class="item" data-id="3">Поднять аппарат</div>
+                <div class="item" data-id="4">Вставить вилку в розетку</div>
+
+            </div>
+
+            <button class="mg-btn" onclick="checkMiniGame()">Проверить</button>
+        </div>
+    `;
+
+    document.body.appendChild(game);
+    enableDrag();
+}
+
+// =====================
+// DRAG & DROP
+// =====================
+
+let draggedItem = null;
+
+function enableDrag() {
+
+    const items = document.querySelectorAll(".item");
+
+    items.forEach(item => {
+
+        item.setAttribute("draggable", true);
+
+        // начали тащить
+        item.addEventListener("dragstart", () => {
+            draggedItem = item;
+            item.classList.add("dragging");
+        });
+
+        // отпустили
+        item.addEventListener("dragend", () => {
+            draggedItem = null;
+            item.classList.remove("dragging");
+        });
+
+        // над элементом
+        item.addEventListener("dragover", (e) => {
+            e.preventDefault();
+        });
+
+        // бросили
+        item.addEventListener("drop", () => {
+
+            if (draggedItem && draggedItem !== item) {
+                swapElements(draggedItem, item);
+            }
+        });
+    });
+}
+
+// обмен местами
+function swapElements(a, b) {
+
+    const parent = a.parentNode;
+
+    const aNext = a.nextSibling;
+    const bNext = b.nextSibling;
+
+    parent.insertBefore(a, bNext);
+    parent.insertBefore(b, aNext);
+}
+
+// =====================
+// ПРОВЕРКА
+// =====================
+function checkMiniGame() {
+
+    const order = [...document.querySelectorAll("#items .item")]
+        .map(el => el.dataset.id)
+        .join("");
+
+    if (order === "3241") {
+        showPopup("Успех!", true);
+    } else {
+        showPopup("Неверно. Попробуй ещё раз", false);
+    }
+}
+
+// =====================
+// POPUP
+// =====================
+function showPopup(text, success) {
+
+    const popup = document.createElement("div");
+    popup.className = "mg-popup";
+
+    popup.innerHTML = `
+        <div class="mg-window ${success ? "success" : ""}">
+            <h2>${text}</h2>
+            <button id="okBtn">OK</button>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    popup.querySelector("#okBtn").onclick = () => {
+        popup.remove();
+
+        if (success) {
+            finishGame();
+        }
+    };
+}
+
+// =====================
+// ФИНАЛ
+// =====================
+function finishGame() {
+
+    document.getElementById("minigame")?.remove();
+
+    // неоновый вендинг
+    vending.classList.add("glow");
+
+    // звук успеха
+    successSound.currentTime = 0;
+    successSound.play();
+
+    const bar = document.getElementById("bar");
+
+    // показать + анимация выпадения
+    bar.style.display = "block";
+    bar.classList.add("drop");
+}
+
+// =====================
+// СЪЕСТЬ
+// =====================
+function eatBar() {
+    
+    // переход на следующую сцену
+    window.location.href = "/862";
+}

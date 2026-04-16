@@ -1,0 +1,1733 @@
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: sans-serif;
+    overflow: hidden;
+        background: url('/assets/fon.png') center/cover no-repeat;
+    
+
+}
+
+/* ===== LOADER ===== */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.logo-box {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+    height: 100px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+.logo {
+    width: 120%;
+    height: auto;
+}
+
+@font-face {
+    font-family: 'HistoryFont';
+    src: url('/fonts/h1.ttf') format('truetype');
+}
+
+h1 {
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    font-family: 'HistoryFont', serif;
+
+    text-align: center;
+    font-size: 120px;
+    color: #5c5048;
+}
+
+.boat img {
+    width: 60px;
+}
+
+.progress-container {
+    width: 300px;
+    height: 12px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #5c5048;
+}
+
+/* ===== DARK SCREEN ===== */
+.dark-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: #0b0f1a;
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Верхний текст */
+.city {
+  position: absolute;
+  top: 80px;      /* отступ сверху 20 px */
+  left: 50%;
+  transform: translateX(-50%); /* центрирует элемент по горизонтали */
+
+  color: white;
+  font-size: 42px;
+  font-family: "Orbitron", serif;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 5px #ecf0f1,
+    0 0 10px #eff2f4,
+    0 0 20px #777d80,
+    0 0 40px #63696c;
+}
+@font-face {
+    font-family: 'Orbitron';
+    src: url('/fonts/years.ttf') format('truetype');
+}
+/* Отступ как 3 строки */
+.year {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  margin: 0;
+  padding: 25px 40px;
+  
+  font-size: 60px;
+  font-family: "Orbitron", sans-serif;
+  color: rgb(236, 242, 244);
+  text-align: center;
+  white-space: nowrap;
+  
+
+  text-shadow:
+    0 0 5px #ecf0f1,
+    0 0 10px #eff2f4,
+    0 0 20px #777d80,
+    0 0 40px #63696c;
+}
+
+/* ===== MENU SCREEN ===== */
+.menu-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    background: url('/assets/fon-2121.png') center/cover no-repeat;
+    color: white;
+}
+
+/* Левая колонка */
+.menu-left {
+    position: absolute;
+    bottom: 80px;
+    left: 180px;
+
+    width: 320px;
+
+    display: flex;
+    flex-direction: column;
+}
+@font-face {
+    font-family: '2121text';
+    src: url('/fonts/golos-text_vf.ttf') format('truetype');
+}
+/* ТЕКСТ */
+.menu-text {
+    font-size: 18px;
+    color: #f6f2f2;
+    font-family: '2121text', serif;
+    line-height: 1.5;
+
+    margin-bottom: 30px;
+}
+
+.menu-text p {
+    margin-bottom: 15px;
+}
+
+/* КНОПКИ */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+@font-face {
+    font-family: '2121Font';
+    src: url('/fonts/text_knop.ttf') format('truetype');
+}
+/* СТИЛЬ КНОПОК */
+.menu-btn {
+    width: 220px;
+    padding: 14px;
+
+    font-size: 18px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #7fdfff;
+    color: white;
+    font-family: '2121Font', serif;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+/* АНИМАЦИЯ HOVER */
+.menu-btn:hover {
+    background: rgba(127,223,255,0.2);
+    box-shadow: 
+        0 0 10px #7fdfff,
+        0 0 20px #3bbcff;
+
+    transform: translateX(10px);
+}
+
+/* НАЖАТИЕ */
+.menu-btn:active {
+    transform: scale(0.95);
+}
+
+/* ПЕРСОНАЖ */
+.character {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    height: 80%;
+    object-fit: contain;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ЛЕГКОЕ ДВИЖЕНИЕ */
+@keyframes float {
+    0% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(-10px); }
+    100% { transform: translateX(-50%) translateY(0px); }
+}
+
+/* ===== GAME SCREEN ===== */
+.game-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    background: url('/assets/fon_door.png') center/cover no-repeat;
+}
+
+/* ДВЕРЬ */
+.doors-block, .vending-block {
+    position: absolute;
+    left: 160px;
+    top: 120px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.doors-title {
+    color: white;
+    font-size: 60px;
+    margin-bottom: 40px;
+}
+
+.doors {
+    width: 300px;
+    height: 600px;
+    object-fit: cover;
+
+    border: 2px solid transparent;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.vending {
+    width: 600px;
+    /* height: 456px; */
+    object-fit: cover;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.vending-block {
+    left: 50%;
+    /* transform: translateX(-50%); */
+    top: 350px;
+}
+
+/* HOVER */
+.doors:hover, .vending:hover {
+    border: 2px solid #7fdfff;
+    box-shadow: 0 0 15px #7fdfff;
+}
+
+/* ПЕРСОНАЖ */
+.character-game {
+    position: absolute;
+    bottom: 0;
+    left: 60%;
+
+    height: 80%;
+
+    transform: translateX(-50%);
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ПОДСКАЗКА */
+.hints {
+    position: absolute;
+    bottom: 120px;
+    left: 100px;
+
+    display: none;
+    align-items: center;
+    gap: 10px;
+
+    color: white;
+    background: rgba(210, 213, 215, 0.6);
+    padding: 10px 15px;
+
+    border: 1px solid #7fdfff;
+    box-shadow: 0 0 10px #7fdfff;
+}
+
+.hints img {
+    width: 30px;
+}
+
+/* scene3.html */
+/* ===== TOP UI (для сцен) ===== */
+.top-ui {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 200;
+}
+
+.left-ui,
+.right-ui {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* кнопки */
+.ui-btn {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.85);
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ui-btn:hover {
+    transform: scale(1.1);
+}
+
+/* иконки */
+.btn-menu {
+    background: url('/assets/menu.png') center/20px no-repeat;
+}
+
+.btn-back {
+    background: url('/assets/menu-back.png') center/20px no-repeat;
+}
+
+.btn-home {
+    background: url('/assets/menu-home.png') center/20px no-repeat;
+}
+
+/* звук */
+.sound-btn {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.sound-btn:hover {
+    transform: scale(1.1);
+}
+
+/* ===== MENU ===== */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 500;
+}
+
+.menu-overlay.show {
+    display: flex;
+}
+
+.menu-box {
+    background: #2b2b2b;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+}
+
+.menu-box button {
+    display: block;
+    width: 200px;
+    margin: 10px auto;
+    padding: 10px;
+
+    background: #7fdfff;
+    border: none;
+    cursor: pointer;
+}
+
+/* ===== КНОПКА (анимация появления) ===== */
+@font-face {
+    font-family: 'HistoryChoice';
+    src: url('/fonts/Slovic_Demo-Serif.otf') format('truetype');
+}
+/* ===== КНОПКА ===== */
+.choices-btn {
+    position: fixed;
+    bottom: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 14px 28px;
+
+    background: #d6b98c;
+    border: 2px solid #6b4f2a;
+    border-radius: 15px;
+
+    font-size: 18px;
+    font-family: 'HistoryChoice', serif;
+
+    color: #3a2a15;
+
+    cursor: pointer;
+    z-index: 100;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: 0.3s;
+}
+
+.choices-btn.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.choices-btn:hover {
+    background: #e6cfa5;
+}
+
+.choices-btn:active {
+    transform: translateX(-50%) translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+/* quest1.html */
+
+.quest1 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_quest1.png') center/cover no-repeat;
+    position: relative;
+}
+
+/* ===== ОБЩЕЕ ОКНО ===== */
+
+#orderGame .dg-window {
+
+    background: rgba(255, 248, 230, 0.55);
+    border: 3px solid #e8e3dd;
+    border-radius: 20px;
+
+    padding: 25px;
+    width: 600px;
+    max-width: 90%;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+
+    font-family: 'HistoryChoice', serif;
+    color: #3a2a15;
+}
+
+/* ===== ЗАГОЛОВКИ ===== */
+#orderGame h2 {
+    text-align: center;
+    color: #5a3e1b;
+    margin-bottom: 10px;
+}
+
+#orderGame h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #6b4f2a;
+}
+
+/* ===== СПИСОК ===== */
+#orderItems {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ===== КАРТОЧКИ (ТОЛЬКО ДЛЯ ЭТОЙ ИГРЫ) ===== */
+#orderItems .item {
+    padding: 14px;
+
+    background: #fff8e7;
+    border: 2px solid #8b6a3c;
+    border-radius: 12px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: grab;
+    user-select: none;
+
+    transition: 0.2s;
+
+    box-shadow: 0 4px 0 #8b6a3c;
+}
+
+/* hover */
+#orderItems .item:hover {
+    background: #fceccf;
+    transform: translateY(-2px);
+}
+
+/* при перетаскивании */
+#orderItems .item:active {
+    cursor: grabbing;
+    transform: scale(0.98);
+}
+
+/* ===== КНОПКА ПРОВЕРКИ ===== */
+#orderGame .dg-check {
+    margin-top: 20px;
+    padding: 12px 24px;
+
+    background: #d6b98c;
+    border: 2px solid #6b4f2a;
+    border-radius: 14px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+    transition: 0.2s;
+}
+
+#orderGame .dg-check:hover {
+    background: #e6cfa5;
+}
+
+#orderGame .dg-check:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+
+/* ===== POPUP (ДРЕВНИЙ СТИЛЬ) ===== */
+#resultPopup .dg-window {
+    background: linear-gradient(#f8f7f5, #e6d2a3);
+    border: 3px solid #6b4f2a;
+    border-radius: 20px;
+
+    padding: 25px;
+    text-align: center;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* кнопки в popup */
+#resultPopup button {
+    margin-top: 15px;
+    padding: 10px 20px;
+
+    background: #d6b98c;
+    border: 2px solid #6b4f2a;
+    border-radius: 12px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 0 #6b4f2a;
+}
+
+#resultPopup button:hover {
+    background: #dbd9d6;
+}
+
+#resultPopup button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+.bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.game-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* текст */
+.dialogue-text {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    font-family: '2121text', serif;
+
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 18px;
+    max-width: 80%;
+    text-align: center;
+    z-index: 5;
+}
+
+/* персонаж */
+.character-game {
+    position: absolute;
+    bottom: 0;
+    left: 60px;
+    height: 80%;
+    z-index: 3;
+}
+
+/* объект */
+.door-block {
+    position: absolute;
+    left: 70%;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.door-title {
+    color: white;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.door {
+    width: 200px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.door:hover {
+    transform: scale(1.05);
+}
+
+/* подсказка */
+.hint {
+    position: absolute;
+    bottom: 120px;
+    left: 100px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 15px;
+    border: 1px solid #7fdfff;
+    z-index: 10;
+}
+#minigame {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+}
+
+/* ===== ФОН ===== */
+.mg-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 10, 20, 0.85);
+    backdrop-filter: blur(6px);
+}
+
+/* ===== ОКНО ===== */
+.mg-board {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 620px;
+    max-width: 90%;
+    min-height: 360px;
+
+    background: linear-gradient(145deg, #0a0f1c, #121a2e);
+    border: 2px solid #3fa9ff;
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 0 20px rgba(63,169,255,0.3),
+        0 10px 40px rgba(0,0,0,0.8);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: hidden; /* 🔥 фикс вылезания */
+}
+
+/* заголовок */
+.mg-board h2 {
+    color: #9fd3ff;
+    font-family: 'HistoryChoice', serif;
+    margin-bottom: 8px;
+}
+
+/* описание */
+.mg-board p {
+    color: #cfeaff;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* ===== СПИСОК ===== */
+#items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    overflow: hidden; /* 🔥 доп защита */
+}
+
+/* ===== КАРТОЧКИ ===== */
+.item {
+    width: 100%;
+    box-sizing: border-box; /* 🔥 важно */
+    
+    padding: 14px;
+
+    background: linear-gradient(145deg, #141c2f, #0f1525);
+    color: #e6f4ff;
+
+    border: 1px solid #3fa9ff;
+    border-radius: 10px;
+
+    font-family: 'HistoryChoice', serif;
+
+    cursor: grab;
+    user-select: none;
+
+    transition: 0.2s;
+
+    box-shadow:
+        0 0 10px rgba(63,169,255,0.2),
+        inset 0 0 8px rgba(63,169,255,0.1);
+}
+
+/* hover */
+.item:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 15px rgba(63,169,255,0.4),
+        inset 0 0 10px rgba(63,169,255,0.2);
+}
+
+/* во время перетаскивания */
+.item.dragging {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+/* ===== КНОПКА ===== */
+.mg-btn {
+    margin-top: 20px;
+    padding: 12px 26px;
+
+    background: linear-gradient(#1f6feb, #1447a3);
+    border: 1px solid #3fa9ff;
+    border-radius: 10px;
+
+    color: #ffffff;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 10px rgba(63,169,255,0.4);
+
+    transition: 0.2s;
+}
+
+.mg-btn:hover {
+    background: linear-gradient(#2a7fff, #1a56c5);
+}
+
+.mg-btn:active {
+    transform: translateY(2px);
+}
+
+/* ===== POPUP ===== */
+.mg-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 10000;
+}
+
+.mg-window {
+    background: linear-gradient(145deg, #0a0f1c, #121a2e);
+    padding: 30px;
+    border-radius: 14px;
+
+    border: 1px solid #3fa9ff;
+
+    color: #e6f4ff;
+    text-align: center;
+
+    box-shadow:
+        0 0 20px rgba(63,169,255,0.3);
+}
+
+.mg-window.success {
+    border: 1px solid #4cff9a;
+    box-shadow: 0 0 20px rgba(76,255,154,0.4);
+}
+
+/* кнопка popup */
+.mg-window button {
+    margin-top: 15px;
+    padding: 10px 20px;
+
+    background: linear-gradient(#1f6feb, #1447a3);
+    border: 1px solid #3fa9ff;
+    border-radius: 8px;
+
+    color: white;
+    cursor: pointer;
+}
+
+/* =========================
+   БАТОНЧИК (НОВЫЙ БЛОК)
+========================= */
+
+#bar {
+    position: fixed;
+    inset: 0;
+    display: none; /* скрыт до победы */
+    z-index: 50;
+}
+
+/* КАРТИНКА ПО ЦЕНТРУ */
+.bar-img {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-8deg);
+
+    width: 280px;
+    pointer-events: none;
+
+    animation: floatBar 3s ease-in-out infinite;
+}
+
+/* ПЛАВАЮЩАЯ АНИМАЦИЯ */
+@keyframes floatBar {
+    0%   { transform: translate(-50%, -50%) rotate(-8deg); }
+    50%  { transform: translate(-50%, -60%) rotate(-8deg); }
+    100% { transform: translate(-50%, -50%) rotate(-8deg); }
+}
+
+/* КНОПКА ВНИЗУ */
+.eatBtn {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 14px 28px;
+
+    background: rgba(0,0,0,0.85);
+    border: 2px solid #7fdfff;
+    color: #7fdfff;
+
+    font-size: 18px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+    pointer-events: auto;
+
+    transition: 0.3s;
+}
+
+/* ХОВЕР */
+.eatBtn:hover {
+    background: #7fdfff;
+    color: black;
+    font-family: '2121Font', serif;
+
+    box-shadow: 0 0 15px #7fdfff;
+}
+
+/* НАЖАТИЕ */
+.eatBtn:active {
+    font-family: '2121Font', serif;
+    transform: translateX(-50%) scale(0.95);
+}
+
+/* =========================
+   ПОЯВЛЕНИЕ
+========================= */
+
+#bar.show {
+    display: block;
+    animation: fadeInBar 0.5s ease;
+}
+
+@keyframes fadeInBar {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* подсветка вендинга */
+.glow {
+    filter: drop-shadow(0 0 20px yellow);
+}
+/* ЛЕВАЯ ПОЗИЦИЯ */
+.left {
+    left: 60px;
+    right: auto;
+}
+
+/* ЦЕНТР ПЕРСОНАЖ (СЦЕНА 1) */
+.center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ПРАВЕЕ ЦЕНТРА (СЦЕНА 2) */
+.right {
+    left: 65%;
+    transform: translateX(-50%);
+}
+
+/* ТЕКСТ ПО ЦЕНТРУ ВВЕРХУ */
+.top-center {
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ТЕКСТ СПРАВА */
+.top-right {
+    top: 60px;
+    left: 65%;
+    transform: translateX(-50%);
+}
+.vending-wrap {
+    position: absolute;
+}
+
+/* батончик строго под вендингом */
+#bar {
+    position: absolute;
+    top: 210px;   /* под вендингом */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+}
+/* обертка */
+.vending-wrap {
+    position: absolute;
+}
+
+/* батончик скрыт */
+#bar {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+/* АНИМАЦИЯ ВЫПАДЕНИЯ */
+@keyframes dropBar {
+    0% {
+        transform: translate(-50%, -80px);
+        opacity: 0;
+    }
+    60% {
+        transform: translate(-50%, 10px);
+    }
+    100% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+#bar.drop {
+    animation: dropBar 0.6s ease;
+}
+
+/* НЕОН */
+.glow {
+    animation: neonGlow 1s infinite alternate;
+}
+
+@keyframes neonGlow {
+    from {
+        filter: drop-shadow(0 0 5px #7fdfff);
+    }
+    to {
+        filter: drop-shadow(0 0 25px #00eaff);
+    }
+}
+
+.item {
+    cursor: grab;
+}
+
+.item.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+}
+
+.item:active {
+    cursor: grabbing;
+}
+.vending-wrap {
+    position: absolute;
+}
+/* 862.html */
+/* ===== ЭКРАН 862 ===== */
+/* ===== СЦЕНА 1 (862) ===== */
+.screen-862 {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    background: url('/assets/fon-862.png') center/cover no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.title-862 {
+    font-family: 'HistoryFont', serif;
+    font-size: 120px;
+    color: #e6d3a3;
+
+    text-shadow:
+        0 0 10px rgba(255,255,200,0.6),
+        0 0 20px rgba(255,220,150,0.5),
+        0 0 40px rgba(255,200,100,0.4);
+
+    letter-spacing: 10px;
+}
+
+/* ===== СЦЕНА 2 ===== */
+.scene2 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_862.png') center/cover no-repeat;
+    position: relative;
+}
+/* персонажи */
+.person {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column-reverse; /* ВАЖНО */
+    align-items: center;
+}
+
+/* позиции */
+.left-person {
+    left: 140px;
+}
+
+.right-person {
+    right: 140px;
+}
+
+/* КАРТИНКИ */
+.char-img {
+    height: 70vh;
+    object-fit: contain;
+}
+
+/* текст (теперь сверху) */
+.speech {
+    margin-bottom: 20px;
+    width: 260px;
+    font-size: 16px;
+
+    background: rgba(255,255,255,0.9);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* выравнивание */
+.left-text {
+    text-align: left;
+}
+
+.right-text {
+    text-align: right;
+}
+
+/* КНОПКА — фикс */
+.choice-btn {
+    position: fixed; /* ВАЖНО */
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 12px 20px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+}
+
+
+/* quest2.html */
+
+.quest2 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_quest2.png') center/cover no-repeat;
+    position: relative;
+}
+/* БЛОК ВРАГОВ ПО ЦЕНТРУ */
+.enemies {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* идеально центрирует */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    z-index: 2;
+}
+
+/* картинка */
+.enemies img {
+    width: 220px;
+    height: auto;
+    border-radius: 20px;
+}
+/* АНИМАЦИЯ ПОЯВЛЕНИЯ ОКНА */
+.dg-window {
+    animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* АНИМАЦИЯ МЕДАЛИ */
+.result-img {
+    width: 120px;
+    margin: 15px 0;
+    animation: medalDrop 0.6s ease;
+}
+
+@keyframes medalDrop {
+    0% {
+        transform: translateY(-100px) scale(0.5);
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(20px) scale(1.1);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* ПЛАВНОЕ ЗАТУХАНИЕ */
+.fade-out {
+    animation: fadeOut 0.6s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+/* текст */
+.enemies-text {
+    position: absolute;
+    top: 15px;
+
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+.dg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.dg-window {
+    background: #eaeaea;
+    width: 600px;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.dg-close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.dg-columns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    align-items: flex-end;
+}
+
+.dg-col {
+    width: 45%;
+}
+
+.dg-col button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.result-img {
+    width: 50px;
+    margin: 15px 0;
+}
+.hint-box {
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* картинка справа */
+.hint-img {
+    float: right;
+    width: 120px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+/* текст обтекает */
+.hint-box p {
+    font-size: 16px;
+    line-height: 1.4;
+}
+/* quest3.html */
+#counterText {
+    transition: 0.3s;
+}
+
+.reset-anim {
+    color: red;
+    transform: scale(1.2);
+}
+/* контейнер бревен */
+#logs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+/* одно бревно */
+.log {
+    width: 40px;
+    height: 80px;
+    background: url("/assets/log.png") center/cover no-repeat;
+    opacity: 0;
+    transform: translateY(20px);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: 0.3s;
+}
+
+/* появление */
+.log.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* кнопки */
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+/* menu.html *//* =========================
+   КОНТЕЙНЕР
+========================= */
+.rurik-menu {
+    position: fixed;
+    inset: 0;
+    display: none;
+    font-family: 'Arial', sans-serif;
+    z-index: 1000;
+}
+
+/* =========================
+   ФОН
+========================= */
+.rurik-bg {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_me.png') center/cover no-repeat;
+    position: relative;
+}
+
+/* =========================
+   ЛОГО
+========================= */
+.rurik-logo {
+    position: absolute;
+    top: 50px;
+    left: 700px;
+
+    width: 160px;   /* 🔥 небольшой размер */
+    height: auto;
+
+    z-index: 2;
+}
+
+/* =========================
+   НАЗВАНИЕ
+========================= */
+.rurik-title {
+    position: absolute;
+    top: 120px;   /* ниже логотипа */
+    left: 20px;
+
+    font-size: 140px;  /* 🔥 крупнее */
+    color: #8b0000;
+    letter-spacing: 4px;
+    z-index: 2;
+}
+
+/* =========================
+   КНОПКИ (СЕРЕДИНА ЭКРАНА)
+========================= */
+.rurik-buttons {
+    position: absolute;
+    top: 50%;           /* 🔥 центр по вертикали */
+    left: 230px;
+    transform: translateY(-20%); /* чуть выше центра */
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    z-index: 2;
+}
+
+.rurik-btn {
+    width: 240px;
+    padding: 14px;
+    font-size: 18px;
+
+    border: none;
+    cursor: pointer;
+    font-family: 'HistoryChoice', serif;
+    background: linear-gradient(#eee, #cfcfcf);
+    border-radius: 6px;
+    box-shadow: 0 3px 0 #999;
+    transition: 0.2s;
+}
+
+.rurik-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+}
+
+.rurik-btn.main {
+    background: linear-gradient(#c62828, #8e0000);
+    color: white;
+    box-shadow: 0 3px 0 #5a0000;
+}
+
+/* =========================
+   ПЕРСОНАЖ
+========================= */
+.rurik-character {
+    position: absolute;
+    right: 100px;
+    bottom: 60px;
+
+    height: 80%;
+    max-height: 850px;
+
+    object-fit: contain;
+    z-index: 2;
+}
+/* quest3.html */
+.quest3 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_quest3.png') center/cover no-repeat;
+    position: relative;
+}
+/* quest4.html */
+.quest4 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_quest4.png') center/cover no-repeat;
+    position: relative;
+}
+/* quest5.html */
+.quest5 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_quest5.png') center/cover no-repeat;
+    position: relative;
+}
+
+/* ===== СЦЕНА 4 ===== */
+.scene4 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon-rurik.png') center/cover no-repeat;
+    position: relative;
+}
+
+
+.mg-board h2 {
+    color: #7fdfff;
+    font-size: 28px;
+    margin-bottom: 0;
+}
+
+.mg-board p {
+    color: #7fdfff;
+    font-size: 18px;
+    text-align: center;
+}
+
+
+/* login.html */
+/* применяем только к странице логина */
+.login-page {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Georgia', serif;
+}
+
+/* ===== ФОН ===== */
+.bg-frame {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: -1;
+}
+/* ===== ЛОГО ===== */
+.login-logo {
+  position: absolute;
+  top: 85px;
+  left: 77%;
+  transform: translateX(-50%); /* Исправлено: было 90 %, теперь центрирует блок */
+  display: flex; /* Включаем flex‑контейнер */
+  align-items: center; /* Выравниваем элементы по вертикали */
+  gap: 15px; /* Расстояние между картинкой и текстом */
+}
+
+.logo-ship {
+  height: 80px;
+  flex-shrink: 0; /* Запрещаем сжатие картинки */
+}
+
+.logo-text {
+  font-size: 76px;
+  font-weight: bold;
+  font-family: 'HistoryFont', serif;
+  color: #8b1e14;
+  letter-spacing: 4px;
+  white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+/* quest6.html */
+.quest6 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_quest6.png') center/cover no-repeat;
+    position: relative;
+}
+.scene6 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_scene6.png') center/cover no-repeat;
+    position: relative;
+}
+/* ===== АМУЛЕТ ===== */
+
+.amulet {
+    position: fixed;
+    width: 360px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.5);
+    opacity: 0;
+    z-index: 200;
+    transition: all 1s ease;
+}
+
+/* центр экрана */
+.amulet.show-center {
+    top: 35%;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* маленький */
+.amulet.small {
+    width: 120px;
+}
+
+/* перелет к кнопке */
+.amulet.to-button {
+    top: calc(100% - 240px);
+    transform: translateX(-50%) scale(0.6);
+    opacity: 1;
+}
+
+/* скрыт */
+.hidden {
+    opacity: 0;
+}
+.scene8 {
+    margin: 0;
+    height: 100vh;
+    background: url('/assets/fon_scene8.png') center/cover no-repeat;
+    position: relative;
+}
+/* текст над амулетом */
+.amulet-hint {
+    position: fixed;
+    bottom: 28vh;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    text-align: center;
+    font-family: '2121text', serif;
+    font-size: 20px;
+    color: #f5f2ef;
+
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 150;
+}
+
+.amulet-hint.show {
+    opacity: 1;
+}
+
+/* амулет над кнопкой */
+/* .amulet {
+    width: 120px;
+    position: fixed;
+    bottom: 20vh;
+    left: 50%;
+    transform: translateX(-50%) scale(0.6);
+    opacity: 1;
+    z-index: 150;
+    transition: 0.5s;
+} */
+
+/* quest6.html */
+/* ===== БЛОК АМУЛЕТА ===== */
+.amulet-block {
+    position: fixed;
+    bottom: 20vh;
+    left: 40%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.amulet-game {
+    width: 100px;
+}
+
+.amulet-text {
+    font-family: '2121text', serif;
+    font-size: 18px;
+    color: #fcfbf9;
+}
+
+/* ===== СУНДУКИ ===== */
+.chests {
+    position: fixed;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px;
+}
+
+.chest {
+    width: 200px;
+    cursor: grab;
+}
+
+/* ===== БАШНЯ ===== */
+.tower-container {
+    position: fixed;
+    bottom: 4vh;
+    left: 30%;
+    transform: translateX(-50%);
+}
+
+.tower {
+    width: 200px;
+    min-height: 350px;
+    border: 3px dashed #0c0c0c;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 10px;
+}
+
+.image-under-tower {
+    width: 200px;
+    margin-top: 1px; /* отступ между башней и изображением */
+}
+
+/* сцена 11 */
+.reward-chest {
+    position: fixed;
+    left: 45%;
+    top: 40%;
+    width: 150px;
+}
+
+.reward-bread {
+    position: fixed;
+    left: 55%;
+    top: 42%;
+    width: 100px;
+}
+

@@ -1,0 +1,322 @@
+<link href="/css/quest.css" rel="stylesheet">
+
+<style>
+/* ===== ВЫБЕГАЮЩИЙ ТЕКСТ ===== */
+#text1 {
+    display: inline-block;
+    white-space: pre-wrap;
+}
+
+/* ===== КНОПКА ПОЯВЛЕНИЯ ===== */
+.choices-btn {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.5s ease;
+}
+
+.choices-btn.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
+
+<div class="quest4">
+
+    <!-- AUDIO -->
+    <audio id="bgSound" loop>
+        <source src="/assets/village.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- TOP UI -->
+    <div class="top-ui">
+
+        <div class="left-ui">
+            <a href="/quest3" class="ui-btn btn-back"></a>
+            <a href="/" class="ui-btn btn-home"></a>
+        </div>
+
+        <div class="right-ui">
+            <img id="soundBtn" class="sound-btn" src="/assets/sound-on.png" onclick="toggleSound()">
+            <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+        </div>
+
+    </div>
+
+    <!-- MENU -->
+    <div id="menu" class="menu-overlay">
+        <div class="menu-box">
+            <h2>Меню</h2>
+            <button onclick="resumeGame()">Продолжить</button>
+            <button onclick="goHome()">На главную</button>
+            <button onclick="restart()">Заново</button>
+        </div>
+    </div>
+
+    <!-- ПЕРСОНАЖИ -->
+    <div class="person left-person">
+        <img src="/assets/rur_quest4.png" class="char-img">
+
+        <div class="speech left-text">
+            <span id="text1"></span>
+        </div>
+    </div>
+
+    <div class="person right-person">
+        <img src="/assets/vova_quest4.png" class="char-img">
+    </div>
+
+    <!-- КНОПКА -->
+    <button id="choiceBtn" class="choices-btn" onclick="openGame()" disabled>
+        Начать поиск
+    </button>
+
+    <!-- ================= ИГРА ================= -->
+    <div id="searchGame" class="dg-overlay" style="display:none;">
+        <div class="dg-window">
+
+            <div class="dg-close" onclick="closeGame()">✖</div>
+
+            <h2>Найди Олега в списке</h2>
+            <h3 id="question"></h3>
+
+            <div class="actions">
+                <button onclick="answer(true)">Да</button>
+                <button onclick="answer(false)">Нет</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- POPUP -->
+    <div id="resultPopup" class="dg-overlay" style="display:none;">
+        <div class="dg-window" id="resultContent"></div>
+    </div>
+
+    <audio id="successSound" src="/assets/medal.mp3"></audio>
+</div>
+
+<script>
+/* ================= SOUND ================= */
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+window.addEventListener("click", () => {
+    if (soundEnabled) sound.play();
+}, { once: true });
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) sound.play();
+    else sound.pause();
+
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+
+    soundBtn.src = soundEnabled
+        ? "/assets/sound-on.png"
+        : "/assets/sound-off.png";
+}
+
+/* ================= MENU ================= */
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+function resumeGame() {
+    toggleMenu();
+}
+
+function goHome() {
+    window.location.href = "/";
+}
+
+function restart() {
+    window.location.reload();
+}
+
+/* ================= TYPE TEXT ================= */
+const textLeft = "Нужно помочь местным работой, чтобы разузнать подробности. Помоги найти нам Олега!";
+let i = 0;
+let speed = 25;
+
+function typeText() {
+    if (i < textLeft.length) {
+        text1.innerHTML += textLeft[i];
+        i++;
+        setTimeout(typeText, speed);
+    } else {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    }
+}
+
+window.onload = () => {
+    typeText();
+};
+
+/* SKIP TEXT */
+document.addEventListener("click", () => {
+    if (i < textLeft.length) {
+        text1.innerHTML = textLeft;
+        i = textLeft.length;
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    }
+});
+
+/* ================= ORIGINAL GAME (НЕ ТРОГАЛ) ================= */
+
+const names = ["Ингвар", "Дир", "Аскольд", "Олег", "Рюрик"];
+
+let index = 0;
+let attempts = 0;
+let gameOver = false;
+
+const popup = document.getElementById("resultPopup");
+const content = document.getElementById("resultContent");
+const question = document.getElementById("question");
+const successSound = document.getElementById("successSound");
+
+function openGame() {
+    index = 0;
+    attempts = 0;
+    gameOver = false;
+
+    document.getElementById("searchGame").style.display = "flex";
+    showQuestion();
+}
+
+function closeGame() {
+    document.getElementById("searchGame").style.display = "none";
+}
+
+function showQuestion() {
+    if (gameOver) return;
+    question.innerText = `№${index + 1} в списке — ${names[index]}. Это Олег?`;
+}
+
+function checkAttempts() {
+    if (attempts >= 3) {
+        gameOver = true;
+
+        content.innerHTML = `
+            <h2>Думаю ты устал...</h2>
+            <p>Попробуй позже</p>
+            <button onclick="exitGame()">Выйти</button>
+        `;
+
+        popup.style.display = "flex";
+        return true;
+    }
+    return false;
+}
+
+function answer(isYes) {
+
+    if (gameOver) return;
+
+    const name = names[index];
+
+    if (isYes && name !== "Олег") {
+        attempts++;
+        showError("Это не Олег!");
+        return;
+    }
+
+    if (!isYes && name === "Олег") {
+        attempts++;
+        showError("Ты пропустил Олега!");
+        return;
+    }
+
+    if (!isYes && name !== "Олег") {
+        index++;
+        showQuestion();
+        return;
+    }
+
+    if (isYes && name === "Олег") {
+        showSuccess();
+        return;
+    }
+}
+
+function showError(text) {
+
+    if (checkAttempts()) return;
+
+    content.innerHTML = `
+        <h2>Ошибка</h2>
+        <p>${text}</p>
+        <button onclick="restartGame()">Начать сначала</button>
+    `;
+
+    popup.style.display = "flex";
+}
+
+function showSuccess() {
+
+    content.innerHTML = `
+        <h2>Верно!</h2>
+        <p>Ты нашёл Олега</p>
+        <button onclick="showReward()">Далее</button>
+    `;
+
+    popup.style.display = "flex";
+}
+
+function showTheory() {
+
+    content.innerHTML = `
+        <h2>Обучение</h2>
+        <p>Линейный поиск — перебор элементов по порядку.</p>
+        <button onclick="showReward()">Ок</button>
+    `;
+}
+
+function showReward() {
+
+      let img = attempts === 0
+        ? "/assets/medal-gold.png"
+        : attempts === 1
+        ? "/assets/medal-silvers.png"
+        : "/assets/medal-bronse.png";
+
+
+    content.innerHTML = `
+        <h2>Награда</h2>
+        <img src="${img}" class="result-img">
+        <p>Линейный поиск — перебор элементов по порядку.</p>
+        <p>Используется, когда нужно найти элемент в неотсортированном списке.</p>
+        <p> Например, при поиске книги на полке — перебираешь по одной, пока не найдешь нужную.</p>
+        <button onclick="goNext()">Далее</button>
+    `;
+
+    successSound.currentTime = 0;
+    successSound.play();
+}
+
+function restartGame() {
+    popup.style.display = "none";
+    index = 0;
+    gameOver = false;
+    showQuestion();
+}
+
+function exitGame() {
+    popup.style.display = "none";
+    document.getElementById("searchGame").style.display = "none";
+    gameOver = true;
+}
+
+function goNext() {
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "/quest5";
+    }, 600);
+}
+</script>

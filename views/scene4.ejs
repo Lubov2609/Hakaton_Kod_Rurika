@@ -1,0 +1,117 @@
+<div class="scene4">
+    <!-- ================= TOP UI ================= -->
+    <div class="top-ui">
+
+        <div class="left-ui">
+            <a href="/quest5" class="ui-btn btn-back"></a>
+            <a href="/" class="ui-btn btn-home"></a>
+        </div>
+
+        <div class="right-ui">
+            <img id="soundBtn" class="sound-btn" src="/assets/sound-on.png" onclick="toggleSound()">
+            <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+        </div>
+
+    </div>
+
+    <!-- ================= ПЕРСОНАЖИ ================= -->
+    <div class="person left-person">
+        <img src="/assets/rur_final.png" class="char-img" style="height: 60vh !important; margin-bottom: 5vh;">
+        <div class="speech left-text" id="leftText"></div>
+    </div>
+
+    <div class="person right-person">
+        <img src="/assets/vova_862.png" class="char-img" style="height: 60vh !important; margin-bottom: 5vh;">
+        <div class="speech right-text" id="rightText"></div>
+    </div>
+
+    <!-- КНОПКА ПОЯВИТСЯ В КОНЦЕ -->
+    <div class="choices-btn" id="nextBtn" onclick="goNext()" style="display:none;">
+        Продолжить
+    </div>
+</div>
+
+<script>
+// ===================== MENU =====================
+function toggleMenu() {
+    alert("Меню (можешь подключить своё как в других сценах)");
+}
+
+// ===================== ДИАЛОГ =====================
+const dialogue = [
+    { side: "left", text: "ТЫ уже навёл порядок в дружине и доказал силу алгоритмов." },
+    { side: "left", text: "— Ты не из этих мест." },
+    { side: "right", text: "— Я из будущего." },
+    { side: "left", text: "— Ты навёл порядок. Чем отблагодарить?" },
+    { side: "right", text: "— Хочу домой, в 2121 год." },
+    { side: "left", text: "— Я помогу. Отправляйся через Ильмень на ладье." }
+];
+
+// ===================== ЭЛЕМЕНТЫ =====================
+const leftText = document.getElementById("leftText");
+const rightText = document.getElementById("rightText");
+const nextBtn = document.getElementById("nextBtn");
+
+let index = 0;
+let speed = 50;
+
+// ===================== ПЕЧАТЬ ТЕКСТА =====================
+function typeText(el, text, callback) {
+    el.innerHTML = "";
+    let i = 0;
+
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            setTimeout(callback, 700);
+        }
+    }, speed);
+}
+
+// ===================== СТАРТ =====================
+window.onload = () => {
+    runDialogue();
+};
+
+// ===================== ДИАЛОГ ПО ОЧЕРЕДИ =====================
+function runDialogue() {
+
+    if (index >= dialogue.length) {
+
+        setTimeout(() => {
+            nextBtn.style.display = "block";
+            nextBtn.classList.add("show");
+        }, 400);
+
+        return;
+    }
+
+    const line = dialogue[index];
+
+    if (line.side === "left") {
+        rightText.innerHTML = "";
+        typeText(leftText, line.text, nextStep);
+    } else {
+        leftText.innerHTML = "";
+        typeText(rightText, line.text, nextStep);
+    }
+}
+// ===================== СЛЕДУЮЩИЙ ШАГ =====================
+function nextStep() {
+    index++;
+    runDialogue();
+}
+
+// ===================== ПЕРЕХОД =====================
+function goNext() {
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "/scene5";
+    }, 600);
+}
+
+</script>

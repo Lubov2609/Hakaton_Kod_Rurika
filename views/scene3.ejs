@@ -1,0 +1,59 @@
+<div class="game-screen" style="display:block;">
+    <!-- ФОН -->
+    <img src="/assets/fon_862.png" class="bg">
+
+    <!-- AUDIO -->
+    <audio id="bgSound" loop>
+        <source src="/assets/village.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- TOP UI -->
+    <div class="top-ui">
+
+        <div class="left-ui">
+            <a href="/scene2" class="ui-btn btn-back"></a>
+            <a href="/" class="ui-btn btn-home"></a>
+        </div>
+
+        <div class="right-ui">
+            <img id="soundBtn" class="sound-btn" src="/assets/sound-on.png" onclick="toggleSound()">
+            <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+        </div>
+
+    </div>
+
+    <!-- MENU -->
+    <div id="menu" class="menu-overlay">
+        <div class="menu-box">
+            <h2>Меню</h2>
+
+            <button onclick="resumeGame()">Продолжить</button>
+            <button onclick="goHome()">На главную</button>
+            <button onclick="restart()">Заново</button>
+        </div>
+    </div>
+
+    <!-- ЛЕВЫЙ ПЕРСОНАЖ -->
+    <div class="person left-person">
+        <img src="/assets/rurik_862.png" class="char-img">
+
+        <div class="speech left-text">
+            <span id="text1"></span>
+        </div>
+    </div>
+
+    <!-- ПРАВЫЙ ПЕРСОНАЖ -->
+    <div class="person right-person">
+        <img src="/assets/vova_862.png" class="char-img">
+
+        <div class="speech right-text">
+            <span id="text2"></span>
+        </div>
+    </div>
+
+    <!-- КНОПКА -->
+    <button id="choiceBtn" class="choices-btn" onclick="goNext()" disabled>
+        Помочь незнакомцу
+    </button>
+</div>
+<script src="/js/scene3.js"></script>

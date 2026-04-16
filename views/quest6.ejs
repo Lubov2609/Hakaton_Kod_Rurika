@@ -1,0 +1,193 @@
+<link href="/css/quest.css" rel="stylesheet">
+
+<div class="scene8">
+    <audio id="bgSound" loop>
+        <source src="/assets/village.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- UI -->
+    <div class="top-ui">
+        <div class="left-ui">
+            <a href="/quest5" class="ui-btn btn-back"></a>
+            <a href="/" class="ui-btn btn-home"></a>
+        </div>
+    </div>
+
+    <!-- ПРАВЫЙ ПЕРСОНАЖ -->
+    <div class="person right-person">
+        <img src="/assets/vova_scene6.png" class="char-img">
+    </div>
+
+    <!-- АМУЛЕТ -->
+    <div class="amulet-block">
+        <img src="/assets/omylet.png" class="amulet-game">
+        <div class="amulet-text">
+            Поставь сундук 1<br>
+            Поставь сундук 2<br>
+            Подними сундук<br>
+            Поставь сундук 3<br>
+            Подними сундук<br>
+            Подними сундук
+        </div>
+    </div>
+
+    <!-- СУНДУКИ -->
+    <div class="chests">
+        <img src="/assets/synd1.png" class="chest" draggable="true" data-id="1">
+        <img src="/assets/synd2.png" class="chest" draggable="true" data-id="2">
+        <img src="/assets/synd3.png" class="chest" draggable="true" data-id="3">
+    </div>
+
+    <!-- БАШНЯ -->
+    <div class="tower-container">
+        <div id="tower" class="tower"></div>
+        <img src="/assets/ten_synd.png" class="image-under-tower">
+    </div>
+
+    <!-- POPUP -->
+    <div id="resultPopup" class="dg-overlay" style="display:none;">
+        <div class="dg-window" id="resultContent"></div>
+    </div>
+
+    <audio id="successSound" src="/assets/medal.mp3"></audio>
+</div>
+
+<script>
+/* ===== СТЕК ===== */
+let stack = [];
+let steps = [];
+let attempts = 0;
+
+const correct = [
+    "push1","push2","pop","push3","pop","pop"
+];
+
+/* ===== DRAG ===== */
+let dragged = null;
+
+document.querySelectorAll(".chest").forEach(el => {
+
+    el.addEventListener("dragstart", (e) => {
+        dragged = el;
+        e.dataTransfer.setData("text/plain", el.dataset.id);
+    });
+
+});
+
+/* ===== DROP ===== */
+const tower = document.getElementById("tower");
+
+tower.addEventListener("dragover", (e) => e.preventDefault());
+
+tower.addEventListener("drop", (e) => {
+    e.preventDefault();
+
+    if (!dragged) return;
+
+    let id = dragged.dataset.id;
+
+    stack.push(id);
+    steps.push("push" + id);
+
+    tower.appendChild(dragged);
+    dragged = null;
+
+    check();
+});
+
+/* ===== POP ===== */
+tower.addEventListener("click", () => {
+
+    if (stack.length === 0) return;
+
+    let last = tower.lastElementChild;
+
+    stack.pop();
+    steps.push("pop");
+
+    document.querySelector(".chests").appendChild(last);
+
+    check();
+});
+
+/* ===== ПРОВЕРКА ===== */
+function check() {
+
+    for (let i = 0; i < steps.length; i++) {
+        if (steps[i] !== correct[i]) {
+            return showFail();
+        }
+    }
+
+    if (steps.length === correct.length) {
+        showReward();
+    }
+}
+
+/* ===== ОШИБКА ===== */
+function showFail() {
+
+    attempts++;
+
+    let text = attempts == 1
+        ? "Подсказка: смотри на порядок действий"
+        : attempts == 2
+        ? "Стек: последний пришёл — первый ушёл"
+        : "Попробуй позже";
+
+    let button = attempts >= 3
+        ? `<button onclick="exitGame()">Выйти</button>`
+        : `<button onclick="exitGame()">Еще раз</button>`;
+
+    resultContent.innerHTML = `
+        <h2>Ошибка</h2>
+        <div class="hint-box"><p>${text}</p></div>
+        ${button}
+    `;
+
+    resultPopup.style.display = "flex";
+}
+
+function retry() {
+    resultPopup.style.display = "none";
+}
+
+/* ===== НАГРАДА ===== */
+function showReward() {
+
+    let img = attempts === 0
+        ? "/assets/medal-gold.png"
+        : attempts === 1
+        ? "/assets/medal-silvers.png"
+        : "/assets/medal-bronse.png";
+
+    resultContent.innerHTML = `
+        <h2>Награда!</h2>
+        <img src="${img}" class="result-img">
+
+        <p>Стек — структура данных</p>
+        <p>Последний элемент извлекается первым (LIFO)</p>
+
+        <button onclick="goNext()">Далее</button>
+    `;
+
+    resultPopup.style.display = "flex";
+
+    successSound.currentTime = 0;
+    successSound.play();
+}
+
+function exitGame() {
+    location.reload();
+}
+
+/* ===== ПЕРЕХОД ===== */
+function goNext() {
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "/final-test";
+    }, 600);
+}
+
+</script>

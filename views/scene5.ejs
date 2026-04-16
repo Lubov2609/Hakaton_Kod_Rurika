@@ -1,0 +1,29 @@
+<style>
+.screen-862 {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('assets/fon_1221.png') center/100vw 100vh no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+</style>
+
+<div class="screen-862"></div>
+<script>
+// Автоматический переход через 5 секунд
+setTimeout(() => {
+    window.location.href = "/quest6";
+}, 5000);
+
+// переход на сцену 3 по клику в любом месте
+document.body.addEventListener("click", () => {
+    window.location.href = "/quest6";
+});
+
+document.addEventListener("click", () => {
+    localStorage.setItem("audioUnlocked", "true");
+});
+</script>

@@ -1,0 +1,103 @@
+<!-- ================= ЗАГРУЗКА ================= -->
+<div class="container" id="loader">
+    <div class="logo-box">
+        <img src="/assets/logo.png" class="logo">
+    </div>
+    <h1>КОД РЮРИКА</h1>
+
+    <div style="position:absolute; bottom:120px; width:100%; display:flex; flex-direction:column; align-items:center;">
+        <div class="boat">
+            <img src="/assets/logo_start.png">
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+</div>
+
+<div class="rurik-menu" id="rurikMenu">
+
+    <div class="rurik-bg"></div>
+
+    <!-- ЛОГО -->
+    <img src="/assets/logo_menu.png" class="rurik-logo">
+
+    <!-- НАЗВАНИЕ -->
+    <h1 class="rurik-title">КОД РЮРИКА</h1>
+
+    <!-- КНОПКИ -->
+    <div class="rurik-buttons">
+        <button class="rurik-btn main" id="startGame">НОВАЯ ИГРА</button>
+        <button class="rurik-btn" onclick="window.location.href='/leaderboard'">ТАБЛИЦА ЛИДЕРОВ</button>
+        <button class="rurik-btn" onclick="goAbout()">О ПРОЕКТЕ</button>
+        <% if (user) { %>
+            <button class="rurik-btn" onclick="logout()">ВЫЙТИ</button>
+        <% } else { %>
+            <button class="rurik-btn" onclick="login()">АВТОРИЗАЦИЯ</button>
+        <% } %>
+    </div>
+
+    <!-- ПЕРСОНАЖ -->
+    <img src="/assets/rurik_menu.png" class="rurik-character">
+
+</div>
+
+<!-- ================= ТЕМНЫЙ ЭКРАН ================= -->
+<div class="dark-screen" id="dark">
+    <div class="title">
+        <span class="city">Великий Новгород</span>
+        <span class="year">2121 ГОД</span>
+    </div>
+</div>
+
+<!-- ================= СТАРОЕ МЕНЮ (НЕ ТРОГАЕМ) ================= -->
+<div class="menu-screen" id="menu">
+
+    <div class="menu-left">
+
+        <div class="menu-text">
+            <p>Привет! Меня зовут Вова,<br>я учусь в Школе21</p>
+
+            <p>Сегодня я засиделся до поздна,<br>
+            чтобы закончить трудный проект</p>
+
+            <p>Пожалуй, пойду поищу кофейный<br>
+            аппарат или станцию<br>
+            с питательными гелями...</p>
+        </div>
+
+        <div class="menu-buttons">
+            <button class="menu-btn" id="newGame">Искать кофе</button>
+            <button onclick="goHome()" class="menu-btn">Пойти домой</button>
+        </div>
+
+    </div>
+
+    <img src="/assets/vova-2121.png" class="character">
+
+    <audio id="clickSound" src="/assets/click.mp3"></audio>
+</div>
+
+<!-- ================= ИГРА ================= -->
+<div class="game-screen" id="game">
+
+    <div class="doors-block left">
+        <img src="/assets/door-sklad.png" class="doors" id="doors">
+    </div>
+
+    <img src="/assets/vova-sklad.png" class="character-game center">
+
+    <div class="dialogue-text top-center">
+        Хм М М М!... Не замечал раньше этой двери...
+    </div>
+
+    <!-- <div class="hint" id="hint">
+        <img src="/assets/hands.png">
+        <span>Нажмите, чтоб открыть</span>
+    </div> -->
+
+    <audio id="doorSound" src="/assets/door.mp3"></audio>
+
+</div>
+<script src="/js/scene1.js"></script>

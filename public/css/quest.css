@@ -1,0 +1,326 @@
+/* =========================
+   ОБЩИЙ СТИЛЬ КВЕСТОВ
+========================= */
+
+@font-face {
+    font-family: '2121text';
+    src: url('/fonts/golos-text_vf.ttf') format('truetype');
+}
+
+/* =========================
+   ФОН (ВАЖНО!)
+========================= */
+.dg-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(40, 30, 15, 0.35); /* ↓ уменьшаем затемнение */
+    backdrop-filter: blur(3px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+/* =========================
+   ОКНО (ГЛАВНОЕ)
+========================= */
+.dg-window {
+    position: relative;
+
+    /* ✨ РЕАЛЬНАЯ ПРОЗРАЧНОСТЬ */
+    background: rgba(255, 248, 230, 0.55);
+
+    /* ✨ ЭФФЕКТ СТЕКЛА */
+    backdrop-filter: blur(6px);
+
+    border: 3px solid rgba(122, 90, 42, 0.9);
+    border-radius: 18px;
+
+    padding: 25px;
+    width: 90%;
+    max-width: 500px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.5),
+        inset 0 0 15px rgba(120, 90, 40, 0.25);
+
+    font-family: '2121text', serif;
+    color: #3a2a15;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* заголовки */
+.dg-window h2 {
+    color: #5a3e1b;
+    margin-bottom: 10px;
+}
+
+.dg-window h3,
+.dg-window h4 {
+    color: #6b4f2a;
+    font-weight: normal;
+    font-family: '2121text', serif;
+
+}
+
+/* =========================
+   СПИСОК (items)
+========================= */
+
+#items, #orderItems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* карточки */
+.items,
+.item {
+    background: linear-gradient(#f2e2c4, #e2c79b);
+    border: 2px solid #7a5a2a;
+    border-radius: 12px;
+    padding: 12px;
+    color: #3a2a15;
+    cursor: grab;
+    box-shadow: 0 4px 0 #6b4f2a;
+    transition: 0.2s;
+}
+
+/* hover */
+.items:hover,
+.item:hover {
+    background: linear-gradient(#f6e8cc, #e8d3ab);
+    transform: scale(1.02);
+}
+
+/* при перетаскивании */
+.item.dragging {
+    opacity: 0.6;
+    transform: scale(0.95);
+}
+
+/* =========================
+   КНОПКИ
+========================= */
+
+.dg-check,
+.mg-btn,
+button {
+    margin-top: 15px;
+    padding: 12px 22px;
+
+    background: linear-gradient(#d6b98c, #c4a373);
+    border: 2px solid #6b4f2a;
+    border-radius: 12px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+    transition: 0.2s;
+}
+
+/* hover */
+.dg-check:hover,
+button:hover {
+    background: linear-gradient(#e6cfa5, #d6b98c);
+}
+
+/* нажатие */
+.dg-check:active,
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+
+/* =========================
+   ПОДСКАЗКИ
+========================= */
+
+.hint-box {
+    background: #f8f1df;
+    border-left: 5px solid #7a5a2a;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+/* =========================
+   POPUP УСПЕХА
+========================= */
+
+.dg-window img.result-img {
+    margin: 10px 0;
+    max-height: 100px;
+}
+
+/* =========================
+   МИНИ ИГРА (фикс)
+========================= */
+
+.mg-board {
+    background: #f5ecd9;
+    border: 3px solid #7a5a2a;
+    border-radius: 18px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.mg-bg {
+    background: rgba(40, 30, 15, 0.65);
+}
+/* =========================
+   ФИКС КНОПКИ "ПРОВЕРИТЬ"
+========================= */
+
+/* контейнер окна */
+.dg-window {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* список элементов */
+#items, #orderItems {
+    width: 100%;
+}
+
+/* кнопка */
+.dg-check,
+.mg-btn {
+    display: block;
+    width: 80%;
+    max-width: 260px;
+
+    margin: 20px auto 0 auto; /* центр */
+
+    text-align: center;
+}
+
+/* если вдруг кнопка "уезжает" */
+.dg-window button {
+    align-self: center;
+}
+
+/* чтобы ничего не вылазило */
+.dg-window {
+    overflow: hidden;
+}
+/* =========================
+   ИГРОВЫЕ КНОПКИ (БЕЛЫЕ)
+========================= */
+
+.dg-col button {
+    width: 100%;
+    padding: 10px;
+
+    background: linear-gradient(#ffffff, #f1f1f1);
+    border: 2px solid #7a5a2a;
+    border-radius: 10px;
+
+    color: #3a2a15;
+    font-family: '2121text', serif;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 0 #7a5a2a;
+    transition: 0.2s;
+}
+
+/* hover */
+.dg-col button:hover {
+    background: linear-gradient(#ffffff, #e8e8e8);
+    transform: scale(1.03);
+}
+
+/* выбранная кнопка */
+.dg-col button.active {
+    background: #d6b98c;
+    border-color: #5a3e1b;
+}
+/* =========================
+   ТЕКСТ НАГРАДЫ
+========================= */
+
+.dg-window p {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+/* главный текст */
+.dg-window p:first-of-type {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: '2121text', serif;
+
+}
+
+/* объяснение */
+.dg-window p:not(:first-of-type) {
+    font-size: 14px;
+    color: #4a3820;
+    font-family: '2121text', serif;
+
+}
+
+/* пример */
+.dg-window p:last-of-type {
+    color: #6b4f2a;
+    font-family: '2121text', serif;
+
+}
+/* =========================
+   КНОПКИ ДЕЙСТВИЙ (ЦИКЛ)
+========================= */
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* сами кнопки */
+.actions button {
+    background: #ffffff; /* белые — как ты хотел */
+    border: 2px solid #7a5a2a;
+    border-radius: 12px;
+
+    color: #3a2a15;
+    font-family: 'HistoryChoice', serif;
+
+    padding: 10px 16px;
+    cursor: pointer;
+
+    box-shadow: 0 4px 0 #6b4f2a;
+    transition: 0.2s;
+}
+
+/* hover */
+.actions button:hover {
+    background: #f3e6cf;
+}
+
+/* active */
+.actions button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6b4f2a;
+}
+#cycleGame h2 {
+    color: #5a3e1b;
+}
+
+#cycleGame h3 {
+    color: #6b4f2a;
+    font-weight: normal;
+}
+
+

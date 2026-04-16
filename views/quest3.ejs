@@ -1,0 +1,343 @@
+<link href="/css/quest.css" rel="stylesheet">
+
+<div class="quest3">
+
+    <!-- AUDIO -->
+    <audio id="bgSound" loop>
+        <source src="/assets/village.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="successSound" src="/assets/medal.mp3"></audio>
+
+    <!-- TOP UI -->
+    <div class="top-ui">
+
+        <div class="left-ui">
+            <a href="quest2.html" class="ui-btn btn-back"></a>
+            <a href="index.html" class="ui-btn btn-home"></a>
+        </div>
+
+        <div class="right-ui">
+            <img id="soundBtn" class="sound-btn" src="/assets/sound-on.png" onclick="toggleSound()">
+            <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+        </div>
+
+    </div>
+
+    <!-- MENU -->
+    <div id="menu" class="menu-overlay">
+        <div class="menu-box">
+            <h2>Меню</h2>
+
+            <button onclick="resumeGame()">Продолжить</button>
+            <button onclick="goHome()">На главную</button>
+            <button onclick="restart()">Заново</button>
+        </div>
+    </div>
+
+    <!-- ПЕРСОНАЖИ -->
+    <div class="person left-person">
+        <img src="/assets/ruric_quest1.png" class="char-img">
+
+        <div class="speech left-text">
+            <span id="text1"></span>
+        </div>
+    </div>
+
+    <div class="person right-person">
+        <img src="/assets/vova_862.png" class="char-img">
+    </div>
+
+    <!-- КНОПКА -->
+    <button id="choiceBtn" class="choices-btn" onclick="openCycleGame()" disabled>
+        Забить опоры
+    </button>
+
+    <!-- ================= МИНИ-ИГРА ================= -->
+    <div id="cycleGame" class="dg-overlay" style="display:none;">
+        <div class="dg-window">
+
+            <div class="dg-close" onclick="closeGame()">✖</div>
+
+            <h2>Построй причал</h2>
+            <h3>Повтори последовательность 5 раз</h3>
+
+            <div id="logs"></div>
+
+            <div class="actions">
+                <button onclick="doStep(1)">Взять бревно</button>
+                <button onclick="doStep(2)">Установить</button>
+                <button onclick="doStep(3)">Забить опоры</button>
+            </div>
+
+            <button onclick="checkCycle()">Проверить</button>
+
+        </div>
+    </div>
+
+    <!-- POPUP -->
+    <div id="resultPopup" class="dg-overlay" style="display:none;">
+        <div class="dg-window" id="resultContent"></div>
+    </div>
+</div>
+
+<script>
+
+/* ================= SOUND ================= */
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+window.addEventListener("click", () => {
+    if (soundEnabled) sound.play();
+}, { once: true });
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) sound.play();
+    else sound.pause();
+
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+
+    soundBtn.src = soundEnabled
+        ? "/assets/sound-on.png"
+        : "/assets/sound-off.png";
+}
+
+
+
+function goHome() {
+    window.location.href = "/";
+}
+
+function restart() {
+    window.location.reload();
+}
+function resetGame() {
+    count = 0;
+    step = 0;
+    attempts = 0;
+
+    document.getElementById("logs").innerHTML = "";
+}
+/* ================= TYPE TEXT ================= */
+const textLeft = "Нашей крепости нужен причал! Помоги нам, и я познакомлю тебя со старшим!";
+let iText = 0;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, 25);
+}
+
+window.onload = () => {
+    typeText(document.getElementById("text1"), textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
+};
+
+// skip
+document.addEventListener("click", () => {
+    document.getElementById("text1").innerHTML = textLeft;
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
+/* ================= GAME ================= */
+let count = 0;
+let attempts = 0;
+let step = 0;
+
+function openCycleGame() {
+    resetGame(); // 🔥 всегда новая игра
+    document.getElementById("cycleGame").style.display = "flex";
+}
+function restartCycle() {
+    resultPopup.style.display = "none";
+    resetGame();
+}
+
+function closeGame() {
+    document.getElementById("cycleGame").style.display = "none";
+}
+
+function doStep(action) {
+
+    if (action === step + 1) {
+        step++;
+
+        playSound(action); // 🔥 ВАЖНО
+
+        if (step === 3) {
+            addLog();
+            step = 0;
+        }
+
+    } else {
+        attempts++;
+        step = 0;
+        showSequenceError();
+    }
+}
+function playSound(action) {
+    if (action === 1) {
+        takeSound.currentTime = 0;
+        takeSound.play();
+    }
+    if (action === 2) {
+        placeSound.currentTime = 0;
+        placeSound.play();
+    }
+    if (action === 3) {
+        hitSound.currentTime = 0;
+        hitSound.play();
+    }
+}
+
+
+
+function addLog() {
+    count++;
+
+    const log = document.createElement("div");
+    log.className = "log";
+
+    document.getElementById("logs").appendChild(log);
+
+    setTimeout(() => log.classList.add("show"), 50);
+}
+
+function playSound(action) {
+    if (action === 1) takeSound.play();
+    if (action === 2) placeSound.play();
+    if (action === 3) hitSound.play();
+}
+function checkCycle() {
+
+    if (count === 5) {
+        showSuccess();
+        return;
+    }
+
+    showFail();
+}
+
+function showSequenceError() {
+
+    if (attempts >= 3) return showGameOver();
+
+    resultContent.innerHTML = `
+        <h2>Ошибка</h2>
+        <div class="hint-box">
+            <p>Нарушена последовательность</p>
+        </div>
+        <button onclick="closePopup()">Продолжить</button>
+    `;
+
+    resultPopup.style.display = "flex";
+}
+
+function showFail() {
+
+    resultContent.innerHTML = `
+        <h2>Ошибка</h2>
+        <div class="hint-box">
+            <p>Нужно ровно 5 циклов</p>
+        </div>
+        <button onclick="restartCycle()">Попробовать снова</button>
+    `;
+
+    resultPopup.style.display = "flex";
+}
+
+function exitGame() {
+     resultPopup.style.display = "none";
+    document.getElementById("cycleGame").style.display = "none";
+
+    resetGame(); // 🔥 сброс
+}
+
+function showGameOver() {
+
+    resultContent.innerHTML = `
+        <h2>Устал...</h2>
+        <div class="hint-box">
+            <p>Попробуй позже</p>
+        </div>
+        <button onclick="exitGame()">Выйти</button>
+    `;
+
+    resultPopup.style.display = "flex";
+}
+
+function showSuccess() {
+
+    resultContent.innerHTML = `
+        <h2>Верно!</h2>
+        <div class="hint-box">
+            <p>Ты построил причал!</p>
+        </div>
+        <button onclick="showReward()">Далее</button>
+    `;
+
+    resultPopup.style.display = "flex";
+}
+
+function showTheory() {
+
+    resultContent.innerHTML = `
+        <h2>Обучение</h2>
+        <p>Цикл — повторение действий</p>
+        <button onclick="showReward()">Ок</button>
+    `;
+}
+
+function showReward() {
+
+    let img = attempts === 0
+        ? "/assets/medal-gold.png"
+        : attempts === 1
+        ? "/assets/medal-silvers.png"
+        : "/assets/medal-bronse.png";
+
+    resultContent.innerHTML = `
+        <h2>Награда</h2>
+        <img src="${img}" class="result-img">
+                <p>Цикл — повторение действий</p>
+        <p>Используется, когда нужно повторить действия несколько раз.</p>
+        <p> Например, при приготовлении блюда — помешивать суп 10 минут.</p>
+        <button onclick="goNext()">Далее</button>
+    `;
+
+    successSound.currentTime = 0;
+    successSound.play();
+}
+
+// звуки действий
+const takeSound = new Audio("/assets/take.mp3");
+const placeSound = new Audio("/assets/place.mp3");
+const hitSound = new Audio("/assets/hit.mp3");
+
+function closePopup() {
+    resultPopup.style.display = "none";
+}
+
+function goNext() {
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = "/quest4";
+    }, 600);
+}
+
+</script>

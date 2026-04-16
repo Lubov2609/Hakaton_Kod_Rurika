@@ -1,0 +1,386 @@
+<link href="/css/quest.css" rel="stylesheet">
+
+<div class="quest5">
+
+    <!-- AUDIO -->
+    <audio id="bgSound" loop>
+        <source src="/assets/village.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- TOP UI -->
+    <div class="top-ui">
+
+        <div class="left-ui">
+            <a href="/quest4" class="ui-btn btn-back"></a>
+            <a href="/" class="ui-btn btn-home"></a>
+        </div>
+
+        <div class="right-ui">
+            <img id="soundBtn" class="sound-btn" src="/assets/sound-on.png" onclick="toggleSound()">
+            <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+        </div>
+
+    </div>
+
+    <!-- MENU -->
+    <div id="menu" class="menu-overlay">
+        <div class="menu-box">
+            <h2>Меню</h2>
+            <button onclick="resumeGame()">Продолжить</button>
+            <button onclick="goHome()">На главную</button>
+            <button onclick="restart()">Заново</button>
+        </div>
+    </div>
+
+    <!-- ПЕРСОНАЖ -->
+    <div class="person left-person">
+        <img src="/assets/rur_quest5.png" class="char-img">
+
+        <div class="speech left-text">
+            <span id="text1"></span>
+        </div>
+    </div>
+
+    <div class="person right-person">
+        <img src="/assets/vova_quest5.png" class="char-img">
+    </div>
+
+    <!-- КНОПКА -->
+    <button class="choices-btn" id="choiceBtn" onclick="openGame()" disabled>
+        Начать сортировку
+    </button>
+
+    <!-- ИГРА (НЕ ТРОГАЛ) -->
+    <div id="game" class="dg-overlay" style="display:none;">
+        <div class="dg-window">
+
+            <div class="dg-close" onclick="closeGame()">✖</div>
+
+            <h2>Сортировка дружины. Если больше, то вправо</h2>
+
+            <p id="info"></p>
+
+            <div id="array" style="display:flex; gap:10px; justify-content:center; margin:20px 0;"></div>
+
+            <div class="actions">
+                <button onclick="swap()">Поменять местами</button>
+                <button onclick="keep()">Оставить</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- POPUP -->
+    <div id="popup" class="dg-overlay" style="display:none;">
+        <div class="dg-window" id="popupContent"></div>
+    </div>
+
+    <audio id="successSound" src="/assets/medal.mp3"></audio>
+</div>
+<script>
+// =====================
+// ЗВУК + UI
+// =====================
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+window.addEventListener("click", () => {
+    if (soundEnabled) sound.play();
+}, { once: true });
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) sound.play();
+    else sound.pause();
+
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+    soundBtn.src = soundEnabled ? "/assets/sound-on.png" : "/assets/sound-off.png";
+}
+
+// =====================
+// МЕНЮ
+// =====================
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+function resumeGame() {
+    toggleMenu();
+}
+
+function goHome() {
+    window.location.href = "/";
+}
+
+function restart() {
+    window.location.reload();
+}
+
+// =====================
+// ВЫБЕГАЮЩИЙ ТЕКСТ
+// =====================
+const textLeft = "— Надо порядок навести! Встанут как попало — в бою толку не будет! Сравнивайте соседей. Больший — вправо!";
+let speed = 25;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+window.onload = () => {
+    typeText(text1, textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
+};
+
+// пропуск текста
+document.addEventListener("click", () => {
+    text1.innerHTML = textLeft;
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
+</script>
+
+<!-- ===================== -->
+<!-- ИГРА (НЕ ИЗМЕНЕНА) -->
+<!-- ===================== -->
+<script>
+
+// =====================
+// ДАННЫЕ
+// =====================
+let arr = [];
+let i = 0;
+let attempts = 0;
+let swapsInPass = 0;
+let sortedEnd = 0;
+let gameOver = false;
+
+// =====================
+// ЭЛЕМЕНТЫ
+// =====================
+const popup = document.getElementById("popup");
+const content = document.getElementById("popupContent");
+const info = document.getElementById("info");
+const arrayBox = document.getElementById("array");
+const sound2 = document.getElementById("successSound");
+
+// =====================
+// СТАРТ
+// =====================
+function openGame() {
+
+    arr = generateArray();
+    i = 0;
+    sortedEnd = arr.length - 1;
+    attempts = 0;
+    swapsInPass = 0;
+    gameOver = false;
+
+    document.getElementById("game").style.display = "flex";
+    render();
+}
+
+function closeGame() {
+    document.getElementById("game").style.display = "none";
+}
+
+// =====================
+// МАССИВ
+// =====================
+function generateArray() {
+    return [7, 3, 9, 1, 5];
+}
+
+// =====================
+// РЕНДЕР
+// =====================
+function render() {
+
+    arrayBox.innerHTML = "";
+
+    arr.forEach((num, idx) => {
+        const el = document.createElement("div");
+        el.innerText = num;
+        el.style.padding = "10px 15px";
+        el.style.border = "2px solid #333";
+        el.style.borderRadius = "8px";
+        el.style.background = (idx === i || idx === i + 1) ? "#ffd54f" : "#fff";
+
+        arrayBox.appendChild(el);
+    });
+
+    info.innerText = `Сравни: ${arr[i]} и ${arr[i + 1]}`;
+}
+
+// =====================
+// ОШИБКИ / ЛОГИКА
+// =====================
+function checkLose() {
+
+    if (attempts >= 3) {
+        gameOver = true;
+
+        content.innerHTML = `
+            <h2>Думаю ты устал...</h2>
+            <p>Попробуй позже</p>
+            <button onclick="exitGame()">Выйти</button>
+        `;
+
+        popup.style.display = "flex";
+        return true;
+    }
+
+    return false;
+}
+
+function swap() {
+
+    if (gameOver) return;
+
+    if (i < 0 || i >= arr.length - 1) {
+        attempts++;
+        showError("Нельзя нарушать пузырьковую сортировку!");
+        return;
+    }
+
+    if (arr[i] <= arr[i + 1]) {
+        attempts++;
+        showError("Они уже в порядке!");
+        return;
+    }
+
+    let temp = arr[i];
+    arr[i] = arr[i + 1];
+    arr[i + 1] = temp;
+
+    swapsInPass++;
+    nextStep();
+}
+
+function keep() {
+
+    if (gameOver) return;
+
+    if (arr[i] > arr[i + 1]) {
+        attempts++;
+        showError("Нужно было поменять местами!");
+        return;
+    }
+
+    nextStep();
+}
+
+function nextStep() {
+
+    if (checkLose()) return;
+
+    i++;
+
+    if (i >= sortedEnd) {
+
+        i = 0;
+
+        if (swapsInPass === 0) {
+            showSuccess();
+            return;
+        }
+
+        sortedEnd--;
+        swapsInPass = 0;
+    }
+
+    render();
+}
+
+function showError(text) {
+
+    if (checkLose()) return;
+
+    content.innerHTML = `
+        <h2>Неверно</h2>
+        <p>${text}</p>
+        <button onclick="restart()">Попробовать ещё раз</button>
+    `;
+
+    popup.style.display = "flex";
+}
+
+function showSuccess() {
+
+    content.innerHTML = `
+        <h2>Вот это порядок!</h2>
+        <p>Дружина построена правильно!</p>
+        <button onclick="reward()">Далее</button>
+    `;
+
+    popup.style.display = "flex";
+}
+
+function theory() {
+
+    content.innerHTML = `
+        <h2>Сортировка пузырьком</h2>
+        <p>Сравнение соседних элементов и обмен.</p>
+        <button onclick="reward()">Ок</button>
+    `;
+}
+
+function reward() {
+
+
+      let img = attempts === 0
+        ? "/assets/medal-gold.png"
+        : attempts === 1
+        ? "/assets/medal-silvers.png"
+        : "/assets/medal-bronse.png";
+
+    content.innerHTML = `
+        <h2>Награда</h2>
+        <img src="${img}" class="result-img">
+        <p>Сортировка пузырьком - это алгоритм сортировки, который сравнивает соседние элементы и меняет их местами, если они находятся в неправильном порядке.</p>
+        <p>Используется для обучения основам сортировки и алгоритмического мышления.</p>
+    
+        <button onclick="goNext()">Далее</button>
+    `;
+
+    sound2.currentTime = 0;
+    sound2.play();
+}
+
+function restart() {
+    popup.style.display = "none";
+    arr = generateArray();
+    i = 0;
+    swapsInPass = 0;
+    gameOver = false;
+    render();
+}
+
+function exitGame() {
+    popup.style.display = "none";
+    document.getElementById("game").style.display = "none";
+    gameOver = true;
+}
+
+function goNext() {
+    document.body.classList.add("fade-out");
+    setTimeout(() => {
+        window.location.href = "/scene4";
+    }, 600);
+}
+
+</script>
