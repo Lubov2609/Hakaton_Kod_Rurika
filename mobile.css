@@ -1,201 +1,197 @@
 @media (max-width: 768px) {
+  /* ===== LOADER MOBILE ===== */
+.logo-box {
+  position: relative;
+  margin: 0 auto;
+  padding-top: 10%;
+  left: 0;
+}
 
-    /* ===== БАЗА ===== */
-    * {
-        box-sizing: border-box;
+.loader {
+    height: 100vh;
+    width: 100%;
+    background: url('assets/fon.png') center/cover no-repeat;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 15px 40px;
+    box-sizing: border-box;
+}
+
+h1 {
+  position: relative;
+  top: 0;
+  font-size: 128px;
+}
+
+/* ===== ВЕРХНЯЯ ПАНЕЛЬ ===== */
+.top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: black;
+}
+
+.icons span {
+    margin-left: 5px;
+}
+
+/* ===== ЛОГО ===== */
+.logo {
+    /* width: 140px; */
+    margin-top: 10px;
+}
+
+/* ===== ТЕКСТ ===== */
+.title {
+    font-family: 'HistoryFont', serif;
+    font-size: 64px;
+    text-align: center;
+    color: #5c5048;
+    line-height: 1.1;
+}
+
+/* ===== ЛОДКА ===== */
+.boat {
+    margin-top: auto;
+    opacity: 100;
+    background: none;
+    border: 0;
+    box-shadow: none;
+
+    img {
+      width: 164px;
     }
+}
 
-    body {
-        overflow-x: hidden;
-    }
+/* ===== ПРОГРЕСС ===== */
+.progress-container {
+    width: 90%;
+    height: 24px;
+    background: #e0dcd6;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 20px;
+}
 
-    /* ===== ЗАГРУЗКА ===== */
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #5c5048;
+    transition: width 0.3s;
+}
 
-    h1 {
-        font-size: 42px;
-        top: 20px;
-    }
 
-    .logo-box {
-        width: 100px;
-        top: 10px;
-        left: 10px;
-    }
+.rurik-character {
+  display: none;
+}
 
-    .progress-container {
-        width: 80%;
-    }
+.rurik-buttons {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 2;
+  }
 
-    /* ===== DARK SCREEN ===== */
+  .rurik-title {
+    width: auto;
+    font-size: 128px;
+    top: 5%;
+  }
 
-    .city {
-        font-size: 24px;
-    }
+  .city {
+    font-size: 64px;
+    font-family: "Orbitron", sans-serif;
+  }
 
-    .year {
-        font-size: 32px;
-        margin-top: 20px;
-    }
+  .year {
+    font-size: 96px;
+  }
 
-    /* ===== МЕНЮ РЮРИКА ===== */
+.menu-screen {
+    background-size: 390%; /* чуть больше, если нужно «приблизить» на мобилке */
+    /* или наоборот background-size: 60%; чтобы ещё сильнее отдалить */
+    background-position: center 30%;
+    background-position: 55% center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+  }
 
-    .rurik-logo {
-        left: 20px;
-        top: 20px;
-        width: 90px;
-    }
+  .character {
+    width: 200px;
+    top: 10%;
+    left: 70%;
+    bottom: auto;
+  }
 
-    .rurik-title {
-        font-size: 128px;
-        top: 0px;
-        /* left: 20px; */
-    }
+/* Переопределяет инлайн bottom:120px */
+#loader > div[style*="bottom:120px"] {
+  bottom: 34px !important;
+}
 
-    .rurik-buttons {
-        left: 20px;
-        width: calc(100% - 40px);
-        top: 80%;
-        transform: translateY(-50%);
-    }
+.menu-buttons {
+  align-items: center;
+padding-top: 20px;
+  
+}
 
-    .rurik-btn {
-        width: 100%;
-        font-size: 16px;
-        padding: 12px;
-    }
+.menu-left {
+  position: relative;
+  display: flex;
+  gap: 300px;
+  left: 0;
+  width: auto;
+  padding-top: 35%;
+}
+.menu-text {
+  padding-left: 16px;
+  font-size: 16px;
+}
 
-    .rurik-character {
-        display: none; /* убираем — не влезает */
-    }
+.menu-btn {
+  width: 344px;
+  height: 56px;
+}
 
-    /* ===== СТАРОЕ МЕНЮ ===== */
-
-    .menu-left {
-        left: 20px;
-        bottom: 30px;
-        width: calc(100% - 40px);
-    }
-
-    .menu-text {
-        font-size: 14px;
-    }
-
-    .menu-btn {
-        width: 100%;
-        font-size: 16px;
-    }
-
-    .character {
-        height: 45%;
-    }
-
-    /* ===== ИГРА ===== */
-
-    .game-screen {
-        background-position: center;
-    }
-
-    .doors-block {
-        left: 50% !important;
-        top: 120px;
-        transform: translateX(-50%);
-    }
-
-    .doors {
-        width: 180px;
-        height: auto;
-    }
-
-    .character-game {
-        left: 50% !important;
-        height: 50%;
-        transform: translateX(-50%);
-    }
-
-    .dialogue-text {
-        top: 20px;
-        font-size: 14px;
-        max-width: 90%;
-        padding: 10px 14px;
-    }
-
-    .hint {
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 30px;
-        font-size: 12px;
-    }
-
-    /* ===== КНОПКИ (UI) ===== */
-
-    .ui-btn {
-        width: 35px;
-        height: 35px;
-    }
-
-    /* ===== МИНИ-ИГРА ===== */
-
-    .mg-board {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .item {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    .mg-btn {
-        width: 100%;
-    }
-
-    /* ===== DIALOG WINDOW ===== */
-
-    .dg-window {
-        width: 90%;
-        padding: 20px;
-    }
-
-    .dg-columns {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .dg-col {
-        width: 100%;
-    }
-
-    .dg-check {
-        width: 80%;
-    }
-
-    /* ===== ПЕРСОНАЖИ В СЦЕНАХ ===== */
-
-    .char-img {
-        height: 40vh;
-    }
-
-    .speech {
-        width: 90%;
-        font-size: 14px;
-    }
-
-    /* ===== LOGIN ===== */
-
-    .auth-box {
-        right: 50%;
-        transform: translate(50%, -50%);
-        width: 90%;
-    }
-
-    .login-logo {
-        left: 50%;
-        top: 40px;
-        transform: translateX(-50%);
-    }
-
-    .logo-text {
-        font-size: 36px;
-    }
+.center {
+  left: 75%;
 
 }
+
+.character-game {
+  bottom: 15%;
+  width: 164px;
+  height: auto;
+}
+
+.doors {
+  height: auto;
+  width: 164px;
+}
+
+.left {
+  left: 4%;
+}
+.doors-block, .vending-block {
+  top: 30%;
+}
+
+.top-center {
+  top: 32%;
+
+}
+
+.dialogue-text {
+  font-size: 16px;
+}
+}
+
