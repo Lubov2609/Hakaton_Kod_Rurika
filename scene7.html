@@ -56,7 +56,7 @@
     <img src="assets/vova_862.png" class="char-img">
 </div>
 <!-- ДОБАВЬ В BODY -->
-<img id="amulet" src="assets/omylet.png" class="amulet hidden">
+<img id="amulet" src="assets/omylet.png" class="amulet ">
 
 
 <script>
@@ -79,22 +79,17 @@ function typeText(el, text, callback) {
 window.onload = () => {
     typeText(text1, textLeft, () => {
 
-        // показать амулет
+        const amulet = document.getElementById("amulet");
+
+        amulet.classList.remove("hidden");
+        amulet.classList.add("show-center");
+
         setTimeout(() => {
-            const amulet = document.getElementById("amulet");
-            amulet.classList.remove("hidden");
-            amulet.classList.add("show-center");
-
-            // через 5 сек → переход
+            document.body.classList.add("fade-out");
             setTimeout(() => {
-                document.body.classList.add("fade-out");
-                setTimeout(() => {
-                    window.location.href = "scene8.html";
-                }, 600);
-            }, 2000);
-
-        }, 500);
-
+                window.location.href = "scene8.html";
+            }, 600);
+        }, 2000);
     });
 };
 

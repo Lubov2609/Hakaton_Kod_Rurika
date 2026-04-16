@@ -1741,7 +1741,7 @@ h1 {
 }
 
 /* амулет над кнопкой */
-.amulet {
+/* .amulet {
     width: 120px;
     position: fixed;
     bottom: 20vh;
@@ -1750,4 +1750,79 @@ h1 {
     opacity: 1;
     z-index: 150;
     transition: 0.5s;
+} */
+
+/* quest6.html */
+/* ===== БЛОК АМУЛЕТА ===== */
+.amulet-block {
+    position: fixed;
+    bottom: 20vh;
+    left: 40%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
+
+.amulet-game {
+    width: 100px;
+}
+
+.amulet-text {
+    font-family: '2121text', serif;
+    font-size: 18px;
+    color: #fcfbf9;
+}
+
+/* ===== СУНДУКИ ===== */
+.chests {
+    position: fixed;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px;
+}
+
+.chest {
+    width: 200px;
+    cursor: grab;
+}
+
+/* ===== БАШНЯ ===== */
+.tower-container {
+    position: fixed;
+    bottom: 4vh;
+    left: 30%;
+    transform: translateX(-50%);
+}
+
+.tower {
+    width: 200px;
+    min-height: 350px;
+    border: 3px dashed #0c0c0c;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 10px;
+}
+
+.image-under-tower {
+    width: 200px;
+    margin-top: 1px; /* отступ между башней и изображением */
+}
+
+/* сцена 11 */
+.reward-chest {
+    position: fixed;
+    left: 45%;
+    top: 40%;
+    width: 150px;
+}
+
+.reward-bread {
+    position: fixed;
+    left: 55%;
+    top: 42%;
+    width: 100px;
+}
+

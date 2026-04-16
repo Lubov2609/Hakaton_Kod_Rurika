@@ -172,10 +172,14 @@ document.addEventListener("click", () => {
 
 // ===== ЗАГЛУШКА ИГРЫ =====
 function startGame() {
-    alert("🔥 Тут начнётся мини-игра со стеком");
-}
+    document.body.classList.add("fade-out");
+    setTimeout(() => {
+        window.location.href = "quest6.html";
+    }, 600);}
 
 </script>
 
 </body>
 </html>
+
+

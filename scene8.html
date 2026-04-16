@@ -131,17 +131,17 @@ window.onload = () => {
 
         const amulet = document.getElementById("amulet");
 
-        // показать по центру
+        // 1. появляется в центре (как в сцене 7)
         amulet.classList.remove("hidden");
         amulet.classList.add("show-center");
 
-        // уменьшить и переместить
+        // 2. через время летит к кнопке
         setTimeout(() => {
             amulet.classList.remove("show-center");
             amulet.classList.add("to-button");
-        }, 1500);
+        }, 1200);
 
-        // показать кнопку
+        // 3. показываем кнопку
         setTimeout(() => {
             choiceBtn.disabled = false;
             choiceBtn.classList.add("show");

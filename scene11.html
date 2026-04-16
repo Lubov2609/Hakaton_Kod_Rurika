@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сцена 11</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="scene8">
+
+<!-- ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/rurik_quest6.png" class="char-img">
+
+    <div class="speech left-text">
+        <span id="text1"></span>
+    </div>
+</div>
+
+<!-- НАГРАДА -->
+<img src="assets/open-synd.png" class="reward-chest">
+<img src="assets/bread.png" class="reward-bread">
+
+<!-- ПРАВЫЙ ПЕРСОНАЖ -->
+<div class="person right-person">
+    <img src="assets/vova_scene6.png" class="char-img">
+</div>
+<script>
+
+const text = "Отлично, первый ингредиент у тебя.";
+let i = 0;
+
+function typeText() {
+
+    const el = document.getElementById("text1");
+
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+
+            setTimeout(() => {
+                window.location.href = "quest7.html";
+            }, 3000);
+        }
+
+    }, 25);
+}
+
+window.onload = typeText;
+
+</script>
+
+</body>
+</html>

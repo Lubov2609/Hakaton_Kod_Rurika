@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Код Рюрика</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="menu.css">
+</head>
+
+<body>
+
+<!-- ================= МЕНЮ РЮРИКА ================= -->
+<div class="rurik-menu" id="rurikMenu">
+    <div class="rurik-bg"></div>
+
+    <img src="assets/logo_menu.png" class="rurik-logo">
+    <h1 class="rurik-title">КОД РЮРИКА</h1>
+
+    <div class="rurik-buttons">
+        <button class="rurik-btn main" id="startGame">НОВАЯ ИГРА</button>
+        <button class="rurik-btn" onclick="window.location.href='/statistics.html'">СТАТИСТИКА</button>
+        <button class="rurik-btn" onclick="goAbout()">О ПРОЕКТЕ</button>
+        <button class="rurik-btn" onclick="closeTab()">ВЫЙТИ</button>
+
+        <script>
+        function closeTab() {
+            if (confirm('Вы действительно хотите закрыть вкладку?')) {
+                window.close();
+            }
+        }
+        </script>
+    </div>
+
+    <img src="assets/rurik_menu.png" class="rurik-character">
+</div>
+
+<!-- ================= ТЕМНЫЙ ЭКРАН ================= -->
+<div class="dark-screen" id="dark">
+    <div class="title">
+        <span class="city">Великий Новгород</span>
+        <span class="year">2121 ГОД</span>
+    </div>
+</div>
+
+<!-- ================= СТАРОЕ МЕНЮ ================= -->
+<div class="menu-screen" id="menu">
+
+    <div class="menu-left">
+        <div class="menu-text">
+            <p>Привет! Меня зовут Вова,<br>я учусь в Школе21</p>
+
+            <p>Сегодня я засиделся до поздна,<br>чтобы закончить трудный проект</p>
+
+            <p>Пожалуй, пойду поищу кофейный<br>аппарат...</p>
+        </div>
+
+        <div class="menu-buttons">
+            <button class="menu-btn" id="newGame">Искать кофе</button>
+            <button onclick="goHome()" class="menu-btn">Пойти домой</button>
+        </div>
+    </div>
+
+    <img src="assets/vova-2121.png" class="character">
+
+    <audio id="clickSound" src="assets/click.mp3"></audio>
+</div>
+
+<!-- ================= ИГРА ================= -->
+<div class="game-screen" id="game">
+
+    <div class="doors-block left">
+        <img src="assets/door-sklad.png" class="doors" id="doors">
+    </div>
+
+    <img src="assets/vova-sklad.png" class="character-game center">
+
+    <div class="dialogue-text top-center">
+        Хм М М М!... Не замечал раньше этой двери...
+    </div>
+
+    <audio id="doorSound" src="assets/door.mp3"></audio>
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+let darkTimeout;
+
+const rurikMenu = document.getElementById('rurikMenu');
+const dark = document.getElementById('dark');
+const menu = document.getElementById('menu');
+const game = document.getElementById('game');
+
+const startGame = document.getElementById('startGame');
+const newGameBtn = document.getElementById('newGame');
+
+const clickSound = document.getElementById('clickSound');
+const doorSound = document.getElementById('doorSound');
+
+const doors = document.getElementById('doors');
+
+// 🔥 ГАРАНТИЯ СТАРТОВОГО СОСТОЯНИЯ
+window.addEventListener('load', () => {
+    rurikMenu.style.display = 'block';
+    dark.style.display = 'none';
+    menu.style.display = 'none';
+    game.style.display = 'none';
+});
+
+// FUNCTIONS
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function goAbout() {
+    window.open("https://disk.yandex.ru/i/Jsw4HbuxNAalHQ", "_blank", "noopener,noreferrer");
+}
+
+// ===== МЕНЮ РЮРИКА =====
+startGame.addEventListener('click', () => {
+
+    rurikMenu.style.display = 'none';
+    dark.style.display = 'flex';
+    dark.style.opacity = '0';
+
+    setTimeout(() => {
+        dark.style.opacity = '1';
+    }, 50);
+
+    darkTimeout = setTimeout(() => {
+        dark.style.display = 'none';
+        menu.style.display = 'block';
+    }, 5000);
+});
+
+// ===== ТЕМНЫЙ ЭКРАН =====
+dark.addEventListener('click', () => {
+    clearTimeout(darkTimeout);
+    dark.style.display = 'none';
+    menu.style.display = 'block';
+});
+
+// ===== СТАРОЕ МЕНЮ =====
+newGameBtn.addEventListener('click', () => {
+    clickSound?.play?.();
+
+    setTimeout(() => {
+        menu.style.display = 'none';
+        game.style.display = 'block';
+    }, 200);
+});
+
+// ===== ДВЕРЬ =====
+doors.addEventListener('click', () => {
+    doorSound?.play?.();
+
+    setTimeout(() => {
+        window.location.href = "scene2.html";
+    }, 500);
+});
+</script>
+
+</body>
+</html>

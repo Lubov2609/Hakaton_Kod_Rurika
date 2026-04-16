@@ -3,21 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Код Рюрика</title>
+<title>Код Рюрика — загрузка</title>
 
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="menu.css">
-
 </head>
 
 <body>
 
-<!-- ================= ЗАГРУЗКА ================= -->
 <div class="container" id="loader">
     <div class="logo-box">
         <img src="assets/logo.png" class="logo">
     </div>
+
     <h1>КОД РЮРИКА</h1>
 
     <div style="position:absolute; bottom:120px; width:100%; display:flex; flex-direction:column; align-items:center;">
@@ -31,125 +28,10 @@
     </div>
 </div>
 
-<div class="rurik-menu" id="rurikMenu">
-
-    <div class="rurik-bg"></div>
-
-    <!-- ЛОГО -->
-    <img src="assets/logo_menu.png" class="rurik-logo">
-
-    <!-- НАЗВАНИЕ -->
-    <h1 class="rurik-title">КОД РЮРИКА</h1>
-
-    <!-- КНОПКИ -->
-    <div class="rurik-buttons">
-        <button class="rurik-btn main" id="startGame">НОВАЯ ИГРА</button>
-        <button class="rurik-btn" onclick="window.location.href='/statistics.html'">СТАТИСТИКА</button>
-        <button class="rurik-btn" onclick="goAbout()">О ПРОЕКТЕ</button>
-        <button class="rurik-btn" onclick="closeTab()">ВЫЙТИ</button>
-        <script>
-        function closeTab() {
-        if (confirm('Вы действительно хотите закрыть вкладку?')) {
-            window.close();
-        }
-        }
-        </script>
-    </div>
-
-    <!-- ПЕРСОНАЖ -->
-    <img src="assets/rurik_menu.png" class="rurik-character">
-
-</div>
-
-<!-- ================= ТЕМНЫЙ ЭКРАН ================= -->
-<div class="dark-screen" id="dark">
-    <div class="title">
-        <span class="city">Великий Новгород</span>
-        <span class="year">2121 ГОД</span>
-    </div>
-</div>
-
-<!-- ================= СТАРОЕ МЕНЮ (НЕ ТРОГАЕМ) ================= -->
-<div class="menu-screen" id="menu">
-
-    <div class="menu-left">
-
-        <div class="menu-text">
-            <p>Привет! Меня зовут Вова,<br>я учусь в Школе21</p>
-
-            <p>Сегодня я засиделся до поздна,<br>
-            чтобы закончить трудный проект</p>
-
-            <p>Пожалуй, пойду поищу кофейный<br>
-            аппарат или станцию<br>
-            с питательными гелями...</p>
-        </div>
-
-        <div class="menu-buttons">
-            <button class="menu-btn" id="newGame">Искать кофе</button>
-            <button onclick="goHome()" class="menu-btn">Пойти домой</button>
-        </div>
-
-    </div>
-
-    <img src="assets/vova-2121.png" class="character">
-
-    <audio id="clickSound" src="assets/click.mp3"></audio>
-</div>
-
-<!-- ================= ИГРА ================= -->
-<div class="game-screen" id="game">
-
-    <div class="doors-block left">
-        <img src="assets/door-sklad.png" class="doors" id="doors">
-    </div>
-
-    <img src="assets/vova-sklad.png" class="character-game center">
-
-    <div class="dialogue-text top-center">
-        Хм М М М!... Не замечал раньше этой двери...
-    </div>
-
-    <!-- <div class="hint" id="hint">
-        <img src="assets/hands.png">
-        <span>Нажмите, чтоб открыть</span>
-    </div> -->
-
-    <audio id="doorSound" src="assets/door.mp3"></audio>
-
-</div>
-
-<!-- ================= JS ================= -->
 <script>
-let darkTimeout;
 let progress = 0;
-
 const bar = document.getElementById('progress');
-const loader = document.getElementById('loader');
-const rurikMenu = document.getElementById('rurikMenu');
-const dark = document.getElementById('dark');
-const menu = document.getElementById('menu');
-const game = document.getElementById('game');
 
-const startGame = document.getElementById('startGame');
-const newGameBtn = document.getElementById('newGame');
-
-const clickSound = document.getElementById('clickSound');
-const doorSound = document.getElementById('doorSound');
-
-const doors = document.getElementById('doors');
-const hint = document.getElementById('hint');
-
-// FUNCTIONS
-function goHome() {
-    window.location.href = "index.html";
-}
-
-function goAbout() {
-    window.open("https://disk.yandex.ru/i/Jsw4HbuxNAalHQ", "_blank", "noopener,noreferrer");
-}
-
-// ===== ЗАГРУЗКА =====
 const interval = setInterval(() => {
     progress += Math.random() * 10;
 
@@ -158,72 +40,13 @@ const interval = setInterval(() => {
         clearInterval(interval);
 
         setTimeout(() => {
-            loader.style.display = 'none';
-
-            // 👉 показываем меню Рюрика
-            rurikMenu.style.display = 'block';
-
-        }, 300);
+            // переход на основную сцену
+            window.location.href = "scene0.html";
+        }, 500);
     }
 
     bar.style.width = progress + '%';
 }, 200);
-
-// ===== КНОПКА В МЕНЮ РЮРИКА =====
-startGame.addEventListener('click', () => {
-
-    rurikMenu.style.display = 'none';
-
-    dark.style.display = 'flex';
-
-    setTimeout(() => {
-        dark.style.opacity = '1';
-    }, 50);
-
-    // 👉 запускаем таймер автоперехода (5 сек)
-    darkTimeout = setTimeout(() => {
-        dark.style.display = 'none';
-        menu.style.display = 'block';
-    }, 5000);
-
-});
-
-// ===== КЛИК ПО ТЕМНОМУ ЭКРАНУ =====
-dark.addEventListener('click', () => {
-
-    // 👉 отменяем автопереход
-    clearTimeout(darkTimeout);
-
-    dark.style.display = 'none';
-    menu.style.display = 'block';
-});
-
-// ===== СТАРАЯ КНОПКА =====
-newGameBtn.addEventListener('click', () => {
-    clickSound.currentTime = 0;
-    clickSound.play();
-
-    setTimeout(() => {
-        menu.style.display = 'none';
-        game.style.display = 'block';
-
-        setTimeout(() => {
-            hint.style.display = 'flex';
-        }, 3000);
-
-    }, 200);
-});
-
-// ===== ДВЕРЬ =====
-doors.addEventListener('click', () => {
-    doorSound.currentTime = 0;
-    doorSound.play();
-
-    setTimeout(() => {
-        window.location.href = "scene2.html";
-    }, 500);
-});
-
 </script>
 
 </body>
