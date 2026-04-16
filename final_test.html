@@ -254,7 +254,7 @@ async function generatePDF() {
 
     // ===== ФОН =====
     const img = new Image();
-    img.src = "assets/cert-dg.png";
+    img.src = "assets/certificate.png";
 
     img.onload = function () {
 
@@ -265,30 +265,16 @@ async function generatePDF() {
         doc.setTextColor(0, 0, 0);
 
         // заголовок
-        doc.setFont("Times", "Bold");
-        doc.setFontSize(30);
-        doc.text("СЕРТИФИКАТ", 148, 60, null, null, "center");
-
-        // подпись
-        doc.setFontSize(16);
-        doc.text("Награждается", 148, 80, null, null, "center");
-
+        
         // имя (главное)
         doc.setFontSize(22);
         doc.setFont("Times", "BoldItalic");
-        doc.text(name, 148, 100, null, null, "center");
+        doc.text(name, 158, 103, null, null, "center");
 
-        // текст
-        doc.setFontSize(16);
-        doc.setFont("Times", "Normal");
-        doc.text("за успешное прохождение игры", 148, 120, null, null, "center");
-
-        doc.setFontSize(20);
-        doc.text("«Код Рюрика»", 148, 135, null, null, "center");
-
+        
         // дата
         doc.setFontSize(12);
-        doc.text("Дата: " + new Date().toLocaleDateString(), 148, 160, null, null, "center");
+        doc.text(" " + new Date().toLocaleDateString(), 158, 163, null, null, "center");
 
         // ===== СОХРАНЕНИЕ =====
         doc.save("certificate.pdf");
