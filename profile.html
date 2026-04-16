@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Профиль</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="profile">
+
+<!-- TOP UI -->
+<div class="top-ui">
+    <div class="left-ui">
+        <a href="index.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img class="sound-btn" src="assets/sound-on.png">
+        <div class="ui-btn btn-menu"></div>
+    </div>
+</div>
+
+<!-- ЛОГО -->
+<div class="profile-logo">
+    <img src="assets/logo_menu.png" class="pr_logo-ship">
+    <div class="pr_logo-text">КОД РЮРИКА</div>
+</div>
+
+<!-- ПРОФИЛЬ -->
+<div class="profile-box profile-box">
+
+    <h2>Личный кабинет</h2>
+
+    <!-- АВАТАР -->
+    <img src="assets/default-avatar.png" class="avatar">
+
+    <!-- СТАТИСТИКА -->
+    <div class="stats">
+        <p>Попыток: <b id="attempts">0</b></p>
+        <p>Лучший результат: <b id="best">—</b></p>
+        <p>Время: <b id="time">—</b></p>
+    </div>
+
+    <!-- ФОРМА -->
+    <form onsubmit="event.preventDefault(); saveProfile()">
+
+        <label>Фамилия</label>
+        <input id="last_name" placeholder="Иванов">
+
+        <label>Имя</label>
+        <input id="first_name" placeholder="Иван">
+
+        <label>Отчество</label>
+        <input id="middle_name" placeholder="Иванович">
+
+        <label>Email</label>
+        <input id="email" type="email" placeholder="example@mail.com">
+
+        <label>Новый пароль</label>
+        <input id="password" type="password" placeholder="••••••">
+
+        <label>Повторите пароль</label>
+        <input id="password2" type="password" placeholder="••••••">
+
+        <button class="login-btn">СОХРАНИТЬ</button>
+
+    </form>
+
+</div>
+
+<script>
+
+/* ===== СОХРАНЕНИЕ ===== */
+function saveProfile() {
+
+    const data = {
+        last: last_name.value,
+        first: first_name.value,
+        middle: middle_name.value,
+        email: email.value
+    };
+
+    localStorage.setItem("profile", JSON.stringify(data));
+
+    alert("Сохранено!");
+}
+
+/* ===== ЗАГРУЗКА ===== */
+window.onload = () => {
+
+    let data = JSON.parse(localStorage.getItem("profile") || "{}");
+
+    last_name.value = data.last || "";
+    first_name.value = data.first || "";
+    middle_name.value = data.middle || "";
+    email.value = data.email || "";
+
+    // пример статистики
+    attempts.innerText = localStorage.getItem("attempts") || 0;
+    best.innerText = localStorage.getItem("best") || "—";
+    time.innerText = localStorage.getItem("time") || "—";
+};
+
+</script>
+
+</body>
+</html>

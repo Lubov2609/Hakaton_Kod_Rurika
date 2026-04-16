@@ -1863,3 +1863,71 @@ h1 {
 .queue .chest {
     margin: 5px 0;
 }
+.profile {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_profile.png') center/cover no-repeat;
+    position: relative;
+}
+
+/* ===== ФОРМА ===== */
+.profile-box {
+    position: absolute;
+    right: 30%;
+    top: 55%;
+    transform: translateY(-50%);
+
+    width: 500px;
+    padding: 50px;
+
+    background: rgba(240, 225, 200, 0.95);
+    border-radius: 20px;
+
+    box-shadow: 0 10px 30px rgba(87, 67, 4, 0.25);
+}
+
+.profile-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-box label {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* INPUT */
+.profile-box input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+
+    border-radius: 20px;
+    border: 1px solid #7a5a2a;
+
+    outline: none;
+}
+.profile-logo {
+  position: absolute;
+  top: 0;           /* прижимаем к верху экрана */
+  left: 50%;       /* смещаем влево на 50 % ширины родителя */
+  transform: translateX(-50%); /* центрируем по горизонтали (смещаем влево на половину ширины блока) */
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.pr_logo-ship {
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.pr_logo-text {
+  font-size: 76px;
+  font-weight: bold;
+  font-family: 'HistoryFont', serif;
+  color: #8b1e14;
+  letter-spacing: 4px;
+  white-space: nowrap;
+}
