@@ -226,15 +226,6 @@ function showForm(){
         </div>
     `;
 }
-doc.setFont("Golos");
-doc.text("СЕРТИФИКАТ", 105, 40, null, null, "center");
-
-doc.setFont("Tsarevich");
-doc.text(name, 105, 75, null, null, "center");
-
-doc.setFont("Slavic");
-doc.text("Код Рюрика", 105, 110, null, null, "center");
-/* ===== СЕРТИФИКАТ ===== */
 function generatePDF(){
 
     const name = document.getElementById("fio").value || "Игрок";
@@ -243,7 +234,6 @@ function generatePDF(){
 
     const doc = new jsPDF();
 
-    // Подключаем шрифт с поддержкой русского
     doc.setFont("Times", "Normal");
 
     doc.setFontSize(22);
@@ -264,10 +254,7 @@ function generatePDF(){
     doc.setFontSize(12);
     doc.text("Дата: " + new Date().toLocaleDateString(), 105, 140, null, null, "center");
 
-    // Показ PDF в новом окне
     window.open(doc.output("bloburl"));
-
-    // Сохраняем файл
     doc.save("Сертификат_Код_Рюрика.pdf");
 }
 /* старт */
