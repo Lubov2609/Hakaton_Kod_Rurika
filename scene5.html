@@ -27,10 +27,12 @@ body {
 
 
 <script>
-// переход на сцену 2
-document.body.addEventListener("click", () => {
-    window.location.href = "";
-});
+ setTimeout(() => {
+                document.body.classList.add("fade-out");
+                setTimeout(() => {
+                    window.location.href = "scene6.html";
+                }, 600);
+            }, 2000);
 </script>
 
 </body>

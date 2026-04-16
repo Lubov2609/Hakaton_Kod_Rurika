@@ -1672,112 +1672,82 @@ h1 {
     background: url('assets/fon_quest6.png') center/cover no-repeat;
     position: relative;
 }
-/* =========================
-   БАШНЯ СУНДУКОВ
-========================= */
-
-.stack-board {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-
-    gap: 8px;
-    margin: 20px 0;
-    min-height: 160px;
-}
-
-/* сундук */
-.chest {
-    width: 140px;
-    padding: 10px;
-
-    text-align: center;
-    font-weight: bold;
-
-    background: linear-gradient(#c69c6d, #8b5a2b);
-    border: 2px solid #5a3e1b;
-    border-radius: 10px;
-
-    color: #fff;
-
-    box-shadow: 0 4px 0 #5a3e1b;
-
-    transform: translateY(20px);
-    opacity: 0;
-
-    transition: 0.3s;
-}
-
-.chest.show {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* верхний сундук подсвечивается */
-.chest.top {
-    background: linear-gradient(#e6cfa5, #c4a373);
-    color: #3a2a15;
-}
-
-/* анимация взятия */
-.chest.remove {
-    transform: scale(0.8);
-    opacity: 0;
-}
-
-    /* quest7.html */
-.quest7 {
+.scene6 {
     margin: 0;
     height: 100vh;
-    background: url('assets/fon_quest7.png') center/cover no-repeat;
+    background: url('assets/fon_scene6.png') center/cover no-repeat;
     position: relative;
 }
+/* ===== АМУЛЕТ ===== */
 
-/* =========================
-   ОЧЕРЕДЬ (ЛОДКИ)
-========================= */
-
-.queue-board {
-    display: flex;
-    gap: 10px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-/* лодка */
-.boat {
-    padding: 12px 16px;
-
-    background: linear-gradient(#d6b98c, #a67c52);
-    border: 2px solid #5a3e1b;
-    border-radius: 12px;
-
-    color: #fff;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    box-shadow: 0 4px 0 #5a3e1b;
-
+.amulet {
+    position: fixed;
+    width: 360px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.5);
     opacity: 0;
-    transform: translateY(20px);
-    transition: 0.3s;
+    z-index: 200;
+    transition: all 1s ease;
 }
 
-.boat.show {
+/* центр экрана */
+.amulet.show-center {
+    top: 35%;
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) scale(1);
 }
 
-/* первая лодка (подсветка) */
-.boat.first {
-    background: linear-gradient(#f3e6cf, #d6b98c);
-    color: #3a2a15;
+/* маленький */
+.amulet.small {
+    width: 120px;
 }
 
-/* при уходе */
-.boat.remove {
+/* перелет к кнопке */
+.amulet.to-button {
+    top: calc(100% - 240px);
+    transform: translateX(-50%) scale(0.6);
+    opacity: 1;
+}
+
+/* скрыт */
+.hidden {
     opacity: 0;
-    transform: scale(0.8);
+}
+.scene8 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_scene8.png') center/cover no-repeat;
+    position: relative;
+}
+/* текст над амулетом */
+.amulet-hint {
+    position: fixed;
+    bottom: 28vh;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    text-align: center;
+    font-family: '2121text', serif;
+    font-size: 20px;
+    color: #f5f2ef;
+
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 150;
+}
+
+.amulet-hint.show {
+    opacity: 1;
+}
+
+/* амулет над кнопкой */
+.amulet {
+    width: 120px;
+    position: fixed;
+    bottom: 20vh;
+    left: 50%;
+    transform: translateX(-50%) scale(0.6);
+    opacity: 1;
+    z-index: 150;
+    transition: 0.5s;
 }

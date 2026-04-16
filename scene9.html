@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сцена 9</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="scene8">
+
+<!-- AUDIO -->
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOP UI -->
+<div class="top-ui">
+
+    <div class="left-ui">
+        <a href="scene8.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-overlay">
+    <div class="menu-box">
+        <h2>Меню</h2>
+
+        <button onclick="resumeGame()">Продолжить</button>
+        <button onclick="goHome()">На главную</button>
+        <button onclick="restart()">Заново</button>
+    </div>
+</div>
+
+<!-- ЛЕВЫЙ ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/rurik_quest6.png" class="char-img">
+
+    <div class="speech left-text">
+        <span id="text1"></span>
+    </div>
+</div>
+
+<!-- ПРАВЫЙ ПЕРСОНАЖ -->
+<div class="person right-person">
+    <img src="assets/vova_scene6.png" class="char-img">
+</div>
+
+<!-- ТЕКСТ НАД АМУЛЕТОМ -->
+<div id="amuletHint" class="amulet-hint hidden">
+    Ставить сундуки можно только наверх башни,<br>
+    брать можно только верхний сундук
+</div>
+
+<!-- АМУЛЕТ -->
+<img id="amulet" src="assets/omylet.png" class="amulet hidden">
+
+<!-- КНОПКА -->
+<button id="choiceBtn" class="choices-btn" onclick="startGame()" disabled>
+    Разобрать сундуки
+</button>
+
+<script>
+
+// ===== ЗВУК =====
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let soundEnabled = localStorage.getItem("sound") !== "off";
+
+window.addEventListener("click", () => {
+    if (soundEnabled) {
+        sound.volume = 0.5;
+        sound.play();
+    }
+}, { once: true });
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) sound.play();
+    else sound.pause();
+
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+
+    soundBtn.src = soundEnabled
+        ? "assets/sound-on.png"
+        : "assets/sound-off.png";
+}
+
+// ===== МЕНЮ =====
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+function resumeGame() {
+    toggleMenu();
+}
+
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function restart() {
+    window.location.reload();
+}
+
+// ===== ТЕКСТ =====
+const textLeft = "Разбери сундуки в заданном порядке. После выполнения всех действий у тебя окажется нужный сундук";
+let speed = 25;
+
+const choiceBtn = document.getElementById("choiceBtn");
+const text1 = document.getElementById("text1");
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+// ===== ЗАПУСК =====
+window.onload = () => {
+
+    typeText(text1, textLeft, () => {
+
+        const amulet = document.getElementById("amulet");
+        const hint = document.getElementById("amuletHint");
+
+        // показать амулет и текст
+        amulet.classList.remove("hidden");
+        amulet.classList.add("to-button");
+
+        hint.classList.remove("hidden");
+        hint.classList.add("show");
+
+        // показать кнопку
+        setTimeout(() => {
+            choiceBtn.disabled = false;
+            choiceBtn.classList.add("show");
+        }, 800);
+
+    });
+};
+
+// пропуск
+document.addEventListener("click", () => {
+    text1.innerHTML = textLeft;
+
+    amulet.classList.remove("hidden");
+    amulet.classList.add("to-button");
+
+    amuletHint.classList.remove("hidden");
+    amuletHint.classList.add("show");
+
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
+// ===== ЗАГЛУШКА ИГРЫ =====
+function startGame() {
+    alert("🔥 Тут начнётся мини-игра со стеком");
+}
+
+</script>
+
+</body>
+</html>

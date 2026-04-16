@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сцена 7
+</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="scene6">
+
+<!-- AUDIO -->
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOP UI -->
+<div class="top-ui">
+
+    <div class="left-ui">
+        <a href="scene2.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-overlay">
+    <div class="menu-box">
+        <h2>Меню</h2>
+
+        <button onclick="resumeGame()">Продолжить</button>
+        <button onclick="goHome()">На главную</button>
+        <button onclick="restart()">Заново</button>
+    </div>
+</div>
+
+<!-- ЛЕВЫЙ ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/rurik_862.png" class="char-img">
+
+    <div class="speech left-text">
+        <span id="text1"></span>
+    </div>
+</div>
+
+<!-- ПРАВЫЙ ПЕРСОНАЖ -->
+<div class="person right-person">
+    <img src="assets/vova_862.png" class="char-img">
+</div>
+<!-- ДОБАВЬ В BODY -->
+<img id="amulet" src="assets/omylet.png" class="amulet hidden">
+
+
+<script>
+
+const textLeft = "Этот оберег Рюрик завещал тебе в помощь";
+let speed = 25;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+window.onload = () => {
+    typeText(text1, textLeft, () => {
+
+        // показать амулет
+        setTimeout(() => {
+            const amulet = document.getElementById("amulet");
+            amulet.classList.remove("hidden");
+            amulet.classList.add("show-center");
+
+            // через 5 сек → переход
+            setTimeout(() => {
+                document.body.classList.add("fade-out");
+                setTimeout(() => {
+                    window.location.href = "scene8.html";
+                }, 600);
+            }, 2000);
+
+        }, 500);
+
+    });
+};
+
+</script>
+
+</body>
+</html>

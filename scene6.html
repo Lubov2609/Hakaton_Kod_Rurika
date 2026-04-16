@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сцена</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="scene6">
+
+<audio id="bgSound" loop>
+    <source src="assets/village.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOP UI -->
+<div class="top-ui">
+    <div class="left-ui">
+        <a href="quest5.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn" src="assets/sound-on.png" onclick="toggleSound()">
+        <div class="ui-btn btn-menu" onclick="toggleMenu()"></div>
+    </div>
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-overlay">
+    <div class="menu-box">
+        <h2>Меню</h2>
+        <button onclick="resumeGame()">Продолжить</button>
+        <button onclick="goHome()">На главную</button>
+        <button onclick="restart()">Заново</button>
+    </div>
+</div>
+
+<!-- ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/rurik_quest6.png" class="char-img">
+    <div class="speech left-text">
+        <span id="text1"></span>
+    </div>
+</div>
+
+<div class="person right-person">
+    <img src="assets/vova_scene6.png" class="char-img">
+</div>
+
+<!-- КНОПКА -->
+<button id="choiceBtn" class="choices-btn" onclick="goNext()" disabled>
+    Далее
+</button>
+
+<script>
+
+// текст
+const textLeft = "Я Роланд — хранитель летописей... Тебе предстоит собрать Квас времени.";
+let speed = 25;
+
+function typeText(el, text, callback) {
+    let i = 0;
+    let interval = setInterval(() => {
+        el.innerHTML += text[i];
+        i++;
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+window.onload = () => {
+    typeText(text1, textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
+};
+
+document.addEventListener("click", () => {
+    text1.innerHTML = textLeft;
+    choiceBtn.disabled = false;
+    choiceBtn.classList.add("show");
+});
+
+// переход
+function goNext() {
+    document.body.classList.add("fade-out");
+    setTimeout(() => {
+        window.location.href = "scene7.html";
+    }, 600);
+}
+
+</script>
+</body>
+</html>
