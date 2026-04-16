@@ -182,6 +182,8 @@ function doStep(action) {
     if (action === step + 1) {
         step++;
 
+        playSound(action); // 🔥 ВАЖНО
+
         if (step === 3) {
             addLog();
             step = 0;
@@ -193,6 +195,22 @@ function doStep(action) {
         showSequenceError();
     }
 }
+function playSound(action) {
+    if (action === 1) {
+        takeSound.currentTime = 0;
+        takeSound.play();
+    }
+    if (action === 2) {
+        placeSound.currentTime = 0;
+        placeSound.play();
+    }
+    if (action === 3) {
+        hitSound.currentTime = 0;
+        hitSound.play();
+    }
+}
+
+
 
 function addLog() {
     count++;
@@ -205,6 +223,11 @@ function addLog() {
     setTimeout(() => log.classList.add("show"), 50);
 }
 
+function playSound(action) {
+    if (action === 1) takeSound.play();
+    if (action === 2) placeSound.play();
+    if (action === 3) hitSound.play();
+}
 function checkCycle() {
 
     if (count === 5) {
@@ -305,6 +328,11 @@ function showReward() {
     successSound.currentTime = 0;
     successSound.play();
 }
+
+// звуки действий
+const takeSound = new Audio("assets/take.mp3");
+const placeSound = new Audio("assets/place.mp3");
+const hitSound = new Audio("assets/hit.mp3");
 
 function closePopup() {
     resultPopup.style.display = "none";

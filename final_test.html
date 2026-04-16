@@ -222,41 +222,79 @@ function showForm(){
             <br>
 
             <button class="cert-btn" onclick="generatePDF()">Сохранить PDF</button>
-            <button class="home-btn" onclick="location.href='index.html'">Выйти</button>
+            <button class="home-btn" onclick="location.href='scene0.html'">Выйти</button>
         </div>
     `;
 }
-function generatePDF(){
+// 👇 ВСТАВЛЯЕШЬ СЮДА СКОНВЕРТИРОВАННЫЙ ШРИФТ
 
-    const name = document.getElementById("fio").value || "Игрок";
+function translit(text) {
+    const map = {
+        "а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo","ж":"zh",
+        "з":"z","и":"i","й":"y","к":"k","л":"l","м":"m","н":"n","о":"o",
+        "п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f","х":"h","ц":"ts",
+        "ч":"ch","ш":"sh","щ":"sch","ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya",
 
-    const { jsPDF } = window.jspdf;
+        "А":"A","Б":"B","В":"V","Г":"G","Д":"D","Е":"E","Ё":"Yo","Ж":"Zh",
+        "З":"Z","И":"I","Й":"Y","К":"K","Л":"L","М":"M","Н":"N","О":"O",
+        "П":"P","Р":"R","С":"S","Т":"T","У":"U","Ф":"F","Х":"H","Ц":"Ts",
+        "Ч":"Ch","Ш":"Sh","Щ":"Sch","Ъ":"","Ы":"Y","Ь":"","Э":"E","Ю":"Yu","Я":"Ya"
+    };
 
-    const doc = new jsPDF();
-
-    doc.setFont("Times", "Normal");
-
-    doc.setFontSize(22);
-    doc.text("СЕРТИФИКАТ", 105, 40, null, null, "center");
-
-    doc.setFontSize(14);
-    doc.text("Подтверждает, что", 105, 60, null, null, "center");
-
-    doc.setFontSize(18);
-    doc.text(name, 105, 75, null, null, "center");
-
-    doc.setFontSize(14);
-    doc.text("успешно прошёл игру", 105, 95, null, null, "center");
-
-    doc.setFontSize(16);
-    doc.text("«Код Рюрика»", 105, 110, null, null, "center");
-
-    doc.setFontSize(12);
-    doc.text("Дата: " + new Date().toLocaleDateString(), 105, 140, null, null, "center");
-
-    window.open(doc.output("bloburl"));
-    doc.save("Сертификат_Код_Рюрика.pdf");
+    return text.split("").map(char => map[char] || char).join("");
 }
+
+async function generatePDF() {
+
+    const rawName = document.getElementById("fio").value || "Игрок";
+    const name = translit(rawName);
+    
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("landscape");
+
+    // ===== ФОН =====
+    const img = new Image();
+    img.src = "assets/cert-dg.png";
+
+    img.onload = function () {
+
+        // фон на весь лист
+        doc.addImage(img, "PNG", 0, 0, 297, 210);
+
+        // ===== ТЕКСТ =====
+        doc.setTextColor(0, 0, 0);
+
+        // заголовок
+        doc.setFont("Times", "Bold");
+        doc.setFontSize(30);
+        doc.text("СЕРТИФИКАТ", 148, 60, null, null, "center");
+
+        // подпись
+        doc.setFontSize(16);
+        doc.text("Награждается", 148, 80, null, null, "center");
+
+        // имя (главное)
+        doc.setFontSize(22);
+        doc.setFont("Times", "BoldItalic");
+        doc.text(name, 148, 100, null, null, "center");
+
+        // текст
+        doc.setFontSize(16);
+        doc.setFont("Times", "Normal");
+        doc.text("за успешное прохождение игры", 148, 120, null, null, "center");
+
+        doc.setFontSize(20);
+        doc.text("«Код Рюрика»", 148, 135, null, null, "center");
+
+        // дата
+        doc.setFontSize(12);
+        doc.text("Дата: " + new Date().toLocaleDateString(), 148, 160, null, null, "center");
+
+        // ===== СОХРАНЕНИЕ =====
+        doc.save("certificate.pdf");
+    };
+}
+
 /* старт */
 renderQuestion();
 
