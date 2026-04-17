@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="profile">
+<body class="profile-page">
 
 <!-- TOP UI -->
 <div class="top-ui">
@@ -17,61 +17,71 @@
 
     <div class="right-ui">
         <img class="sound-btn" src="assets/sound-on.png">
-        <div class="ui-btn btn-menu"></div>
+        <a href="profile.html" class="ui-btn btn-menu"></a>
     </div>
 </div>
 
-<!-- ЛОГО -->
-<div class="profile-logo">
-    <img src="assets/logo_menu.png" class="pr_logo-ship">
-    <div class="pr_logo-text">КОД РЮРИКА</div>
-</div>
+<!-- ОСНОВНОЙ ЭКРАН -->
+<div class="profile-wrapper">
 
-<!-- ПРОФИЛЬ -->
-<div class="profile-box profile-box">
-
-    <h2>Личный кабинет</h2>
-
-    <!-- АВАТАР -->
-    <img src="assets/default-avatar.png" class="avatar">
-
-    <!-- СТАТИСТИКА -->
-    <div class="stats">
-        <p>Попыток: <b id="attempts">0</b></p>
-        <p>Лучший результат: <b id="best">—</b></p>
-        <p>Время: <b id="time">—</b></p>
+    <!-- ЛОГО -->
+    <div class="profile-logo">
+        <img src="assets/logo_menu.png" class="pr_logo-ship">
+        <div class="pr_logo-text">КОД РЮРИКА</div>
     </div>
 
-    <!-- ФОРМА -->
-    <form onsubmit="event.preventDefault(); saveProfile()">
+    <!-- КОНТЕНТ -->
+    <div class="profile-content">
 
-        <label>Фамилия</label>
-        <input id="last_name" placeholder="Иванов">
+        <!-- ЛЕВАЯ КОЛОНКА -->
+        <div class="profile-left">
 
-        <label>Имя</label>
-        <input id="first_name" placeholder="Иван">
+            <img src="assets/default-avatar.png" class="avatar">
 
-        <label>Отчество</label>
-        <input id="middle_name" placeholder="Иванович">
+            <h2>Личный кабинет</h2>
 
-        <label>Email</label>
-        <input id="email" type="email" placeholder="example@mail.com">
+            <div class="stats">
+                <p>Попыток: <b id="attempts">0</b></p>
+                <p>Лучший результат: <b id="best">—</b></p>
+                <p>Время: <b id="time">—</b></p>
+            </div>
 
-        <label>Новый пароль</label>
-        <input id="password" type="password" placeholder="••••••">
+        </div>
 
-        <label>Повторите пароль</label>
-        <input id="password2" type="password" placeholder="••••••">
+        <!-- ПРАВАЯ КОЛОНКА -->
+        <div class="profile-right">
 
-        <button class="login-btn">СОХРАНИТЬ</button>
+            <form onsubmit="event.preventDefault(); saveProfile()">
 
-    </form>
+                <label>Фамилия</label>
+                <input id="last_name" placeholder="Иванов">
+
+                <label>Имя</label>
+                <input id="first_name" placeholder="Иван">
+
+                <label>Отчество</label>
+                <input id="middle_name" placeholder="Иванович">
+
+                <label>Email</label>
+                <input id="email" type="email" placeholder="example@mail.com">
+
+                <label>Новый пароль</label>
+                <input id="password" type="password" placeholder="••••••">
+
+                <label>Повторите пароль</label>
+                <input id="password2" type="password" placeholder="••••••">
+
+                <button class="save-btn">СОХРАНИТЬ</button>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
 <script>
-
-/* ===== СОХРАНЕНИЕ ===== */
 function saveProfile() {
 
     const data = {
@@ -82,11 +92,9 @@ function saveProfile() {
     };
 
     localStorage.setItem("profile", JSON.stringify(data));
-
-    alert("Сохранено!");
+    alert("Профиль сохранён");
 }
 
-/* ===== ЗАГРУЗКА ===== */
 window.onload = () => {
 
     let data = JSON.parse(localStorage.getItem("profile") || "{}");
@@ -96,12 +104,10 @@ window.onload = () => {
     middle_name.value = data.middle || "";
     email.value = data.email || "";
 
-    // пример статистики
     attempts.innerText = localStorage.getItem("attempts") || 0;
     best.innerText = localStorage.getItem("best") || "—";
     time.innerText = localStorage.getItem("time") || "—";
 };
-
 </script>
 
 </body>

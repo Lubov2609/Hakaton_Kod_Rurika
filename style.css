@@ -938,6 +938,7 @@ h1 {
     bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
+    font-family: '2121Font', serif;
 
     padding: 14px 28px;
 
@@ -1844,7 +1845,7 @@ h1 {
 .queue {
   width: 600px;          /* увеличено для горизонтального размещения */
   height: 200px;        /* уменьшено для горизонтального размещения */
-  border: 3px solid #38bdf8;
+  border: 3px solid #eceff1;
   border-radius: 10px;
   margin: auto;
   display: flex;
@@ -1859,7 +1860,11 @@ h1 {
   transform: translate(0%, -180%); /* смещает на половину ширины/высоты влево и вверх */
 
 }
-
+.amulet-textq7 {
+    font-family: '2121text', serif;
+    font-size: 18px;
+    color: #060606;
+}
 .queue .chest {
     margin: 5px 0;
 }
