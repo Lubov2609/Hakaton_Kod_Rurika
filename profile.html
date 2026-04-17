@@ -4,6 +4,186 @@
 <meta charset="UTF-8">
 <title>Профиль</title>
 <link rel="stylesheet" href="style.css">
+
+<style>
+
+/* ===== ФОН ===== */
+body.profile-page{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:url("assets/fon_profile.png") center center / cover no-repeat;
+    min-height:100vh;
+    overflow:hidden;
+}
+
+/* ===== ЦЕНТР ===== */
+.profile-wrapper{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* ===== ФОРМА ===== */
+.profile-box{
+    width:780px;
+    max-width:100%;
+    background:rgba(245,236,220,0.94);
+    border:2px solid rgba(90,60,20,.28);
+    border-radius:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+    padding:24px 28px;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.profile-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:700;
+    color:#2b1a08;
+    margin-bottom:18px;
+}
+
+/* ===== СЕТКА ===== */
+.profile-grid{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:24px;
+    align-items:start;
+}
+
+/* ===== ЛЕВАЯ ЧАСТЬ ===== */
+.profile-left{
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+      padding-top: 5px; /* было 8 px, теперь 40 px */
+
+     margin-top: -35px;
+}
+
+.avatar{
+    width:130px;
+    height:130px;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid #6b471f;
+    background:#fff;
+    margin-bottom:14px;
+}
+
+.reg-date{
+    font-size:13px;
+    color:#4d3720;
+    margin-bottom:12px;
+}
+
+.reg-date b{
+    display:block;
+    font-size:22px;
+    margin-top:4px;
+}
+
+/* ===== СТАТИСТИКА ===== */
+.stats-cards{
+    display:grid;
+    gap:10px;
+}
+
+.stat-card{
+    background:#fff;
+    border-radius:14px;
+    padding:10px;
+    border:1px solid #d7c7b2;
+}
+
+.stat-card span{
+    display:block;
+    font-size:12px;
+    color:#6a5134;
+}
+
+.stat-card b{
+    display:block;
+    margin-top:4px;
+    font-size:26px;
+    color:#1e1205;
+}
+.error-btn{
+    background:linear-gradient(#7b1f1f,#561111);
+}
+.error-btn{
+    height:46px;
+    border:none;
+    border-radius:16px;
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+/* ===== ПРАВАЯ ЧАСТЬ ===== */
+.profile-right label{
+    display:block;
+    margin:8px 0 4px;
+    font-size:13px;
+    font-weight:700;
+    color:#4d3720;
+}
+
+.profile-right input{
+    width:100%;
+    height:42px;
+    border-radius:14px;
+    border:2px solid #7c5730;
+    background:#fff;
+    padding:0 14px;
+    font-size:16px;
+    box-sizing:border-box;
+}
+
+/* ===== КНОПКА ===== */
+.save-btn{
+    margin-top:16px;
+    width:100%;
+    height:46px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(#7d5530,#5a3818);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.save-btn:hover{
+    opacity:.92;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:850px){
+
+    body.profile-page{
+        overflow:auto;
+    }
+
+    .profile-grid{
+        grid-template-columns:1fr;
+    }
+
+    .profile-box{
+        width:100%;
+        padding:20px;
+    }
+
+    .profile-title{
+        font-size:24px;
+    }
+}
+
+</style>
 </head>
 
 <body class="profile-page">
@@ -21,74 +201,95 @@
     </div>
 </div>
 
-<!-- ОСНОВНОЙ ЭКРАН -->
+<!-- ЦЕНТР -->
 <div class="profile-wrapper">
 
-    <!-- ЛОГО -->
-    <div class="profile-logo">
-        <img src="assets/logo_menu.png" class="pr_logo-ship">
-        <div class="pr_logo-text">КОД РЮРИКА</div>
-    </div>
+<div class="profile-box">
 
-    <!-- КОНТЕНТ -->
-    <div class="profile-content">
+    <div class="profile-title">Профиль игрока</div>
+
+    <div class="profile-grid">
 
         <!-- ЛЕВАЯ КОЛОНКА -->
-        <div class="profile-left">
+<div class="profile-left">
 
-            <img src="assets/default-avatar.png" class="avatar">
+    <div>
+        <img src="assets/default-avatar.png" class="avatar">
 
-            <h2>Личный кабинет</h2>
+        <div class="reg-date">
+            Дата регистрации
+            <b id="regDate">15.04.2026</b>
+        </div>
+    </div>
 
-            <div class="stats">
-                <p>Попыток: <b id="attempts">0</b></p>
-                <p>Лучший результат: <b id="best">—</b></p>
-                <p>Время: <b id="time">—</b></p>
-            </div>
+    <div class="stats-cards">
 
+        <div class="stat-card">
+            <span>Лучший результат</span>
+            <b id="best">0</b>
         </div>
 
-        <!-- ПРАВАЯ КОЛОНКА -->
-        <div class="profile-right">
-
-            <form onsubmit="event.preventDefault(); saveProfile()">
-
-                <label>Фамилия</label>
-                <input id="last_name" placeholder="Иванов">
-
-                <label>Имя</label>
-                <input id="first_name" placeholder="Иван">
-
-                <label>Отчество</label>
-                <input id="middle_name" placeholder="Иванович">
-
-                <label>Email</label>
-                <input id="email" type="email" placeholder="example@mail.com">
-
-                <label>Новый пароль</label>
-                <input id="password" type="password" placeholder="••••••">
-
-                <label>Повторите пароль</label>
-                <input id="password2" type="password" placeholder="••••••">
-
-                <button class="save-btn">СОХРАНИТЬ</button>
-
-            </form>
-
+        <div class="stat-card">
+            <span>Попыток</span>
+            <b id="attempts">0</b>
         </div>
+
+        <div class="stat-card">
+            <span>Лучшее время</span>
+            <b id="time">0</b>
+        </div>
+
+    </div>
+
+    <!-- КНОПКА СЛЕВА -->
+    <button type="button" class="error-btn" onclick="showErrors()">
+        РАЗОБРАТЬ ОШИБКИ
+    </button>
+
+</div>
+
+
+<!-- ПРАВАЯ КОЛОНКА -->
+<div class="profile-right">
+
+    <form onsubmit="event.preventDefault(); saveProfile()">
+
+        <label>Никнейм</label>
+        <input id="nickname" placeholder="Игрок">
+
+        <label>E-mail</label>
+        <input id="email" type="email" placeholder="example@mail.com">
+
+        <label>ФИО</label>
+        <input id="last_name" placeholder="Иванов Иван Иванович">
+
+        <label>Новый пароль</label>
+        <input id="password" type="password" placeholder="••••••">
+
+        <label>Повторите пароль</label>
+        <input id="password2" type="password" placeholder="••••••">
+
+        <!-- КНОПКА СОХРАНИТЬ КАК БЫЛА -->
+        <button class="save-btn">СОХРАНИТЬ</button>
+
+    </form>
+
+</div>
+
 
     </div>
 
 </div>
+</div>
 
 <script>
-function saveProfile() {
+
+function saveProfile(){
 
     const data = {
-        last: last_name.value,
-        first: first_name.value,
-        middle: middle_name.value,
-        email: email.value
+        nickname:nickname.value,
+        email:email.value,
+        fio:last_name.value
     };
 
     localStorage.setItem("profile", JSON.stringify(data));
@@ -99,15 +300,15 @@ window.onload = () => {
 
     let data = JSON.parse(localStorage.getItem("profile") || "{}");
 
-    last_name.value = data.last || "";
-    first_name.value = data.first || "";
-    middle_name.value = data.middle || "";
+    nickname.value = data.nickname || "";
     email.value = data.email || "";
+    last_name.value = data.fio || "";
 
-    attempts.innerText = localStorage.getItem("attempts") || 0;
-    best.innerText = localStorage.getItem("best") || "—";
-    time.innerText = localStorage.getItem("time") || "—";
+    attempts.innerText = localStorage.getItem("attempts") || "0";
+    best.innerText = localStorage.getItem("best") || "0";
+    time.innerText = localStorage.getItem("time") || "0";
 };
+
 </script>
 
 </body>

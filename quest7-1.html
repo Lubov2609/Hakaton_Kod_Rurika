@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="quest7">
+<body class="scene13">
 
 
 
@@ -30,18 +30,20 @@
     </div>
 </div>
 
-<!-- ПРАВЫЙ ПЕРСОНАЖ -->
-<div class="person right-person">
-    <img src="assets/vova_quest2.png" class="char-img">
-</div>
+<!-- ЛЕВЫЙ ПЕРСОНАЖ -->
+<div class="person left-person">
+    <img src="assets/vova-quest7_1.png" class="char-img">
 
+    <div class="speech left-text">
+        <span id="text1"></span>
+    </div>
+</div>
 <!-- АМУЛЕТ -->
 <div class="amulet-block">
     <img src="assets/omylet.png" class="amulet-game">
-    <div class="amulet-textq7">
-Лодки заходят по порядку…<br>
-И выходят в том же порядке!<br>
-       Внимательней осмотри акваторию
+    <div class="amulet-text">
+Cоставь очередь правильно<br>
+
     </div>
 </div>
 
@@ -71,103 +73,113 @@ const queueEl = document.getElementById("queue");
 // звуки
 const placeSound = new Audio("assets/place.mp3");
 const hitSound = new Audio("assets/hit.mp3");
-/* ===== СТЕК ===== */
-/* ===== ОЧЕРЕДЬ ===== */
-let queue = [];
-let steps = [];
+
 let attempts = 0;
 
-// правильная последовательность
-const correct = [
-    "push2","push3","push1",
-    "shift2","shift3","shift1"
-];
+/* ===============================
+   СТАРТОВЫЕ ЛОДКИ В РЯДУ
+================================= */
+queueEl.innerHTML = `
+    <img src="assets/kor_1.png" class="queue-ship" data-id="1">
+    <img src="assets/kor_2.png" class="queue-ship" data-id="2">
+    <img src="assets/kor_3.png" class="queue-ship" data-id="3">
+`;
+
+/* ===============================
+   НИЖНЯЯ ЛОДКА (НОВАЯ)
+================================= */
+const chests = document.querySelector(".chests");
+
+chests.innerHTML = `
+    <img src="assets/kor_4.png" id="newShip" class="chest" draggable="true">
+`;
+
+const newShip = document.getElementById("newShip");
+
+/* ===============================
+   DRAG NEW SHIP
+================================= */
+newShip.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", "4");
+});
 
 queueEl.addEventListener("dragover", (e) => {
-    e.preventDefault(); // 🔥 БЕЗ ЭТОГО НЕ РАБОТАЕТ
-});
-/* ===== DRAG ===== */
-let draggedId = null;
-
-document.querySelectorAll(".chest").forEach(el => {
-
-    el.addEventListener("dragstart", (e) => {
-        draggedId = el.dataset.id;
-        e.dataTransfer.setData("text/plain", draggedId);
-    });
-
+    e.preventDefault();
 });
 
-/* ===== DROP ===== */
+/* ===============================
+   ДОБАВИТЬ ЛОДКУ СЛЕВА
+================================= */
 queueEl.addEventListener("drop", (e) => {
     e.preventDefault();
 
-    let id = e.dataTransfer.getData("text/plain");
+    if (document.querySelector('[data-id="4"]')) return;
 
-    if (!id) return;
+    const ship = document.createElement("img");
+    ship.src = "assets/kor_4.png";
+    ship.className = "queue-ship";
+    ship.dataset.id = "4";
 
-    let element = document.querySelector(`.chest[data-id="${id}"]`);
+    queueEl.prepend(ship); // 🔥 ставим слева
 
-    if (!element) return;
-
-    queue.push(id);
-    steps.push("push" + id);
+    newShip.style.display = "none";
 
     placeSound.currentTime = 0;
     placeSound.play();
-
-    queueEl.appendChild(element);
-
-    check();
 });
 
-/* ===== POP ===== */
-queueEl.addEventListener("click", () => {
+/* ===============================
+   УДАЛЕНИЕ ЛЮБОЙ ЛОДКИ
+================================= */
+queueEl.addEventListener("click", (e) => {
 
-    if (queue.length === 0) return;
+    if (!e.target.classList.contains("queue-ship")) return;
 
-    let first = queueEl.firstElementChild;
-
-    let id = queue.shift();
-    steps.push("shift" + id);
-
-    // звук
     hitSound.currentTime = 0;
     hitSound.play();
 
-    document.querySelector(".chests").appendChild(first);
+    e.target.remove();
 
     check();
 });
 
-/* ===== ПРОВЕРКА ===== */
+/* ===============================
+   ПРОВЕРКА
+Правильно:
+4 1 2 осталось
+(3 удалили справа)
+================================= */
 function check() {
 
-    for (let i = 0; i < steps.length; i++) {
-        if (steps[i] !== correct[i]) {
-            return showFail();
-        }
-    }
+    const ships = [...queueEl.querySelectorAll(".queue-ship")]
+        .map(el => el.dataset.id);
 
-    if (steps.length === correct.length) {
-        showReward();
-    }
+    if (ships.length !== 3) return;
+
+    const correct =
+        ships[0] === "4" &&
+        ships[1] === "1" &&
+        ships[2] === "2";
+
+    if (correct) showReward();
+    else showFail();
 }
 
-/* ===== ОШИБКА ===== */
+/* ===============================
+   ОШИБКА
+================================= */
 function showFail() {
 
     attempts++;
 
-    let text = attempts == 1
-        ? "Подсказка: смотри на подсказку амулета"
-        : attempts == 2
-        ? "Очередь: первый пришёл — первый ушёл"
-        : "Попробуй позже";
+    let text =
+        attempts == 1 ? "Новая лодка встаёт первой слева." :
+        attempts == 2 ? "Убрать нужно крайнюю справа." :
+        "Попробуй позже";
 
     let button = attempts >= 3
         ? `<button onclick="exitGame()">Выйти</button>`
-        : `<button onclick="exitGame()">Еще раз</button>`;
+        : `<button onclick="location.reload()">Еще раз</button>`;
 
     resultContent.innerHTML = `
         <h2>Ошибка</h2>
@@ -178,11 +190,9 @@ function showFail() {
     resultPopup.style.display = "flex";
 }
 
-function retry() {
-    resultPopup.style.display = "none";
-}
-
-/* ===== НАГРАДА ===== */
+/* ===============================
+   НАГРАДА
+================================= */
 function showReward() {
 
     let img = attempts === 0
@@ -211,16 +221,9 @@ function exitGame() {
     location.reload();
 }
 
-/* ===== ПЕРЕХОД ===== */
 function goNext() {
-    document.body.classList.add("fade-out");
-
-    setTimeout(() => {
-        window.location.href = "scene13.html";
-    }, 600);
+    window.location.href = "scene13.html";
 }
-
 </script>
-
 </body>
 </html>
