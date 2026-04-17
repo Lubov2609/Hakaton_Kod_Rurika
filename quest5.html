@@ -56,18 +56,17 @@
 <button class="choices-btn" id="choiceBtn" onclick="openGame()" disabled>
     Начать сортировку
 </button>
-
-<!-- ИГРА (НЕ ТРОГАЛ) -->
+<!-- ИГРА -->
 <div id="game" class="dg-overlay" style="display:none;">
     <div class="dg-window">
 
         <div class="dg-close" onclick="closeGame()">✖</div>
 
-        <h2>Сортировка дружины. Если больше, то вправо</h2>
+        <h2>Сортировка дружины. Если больше — вправо</h2>
 
         <p id="info"></p>
 
-        <div id="array" style="display:flex; gap:10px; justify-content:center; margin:20px 0;"></div>
+        <div id="array" class="army-row"></div>
 
         <div class="actions">
             <button onclick="swap()">Поменять местами</button>
@@ -76,6 +75,40 @@
 
     </div>
 </div>
+
+<style>
+.army-row{
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    margin:25px 0;
+    flex-wrap:wrap;
+}
+
+.warrior{
+    width:70px;
+    height:110px;
+    background:url("assets/shit.png") center/contain no-repeat;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:34px;
+    font-weight:900;
+    color:#402306;
+    text-shadow:2px px 4px #000;
+    transition:.2s;
+}
+
+.warrior.active{
+    transform:translateY(-8px) scale(1.05);
+    filter:drop-shadow(0 0 10px gold);
+}
+
+.warrior.done{
+    opacity:.65;
+}
+</style>
 
 <!-- POPUP -->
 <div id="popup" class="dg-overlay" style="display:none;">
@@ -221,12 +254,19 @@ function render() {
     arrayBox.innerHTML = "";
 
     arr.forEach((num, idx) => {
+
         const el = document.createElement("div");
-        el.innerText = num;
-        el.style.padding = "10px 15px";
-        el.style.border = "2px solid #333";
-        el.style.borderRadius = "8px";
-        el.style.background = (idx === i || idx === i + 1) ? "#ffd54f" : "#fff";
+        el.className = "warrior";
+
+        if (idx === i || idx === i + 1) {
+            el.classList.add("active");
+        }
+
+        if (idx > sortedEnd) {
+            el.classList.add("done");
+        }
+
+        el.innerHTML = `<span>${num}</span>`;
 
         arrayBox.appendChild(el);
     });
@@ -237,6 +277,9 @@ function render() {
 // =====================
 // ОШИБКИ / ЛОГИКА
 // =====================
+
+/* ЗАМЕНИ полностью функции checkLose() и showError() */
+
 function checkLose() {
 
     if (attempts >= 3) {
@@ -253,6 +296,35 @@ function checkLose() {
     }
 
     return false;
+}
+
+function showError(text) {
+
+    if (attempts >= 3) {
+        checkLose();
+        return;
+    }
+
+    let hint = "";
+
+    if (attempts === 1) {
+        hint = "Подсказка: Если больше — вправо.";
+    }
+
+    if (attempts === 2) {
+        hint = "Сортировка пузырьком — сравниваются соседние элементы и меняются местами.";
+    }
+
+    content.innerHTML = `
+        <h2>Неверно</h2>
+        <p>${text}</p>
+        <div class="hint-box">
+            <p>${hint}</p>
+        </div>
+        <button onclick="restart()">Попробовать ещё раз</button>
+    `;
+
+    popup.style.display = "flex";
 }
 
 function swap() {
@@ -314,18 +386,7 @@ function nextStep() {
     render();
 }
 
-function showError(text) {
 
-    if (checkLose()) return;
-
-    content.innerHTML = `
-        <h2>Неверно</h2>
-        <p>${text}</p>
-        <button onclick="restart()">Попробовать ещё раз</button>
-    `;
-
-    popup.style.display = "flex";
-}
 
 function showSuccess() {
 
@@ -361,6 +422,8 @@ function reward() {
         <img src="${img}" class="result-img">
         <p>Сортировка пузырьком - это алгоритм сортировки, который сравнивает соседние элементы и меняет их местами, если они находятся в неправильном порядке.</p>
         <p>Используется для обучения основам сортировки и алгоритмического мышления.</p>
+        <p><a href="https://ru.wikipedia.org/wiki/Великий_Новгород">Подробнее</a> </p>
+
     
         <button onclick="goNext()">Далее</button>
     `;

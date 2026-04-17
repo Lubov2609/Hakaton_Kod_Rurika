@@ -337,11 +337,28 @@ h1 {
     border: 1px solid #7fdfff;
     box-shadow: 0 0 10px #7fdfff;
 }
+.hints1 {
+    position: absolute;
+    bottom: 640px;
+    left: 1150px;
 
+    display: none;
+    align-items: center;
+    gap: 10px;
+
+    color: white;
+    background: rgba(210, 213, 215, 0.6);
+    padding: 10px 15px;
+
+    border: 1px solid #7fdfff;
+    box-shadow: 0 0 10px #7fdfff;
+}
 .hints img {
     width: 30px;
 }
-
+.hints1 img {
+    width: 40px;
+}
 /* scene3.html */
 /* ===== TOP UI (для сцен) ===== */
 .top-ui {
@@ -396,7 +413,23 @@ h1 {
 .btn-home {
     background: url('assets/menu-home.png') center/20px no-repeat;
 }
+.btn-menu0 {
+    background: url('assets/menu_pr0.png') center/20px no-repeat;
+}
 
+.btn-back0 {
+    background: url('assets/menu-back0.png') center/20px no-repeat;
+}
+
+.btn-home0 {
+    background: url('assets/menu-home0.png') center/20px no-repeat;
+}
+.sound-btn0 {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: 0.2s;
+}
 /* звук */
 .sound-btn {
     width: 25px;

@@ -13,6 +13,7 @@
 
 <body>
 
+    
 <!-- ================= ЗАГРУЗКА ================= -->
 <div class="container" id="loader">
     <div class="logo-box">
@@ -30,7 +31,23 @@
         </div>
     </div>
 </div>
+<!-- TOP UI -->
+<div class="top-ui">
 
+    <div class="left-ui">
+                <a href="index.html" class="ui-btn btn-menu0"></a>
+         <a href="index.html" class="ui-btn btn-home0"></a>
+
+       
+    </div>
+
+    <div class="right-ui">
+        <img id="soundBtn" class="sound-btn0" src="assets/sound-on0.png" onclick="toggleSound()">
+                 <a href="index.html" class="ui-btn btn-back0"></a>
+
+    </div>
+
+</div>
 <div class="rurik-menu" id="rurikMenu">
 
     <div class="rurik-bg"></div>
@@ -110,10 +127,18 @@
         Хм М М М!... Не замечал раньше этой двери...
     </div>
 
-    <!-- <div class="hint" id="hint">
+    <div class="hints" id="hint">
         <img src="assets/hands.png">
-        <span>Нажмите, чтоб открыть</span>
-    </div> -->
+        <span>Нажмите, чтоб открыть
+
+        </span>
+    </div>
+    <div class="hints1" id="hint1">
+        <img src="assets/hands.png">
+        <span>Здесь панель навигации
+
+        </span>
+    </div>
 
     <audio id="doorSound" src="assets/door.mp3"></audio>
 
@@ -139,6 +164,7 @@ const doorSound = document.getElementById('doorSound');
 
 const doors = document.getElementById('doors');
 const hint = document.getElementById('hint');
+const hint1 = document.getElementById('hint1');
 
 // FUNCTIONS
 function goHome() {
@@ -169,6 +195,29 @@ const interval = setInterval(() => {
     bar.style.width = progress + '%';
 }, 200);
 
+const sound = document.getElementById("bgSound");
+const soundBtn = document.getElementById("soundBtn");
+
+let soundEnabled = true;
+
+window.addEventListener("click", () => {
+    if (soundEnabled) {
+        sound.volume = 0.5;
+        sound.play().catch(()=>{});
+    }
+}, { once: true });
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) {
+        sound.play();
+        soundBtn.src = "assets/sound-on.png";
+    } else {
+        sound.pause();
+        soundBtn.src = "assets/sound-off.png";
+    }
+}
 // ===== КНОПКА В МЕНЮ РЮРИКА =====
 startGame.addEventListener('click', () => {
 
@@ -209,6 +258,36 @@ newGameBtn.addEventListener('click', () => {
 
         setTimeout(() => {
             hint.style.display = 'flex';
+        }, 3000);
+
+    }, 200);
+});
+// ===== СТАРАЯ КНОПКА =====
+newGameBtn.addEventListener('click', () => {
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    setTimeout(() => {
+        menu.style.display = 'none';
+        game.style.display = 'block';
+
+        setTimeout(() => {
+            hint.style.display = 'flex';
+        }, 3000);
+
+    }, 200);
+});
+// ===== СТАРАЯ КНОПКА =====
+newGameBtn.addEventListener('click', () => {
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    setTimeout(() => {
+        menu.style.display = 'none';
+        game.style.display = 'block';
+
+        setTimeout(() => {
+            hint1.style.display = 'flex';
         }, 3000);
 
     }, 200);
