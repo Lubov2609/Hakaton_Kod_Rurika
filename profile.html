@@ -295,7 +295,9 @@ function saveProfile(){
     localStorage.setItem("profile", JSON.stringify(data));
     alert("Профиль сохранён");
 }
-
+function showErrors(){
+    location.href = "errors.html";
+}
 window.onload = () => {
 
     let data = JSON.parse(localStorage.getItem("profile") || "{}");

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Таблица лидеров</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* ===== ФОН ===== */
+body.leaderboard-page{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:url("assets/fon_profile.png") center center / cover no-repeat;
+    min-height:100vh;
+}
+
+/* ===== TOP UI ===== */
+.top-ui{
+    position:absolute;
+    top:18px;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    padding:0 40px;
+    box-sizing:border-box;
+    z-index:5;
+}
+@font-face {
+    font-family: 'HistoryFont';
+    src: url('fonts/h1.ttf') format('truetype');
+}
+
+/* ===== ЛОГО ===== */
+.page-logo{
+    position:absolute;
+
+    top:70px;
+    font-family: 'HistoryFont', serif;
+
+    left:50%;
+    transform:translateX(-50%);
+    font-size:96px;
+    font-weight:900;
+    color:#4e3416;
+}
+
+/* ===== ЦЕНТР ===== */
+.board-wrapper{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+/* ===== ОСНОВНОЙ БЛОК ===== */
+.board-box{
+    width:1180px;
+    background:rgba(243,233,214,.88);
+    border-radius:34px;
+    padding:38px 42px;
+    box-shadow:0 10px 35px rgba(0,0,0,.12);
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.board-title{
+    font-size:34px;
+    font-weight:800;
+    color:#1e1320;
+    margin-bottom:28px;
+    text-decoration:underline;
+}
+
+/* ===== TABLE ===== */
+.leader-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0 12px;
+    table-layout:fixed;
+}
+
+.leader-table col:nth-child(1){ width:26%; }
+.leader-table col:nth-child(2){ width:14%; }
+.leader-table col:nth-child(3){ width:24%; }
+.leader-table col:nth-child(4){ width:18%; }
+.leader-table col:nth-child(5){ width:18%; }
+
+/* ===== HEAD ===== */
+.leader-table th{
+    background:#fff;
+    border:3px solid #5a3818;
+    border-radius:24px;
+    height:54px;
+    font-size:18px;
+    color:#3b2610;
+    font-weight:700;
+    text-align:center;
+}
+
+/* ===== BODY ===== */
+.leader-table td{
+    text-align:center;
+    font-size:28px;
+    color:#241608;
+    padding:6px 8px;
+}
+
+.leader-table td.nick{
+    font-size:18px;
+    font-weight:700;
+}
+
+.leader-table td.small{
+    font-size:17px;
+}
+
+/* ===== PAGINATION ===== */
+.pagination-box{
+    margin-top:28px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+}
+
+.page-btn{
+    min-width:130px;
+    height:44px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(#7d5530,#5a3818);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.page-num{
+    font-size:20px;
+    font-weight:700;
+    color:#3b2610;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:1100px){
+
+    body.leaderboard-page{
+        overflow:auto;
+    }
+
+    .board-box{
+        width:100%;
+        padding:22px;
+    }
+
+    .page-logo{
+        font-size:34px;
+    }
+
+    .leader-table{
+        font-size:14px;
+    }
+
+    .leader-table td,
+    .leader-table th{
+        font-size:14px;
+    }
+}
+
+</style>
+</head>
+
+<body class="leaderboard-page">
+
+<!-- TOP UI -->
+<div class="top-ui">
+    <div class="left-ui">
+        <a href="index.html" class="ui-btn btn-back"></a>
+        <a href="index.html" class="ui-btn btn-home"></a>
+    </div>
+
+    <div class="right-ui">
+        <img class="sound-btn" src="assets/sound-on.png">
+        <a href="profile.html" class="ui-btn btn-menu"></a>
+    </div>
+</div>
+
+<div class="page-logo">КОД РЮРИКА</div>
+
+<div class="board-wrapper">
+
+<div class="board-box">
+
+    <div class="board-title">Таблица лидеров</div>
+
+    <table class="leader-table">
+
+        <colgroup>
+            <col><col><col><col><col>
+        </colgroup>
+
+        <thead>
+            <tr>
+                <th>Никнейм</th>
+                <th>Рейтинг</th>
+                <th>Лучший результат</th>
+                <th>Время</th>
+                <th>Попытки</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+
+            <tr>
+                <td class="nick">mossselk</td>
+
+                <td class="small">
+                        1 🥇
+                   
+                </td>
+
+                <td class="small">
+                    12/12
+                </td>
+
+                <td class="small">
+                    30 сек
+                </td>
+
+                <td class="small">
+                    1
+                </td>
+            </tr>
+
+        
+
+        </tbody>
+
+    </table>
+
+    <!-- PAGINATION -->
+    <div class="pagination-box">
+
+            <a href="/leaderboard?page=<%= currentPage - 1 %>">
+                <button class="page-btn">Назад</button>
+            </a>
+
+        <div class="page-num">
+        </div>
+
+            <a href="/leaderboard?page=<%= currentPage + 1 %>">
+                <button class="page-btn">Вперёд</button>
+            </a>
+
+    </div>
+
+</div>
+</div>
+
+</body>
+</html>
