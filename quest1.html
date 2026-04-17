@@ -116,11 +116,8 @@ updateSoundUI();
 function toggleSound() {
     soundEnabled = !soundEnabled;
 
-    if (soundEnabled) {
-        sound.play();
-    } else {
-        sound.pause();
-    }
+    if (soundEnabled) sound.play();
+    else sound.pause();
 
     localStorage.setItem("sound", soundEnabled ? "on" : "off");
     updateSoundUI();
@@ -143,15 +140,13 @@ function restart() {
     window.location.reload();
 }
 
-// ===== ТЕКСТ (как в scene3) =====
+// ===== ТЕКСТ =====
 const textLeft = "Делай всё по порядку, не путай! \n Сначала возьми мешок.";
-
-
-
 let speed = 25;
 
 function typeText(el, text, callback) {
     let i = 0;
+
     let interval = setInterval(() => {
         el.innerHTML += text[i];
         i++;
@@ -170,23 +165,20 @@ window.onload = () => {
     });
 };
 
-// ПРОПУСК
 document.addEventListener("click", () => {
     text1.innerHTML = textLeft;
-
     choiceBtn.disabled = false;
     choiceBtn.classList.add("show");
 });
 
-// ===== ТВОЯ ЛОГИКА (НЕ ТРОГАЛ) =====
+// ===== ИГРА =====
 let attempts = 0;
+let dragged = null;
 
 function openOrderGame() {
-    document.getElementById("orderGame").style.display = "flex";
+    orderGame.style.display = "flex";
     enableDrag();
 }
-
-let dragged = null;
 
 function enableDrag() {
     document.querySelectorAll("#orderItems .item").forEach(item => {
@@ -204,71 +196,92 @@ function enableDrag() {
                 swap(dragged, item);
             }
         });
+
     });
 }
 
 function swap(a, b) {
     const parent = a.parentNode;
     const aNext = a.nextSibling;
+
     parent.insertBefore(a, b.nextSibling);
     parent.insertBefore(b, aNext);
 }
 
 function checkOrder() {
+
     const order = [...document.querySelectorAll("#orderItems .item")]
         .map(el => el.dataset.id)
         .join("");
 
     if (order === "1234") {
-        showCorrect();
+        showReward();
     } else {
         attempts++;
-        showWrong();
+        showFail();
     }
 }
 
-function showWrong() {
+// ===== ОШИБКА =====
+function showFail() {
+
+    let text = attempts == 1
+        ? "Подсказка: сначала взять мешок."
+        : attempts == 2
+        ? "Линейный алгоритм — действия строго по порядку."
+        : "Попробуй позже";
+
+    let button = attempts >= 3
+        ? `<button onclick="closeResult()">Выйти</button>`
+        : `<button onclick="retry()">Еще раз</button>`;
+
     resultContent.innerHTML = `
         <h2>Ошибка</h2>
         <div class="hint-box">
-            <p>— Нет, так не пойдёт. Это линейный алгоритм!</p>
+            <p>${text}</p>
         </div>
-        <button onclick="closeResult()">Еще раз</button>
+        ${button}
     `;
+
     resultPopup.style.display = "flex";
 }
 
-function showCorrect() {
-    resultContent.innerHTML = `
-        <h2>Верно!</h2>
-        <div class="hint-box">
-            <p>— Отлично! Идем дальше.</p>
-        </div>
-        <button onclick="showReward()">Далее</button>
-    `;
-    resultPopup.style.display = "flex";
+function retry() {
+    resultPopup.style.display = "none";
 }
 
+function closeResult() {
+    resultPopup.style.display = "none";
+    orderGame.style.display = "none";
+}
 
-
+// ===== НАГРАДА =====
 function showReward() {
+
+    let img = attempts === 0
+        ? "assets/medal-gold.png"
+        : attempts === 1
+        ? "assets/medal-silvers.png"
+        : "assets/medal-bronse.png";
+
     resultContent.innerHTML = `
         <h2>Награда!</h2>
-        <img src="assets/medal-gold.png" class="result-img">
+        <img src="${img}" class="result-img">
+
         <p>Линейный алгоритм — действия строго по порядку.</p>
-        <p>Он используется, когда нужно выполнить действия последовательно. </p>
-        <p> Например, при приготовлении блюда или сборке мебели.</p>
+        <p>Используется, когда шаги идут последовательно.</p>
+        <p>Например: приготовить еду или собрать мебель.</p>
+
         <button onclick="goNext()">Далее</button>
     `;
+
+    resultPopup.style.display = "flex";
 
     successSound.currentTime = 0;
     successSound.play();
 }
 
-function closeResult() {
-    resultPopup.style.display = "none";
-}
-
+// ===== ПЕРЕХОД =====
 function goNext() {
     document.body.classList.add("fade-out");
 
@@ -278,6 +291,5 @@ function goNext() {
 }
 
 </script>
-
 </body>
 </html>
