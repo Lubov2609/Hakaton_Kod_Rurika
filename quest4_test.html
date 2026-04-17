@@ -112,7 +112,19 @@
 </div>
 
 <audio id="successSound" src="assets/medal.mp3"></audio>
+<!-- ТЕСТ -->
+<div id="testModal" class="dg-overlay" style="display:none;">
+    <div class="dg-window ancient-test">
 
+        <h2>Испытание мудреца</h2>
+        <div class="test-timer">
+            Время: <span id="testTime">0</span> сек
+        </div>
+
+        <div id="testContent"></div>
+
+    </div>
+</div>
 <script>
 
 /* ================= SOUND ================= */
@@ -332,12 +344,119 @@ function exitGame() {
     gameOver = true;
 }
 
+// ===== ПЕРЕХОД =====
 function goNext() {
-    document.body.classList.add("fade-out");
+    resultPopup.style.display = "none";
+    startQuestTest();
+}
+// ===== ТЕСТ ПО ТЕМЕ =====
 
-    setTimeout(() => {
-        window.location.href = "quest5.html";
-    }, 600);
+const questQuestions = [
+{
+q:"1. Что такое линейный алгоритм?",
+a:["Случайные действия","Шаги по порядку","Повторение"],
+c:1
+},
+{
+q:"2. Что важно в линейном алгоритме?",
+a:["Порядок шагов","Музыка","Цвет"],
+c:0
+},
+{
+q:"3. Что будет при нарушении порядка?",
+a:["Ошибка","Ничего","Ускорение"],
+c:0
+}
+];
+
+let tq = 0;
+let ts = 0;
+let ta = null;
+let timerSec = 0;
+let timerInt;
+
+function startQuestTest(){
+
+    testModal.style.display = "flex";
+
+    timerSec = 0;
+    timerInt = setInterval(()=>{
+        timerSec++;
+        testTime.innerText = timerSec;
+    },1000);
+
+    renderQuestQuestion();
+}
+
+function renderQuestQuestion(){
+
+    let q = questQuestions[tq];
+
+    let html = `
+        <h3>${q.q}</h3>
+        <div class="test-answers">
+    `;
+
+    q.a.forEach((ans,i)=>{
+        html += `<button onclick="pickAns(${i},this)">${ans}</button>`;
+    });
+
+    html += `
+        </div>
+        <button class="test-next" onclick="nextQuest()">Ответить</button>
+    `;
+
+    testContent.innerHTML = html;
+}
+
+function pickAns(i,el){
+
+    ta = i;
+
+    document.querySelectorAll(".test-answers button")
+    .forEach(btn=>btn.classList.remove("active"));
+
+    el.classList.add("active");
+}
+
+function nextQuest(){
+
+    if(ta===null) return;
+
+    if(ta===questQuestions[tq].c) ts++;
+
+    ta = null;
+    tq++;
+
+    if(tq >= questQuestions.length){
+        finishQuestTest();
+    } else {
+        renderQuestQuestion();
+    }
+}
+
+function finishQuestTest(){
+
+    clearInterval(timerInt);
+
+    let rank = "";
+
+    if(ts==5) rank="Мудрец алгоритмов!";
+    else if(ts>=4) rank="Отличный результат!";
+    else if(ts>=3) rank="Неплохо!";
+    else rank="Нужно ещё учиться.";
+
+    testContent.innerHTML = `
+        <div class="test-result">
+            Правильных ответов: <b>${ts}/3</b><br>
+            ${rank}<br><br>
+            Переход к обратно
+        </div>
+    `;
+
+    setTimeout(()=>{
+        window.location.href = "errors.html";
+    },4000);
 }
 
 </script>

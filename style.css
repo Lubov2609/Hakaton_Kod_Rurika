@@ -1978,3 +1978,125 @@ h1 {
     background: url('assets/fon-scene13.png') center/cover no-repeat;
     position: relative;
 }
+
+.help-tooltip{
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 260px;
+
+    background: rgba(242, 239, 239, 0.96);
+    color: #121010;
+
+    border: 2px solid #d9b24c;
+    border-radius: 14px;
+
+    padding: 14px;
+    font-size: 14px;
+    line-height: 1.45;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.45);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+
+    transition: 0.22s ease;
+}
+
+.help-tooltip h4{
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #ffd86a;
+}
+
+.help-tooltip p{
+    margin: 0 0 6px;
+}
+
+/* показывать только при наведении */
+.help-box:hover .help-tooltip{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+/* блок вопросика */
+.help-box{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 50;
+}
+
+/* иконка */
+.help-icon{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.help-icon:hover{
+    transform: scale(1.08);
+}
+
+.ancient-test{
+    max-width:700px;
+    background:linear-gradient(180deg,#f6e7b5,#dcc07a);
+    border:4px solid #6b4e1d;
+    color:#2b1a08;
+    box-shadow:0 0 25px rgba(0,0,0,.45);
+}
+
+.test-timer{
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.test-answers button{
+    width:100%;
+    margin:6px 0;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#8b6a2d;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.test-answers button:hover{
+    background:#6b4e1d;
+}
+
+.test-answers button.active{
+    background:#2e7d32;
+}
+
+.test-next{
+    margin-top:15px;
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    background:#5a3d1c;
+    color:white;
+    cursor:pointer;
+}
+
+.test-result{
+    font-size:22px;
+    text-align:center;
+    line-height:1.6;
+}
+.scene14 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_2121fin.png') center/cover no-repeat;
+    position: relative;
+}
+.scene14 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_roland_pen.png') center/cover no-repeat;
+    position: relative;
+}
