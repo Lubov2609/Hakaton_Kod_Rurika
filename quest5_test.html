@@ -86,6 +86,31 @@
     </div>
 </div>
 
+<!-- ================= ТЕОРИЯ: ПУЗЫРЬКОВАЯ СОРТИРОВКА ================= -->
+<div id="theoryModal" class="dg-overlay" style="display:flex;">
+    <div class="dg-window ancient-test">
+
+        <h2>Свиток знаний</h2>
+
+        <div class="theory-text">
+            <p><b>Пузырьковая сортировка</b> — это способ упорядочить числа по возрастанию.</p>
+
+            <p>Соседние элементы сравниваются и меняются местами.</p>
+
+            <p><b>Примеры:</b></p>
+
+            <p>• 5 2 7 → 2 5 7</p>
+            <p>• большие числа уходят вправо</p>
+            <p>• после проходов список становится отсортирован</p>
+
+            <p>Метод простой и удобен для обучения.</p>
+        </div>
+
+        <button class="test-next" onclick="startQuest()">Начать испытание</button>
+
+    </div>
+</div>
+
 <style>
 .army-row{
     display:flex;
@@ -201,12 +226,19 @@ function typeText(el, text, callback) {
     }, speed);
 }
 
-window.onload = () => {
+function openDecisionGame() {
+    theoryModal.style.display = "flex";
+}
+
+/* закрываем теорию -> игра */
+function startQuest(){
+    theoryModal.style.display = "none";
+
     typeText(text1, textLeft, () => {
         choiceBtn.disabled = false;
         choiceBtn.classList.add("show");
     });
-};
+}
 
 // пропуск текста
 document.addEventListener("click", () => {
@@ -570,7 +602,7 @@ function finishQuestTest(){
         <div class="test-result">
             Правильных ответов: <b>${ts}/3</b><br>
             ${rank}<br><br>
-            Переход к обратно
+            Переход обратно
         </div>
     `;
 

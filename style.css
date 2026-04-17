@@ -2100,3 +2100,9 @@ h1 {
     background: url('assets/fon_roland_pen.png') center/cover no-repeat;
     position: relative;
 }
+.theory-text{
+    text-align:left;
+    line-height:1.7;
+    font-size:18px;
+    margin:20px 0;
+}

@@ -29,6 +29,31 @@
     </div>
 
 </div>
+<!-- ТЕОРИЯ -->
+<div id="theoryModal" class="dg-overlay" style="display:flex;">
+    <div class="dg-window ancient-test">
+
+        <h2>Свиток знаний</h2>
+
+        <div class="theory-text">
+            <p><b>Линейный алгоритм</b> — это действия, которые выполняются строго по порядку.</p>
+
+            <p>Каждый следующий шаг начинается только после предыдущего.</p>
+
+            <p><b>Примеры:</b></p>
+
+            <p>• приготовить чай</p>
+            <p>• собрать стол</p>
+            <p>• почистить зубы</p>
+
+            <p>Если поменять шаги местами — результат может быть неверным.</p>
+        </div>
+
+        <button class="test-next" onclick="startQuest()">Начать испытание</button>
+
+    </div>
+</div>
+
 
 <!-- MENU -->
 <div id="menu" class="menu-overlay">
@@ -190,12 +215,7 @@ function typeText(el, text, callback) {
     }, speed);
 }
 
-window.onload = () => {
-    typeText(text1, textLeft, () => {
-        choiceBtn.disabled = false;
-        choiceBtn.classList.add("show");
-    });
-};
+
 
 document.addEventListener("click", () => {
     text1.innerHTML = textLeft;
@@ -419,13 +439,22 @@ function finishQuestTest(){
         <div class="test-result">
             Правильных ответов: <b>${ts}/3</b><br>
             ${rank}<br><br>
-            Переход к разбору ошибок...
+            Переход обратно
         </div>
     `;
 
     setTimeout(()=>{
         window.location.href = "errors.html";
     },4000);
+}
+
+function startQuest(){
+    theoryModal.style.display = "none";
+
+    typeText(text1, textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
 }
 </script>
 </body>

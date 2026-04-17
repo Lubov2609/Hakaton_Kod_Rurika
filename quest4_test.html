@@ -125,6 +125,30 @@
 
     </div>
 </div>
+<!-- ================= ТЕОРИЯ: ЛИНЕЙНЫЙ ПОИСК ================= -->
+<div id="theoryModal" class="dg-overlay" style="display:flex;">
+    <div class="dg-window ancient-test">
+
+        <h2>Свиток знаний</h2>
+
+        <div class="theory-text">
+            <p><b>Линейный поиск</b> — это поиск элемента по порядку, один за другим.</p>
+
+            <p>Мы проверяем каждый объект, пока не найдём нужный.</p>
+
+            <p><b>Примеры:</b></p>
+
+            <p>• искать книгу на полке</p>
+            <p>• искать имя в списке</p>
+            <p>• найти ключ среди вещей</p>
+
+            <p>Если предмет в конце списка — искать придётся дольше.</p>
+        </div>
+
+        <button class="test-next" onclick="startQuest()">Начать испытание</button>
+
+    </div>
+</div>
 <script>
 
 /* ================= SOUND ================= */
@@ -183,10 +207,19 @@ function typeText() {
     }
 }
 
-window.onload = () => {
-    typeText();
-};
+function openDecisionGame() {
+    theoryModal.style.display = "flex";
+}
 
+/* закрываем теорию -> игра */
+function startQuest(){
+    theoryModal.style.display = "none";
+
+    typeText(text1, textLeft, () => {
+        choiceBtn.disabled = false;
+        choiceBtn.classList.add("show");
+    });
+}
 /* SKIP TEXT */
 document.addEventListener("click", () => {
     if (i < textLeft.length) {
@@ -450,7 +483,7 @@ function finishQuestTest(){
         <div class="test-result">
             Правильных ответов: <b>${ts}/3</b><br>
             ${rank}<br><br>
-            Переход к обратно
+            Переход обратно
         </div>
     `;
 

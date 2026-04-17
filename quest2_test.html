@@ -120,6 +120,30 @@
 
     </div>
 </div>
+<!-- ТЕОРИЯ -->
+<div id="theoryModal" class="dg-overlay" style="display:none;">
+    <div class="dg-window ancient-test">
+
+        <h2>Свиток знаний</h2>
+
+        <div id="theoryContent" class="test-result">
+            <p><b>Ветвление</b> — это выбор действия по условию.</p>
+            <p>Если условие истинно — выполняется одно действие.</p>
+            <p>Иначе выполняется другое.</p>
+
+            <p>Пример:</p>
+            <p>Если враги нападают — позвать Рюрика.</p>
+            <p>Иначе — справиться самим.</p>
+
+            <button class="test-next" onclick="closeTheoryAndOpenGame()">
+                Начать квест
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
 <audio id="successSound" src="assets/medal.mp3"></audio>
 
 <script>
@@ -198,13 +222,19 @@ function typeText(el, text, callback) {
     }, speed);
 }
 
-window.onload = () => {
+function openDecisionGame() {
+    theoryModal.style.display = "flex";
+}
+
+/* закрываем теорию -> игра */
+function startQuest(){
+    theoryModal.style.display = "none";
+
     typeText(text1, textLeft, () => {
         choiceBtn.disabled = false;
         choiceBtn.classList.add("show");
     });
-};
-
+}
 // пропуск
 document.addEventListener("click", () => {
     text1.innerHTML = textLeft;
@@ -327,18 +357,18 @@ function goNext() {
 
 const questQuestions = [
 {
-q:"1. Что такое линейный алгоритм?",
-a:["Случайные действия","Шаги по порядку","Повторение"],
-c:1
-},
-{
-q:"2. Что важно в линейном алгоритме?",
-a:["Порядок шагов","Музыка","Цвет"],
+q:"1. Ветвление — это?",
+a:["Выбор по условию","Шаги по порядку","Повторение"],
 c:0
 },
 {
-q:"3. Что будет при нарушении порядка?",
-a:["Ошибка","Ничего","Ускорение"],
+q:"2. Что важно в ветвлении?",
+a:["Логика","Музыка","Цвет"],
+c:0
+},
+{
+q:"3. Что будет при нарушении условия?",
+a:["Ошибка","Ничего","Ничего не произойдёт"],
 c:0
 }
 ];
@@ -424,7 +454,7 @@ function finishQuestTest(){
         <div class="test-result">
             Правильных ответов: <b>${ts}/3</b><br>
             ${rank}<br><br>
-            Переход к обратно
+            Переход обратно
         </div>
     `;
 

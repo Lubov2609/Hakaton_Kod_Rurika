@@ -111,6 +111,30 @@
 
     </div>
 </div>
+<!-- ================= ТЕОРИЯ: ЦИКЛ ================= -->
+<div id="theoryModal" class="dg-overlay" style="display:flex;">
+    <div class="dg-window ancient-test">
+
+        <h2>Свиток знаний</h2>
+
+        <div class="theory-text">
+            <p><b>Цикл</b> — это повторение одних и тех же действий несколько раз.</p>
+
+            <p>Команды выполняются снова, пока условие остаётся верным.</p>
+
+            <p><b>Примеры:</b></p>
+
+            <p>• сделать 10 шагов</p>
+            <p>• мыть посуду, пока она грязная</p>
+            <p>• повторять тренировку каждый день</p>
+
+            <p>Циклы помогают не писать одинаковые действия много раз.</p>
+        </div>
+
+        <button class="test-next" onclick="startQuest()">Начать испытание</button>
+
+    </div>
+</div>
 <script>
 
 /* ================= SOUND ================= */
@@ -169,12 +193,19 @@ function typeText(el, text, callback) {
     }, 25);
 }
 
-window.onload = () => {
-    typeText(document.getElementById("text1"), textLeft, () => {
+function openDecisionGame() {
+    theoryModal.style.display = "flex";
+}
+
+/* закрываем теорию -> игра */
+function startQuest(){
+    theoryModal.style.display = "none";
+
+    typeText(text1, textLeft, () => {
         choiceBtn.disabled = false;
         choiceBtn.classList.add("show");
     });
-};
+}
 
 // skip
 document.addEventListener("click", () => {
@@ -373,18 +404,18 @@ function goNext() {
 
 const questQuestions = [
 {
-q:"1. Что такое линейный алгоритм?",
+q:"1. Что такое Цикл?",
 a:["Случайные действия","Шаги по порядку","Повторение"],
+c:2
+},
+{
+q:"2. Что важно в Цикле?",
+a:["Логика","Повторение","Цвет"],
 c:1
 },
 {
-q:"2. Что важно в линейном алгоритме?",
-a:["Порядок шагов","Музыка","Цвет"],
-c:0
-},
-{
-q:"3. Что будет при нарушении порядка?",
-a:["Ошибка","Ничего","Ускорение"],
+q:"3. Что будет при нарушении условия?",
+a:["Ошибка","Ничего","Ничего не произойдёт"],
 c:0
 }
 ];
@@ -470,7 +501,7 @@ function finishQuestTest(){
         <div class="test-result">
             Правильных ответов: <b>${ts}/3</b><br>
             ${rank}<br><br>
-            Переход к обратно
+            Переход  обратно
         </div>
     `;
 
