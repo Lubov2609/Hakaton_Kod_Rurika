@@ -2094,7 +2094,7 @@ h1 {
     background: url('assets/fon_2121fin.png') center/cover no-repeat;
     position: relative;
 }
-.scene14 {
+.scene15 {
     margin: 0;
     height: 100vh;
     background: url('assets/fon_roland_pen.png') center/cover no-repeat;
@@ -2105,4 +2105,10 @@ h1 {
     line-height:1.7;
     font-size:18px;
     margin:20px 0;
+}
+.scene16 {
+    margin: 0;
+    height: 100vh;
+    background: url('assets/fon_vova_final.png') center/cover no-repeat;
+    position: relative;
 }
